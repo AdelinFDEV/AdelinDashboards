@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Lune · Unghii & Gene</title>
+  <meta name="description" content="Studio Lune: manichiură, pedichiură, extensii și laminare de gene. Programări rapide pe WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #fdf8f5;
+      --blush: #f8e6e4;
+      --blush-2: #f2d4d2;
+      --rose: #e7b3b6;
+      --mauve: #b8707c;
+      --mauve-d: #9a5664;
+      --plum: #3f2633;
+      --plum-2: #6e5060;
+      --gold: #c9a27e;
+      --white: #ffffff;
+      --wa: #25d366;
+      --wa-d: #1da851;
+      --radius: 22px;
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --sans: "Jost", system-ui, sans-serif;
+      --shadow: 0 24px 60px -28px rgba(110, 50, 70, .35);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--cream); color: var(--plum);
+      font-family: var(--sans); font-weight: 400; font-size: 16px; line-height: 1.65;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, svg { display: block; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; line-height: 1.05; letter-spacing: -0.01em; }
+    p { margin: 0; }
+    ul { margin: 0; padding: 0; list-style: none; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    em.script { font-style: italic; color: var(--mauve); }
+
+    /* Bara demo (portofoliu) */
+    .demo-bar {
+      background: var(--plum); color: #f3e3e6; font-size: .8rem; text-align: center;
+      padding: 8px 16px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    }
+    .demo-bar a { color: var(--rose); font-weight: 500; }
+
+    /* Butoane */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 14px 26px; border-radius: 999px; border: 1px solid transparent;
+      font-weight: 500; font-size: .98rem; letter-spacing: .02em; cursor: pointer;
+      transition: transform .25s, background .25s, box-shadow .25s, color .25s, border-color .25s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn svg { width: 20px; height: 20px; }
+    .btn--wa { background: var(--wa); color: #fff; box-shadow: 0 12px 30px -12px rgba(37,211,102,.7); }
+    .btn--wa:hover { background: var(--wa-d); }
+    .btn--rose { background: var(--mauve); color: #fff; box-shadow: 0 12px 30px -14px rgba(154,86,100,.8); }
+    .btn--rose:hover { background: var(--mauve-d); }
+    .btn--line { border-color: var(--rose); color: var(--plum); background: rgba(255,255,255,.5); }
+    .btn--line:hover { border-color: var(--mauve); color: var(--mauve-d); }
+
+    /* Navigare */
+    .nav {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(253, 248, 245, .82); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(231, 179, 182, .35);
+    }
+    .nav__in { display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 20px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo__mark { width: 40px; height: 40px; }
+    .logo__txt { font-family: var(--serif); font-size: 1.6rem; font-weight: 600; letter-spacing: .02em; line-height: 1; }
+    .logo__txt small { display: block; font-family: var(--sans); font-size: .62rem; letter-spacing: .32em; text-transform: uppercase; color: var(--mauve); font-weight: 500; margin-top: 4px; }
+    .nav__links { display: flex; gap: 30px; font-size: .95rem; }
+    .nav__links a { position: relative; color: var(--plum-2); }
+    .nav__links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--mauve); transform: scaleX(0); transition: transform .3s; }
+    .nav__links a:hover { color: var(--plum); }
+    .nav__links a:hover::after { transform: scaleX(1); }
+    .nav .btn { padding: 11px 20px; font-size: .9rem; }
+    .burger { display: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--rose); background: transparent; cursor: pointer; }
+    .burger span { display: block; width: 18px; height: 1.5px; background: var(--plum); margin: 4px auto; transition: transform .3s; }
+
+    /* Hero */
+    .hero { position: relative; padding: 70px 0 90px; overflow: hidden; }
+    .hero::before {
+      content: ""; position: absolute; width: 720px; height: 720px; right: -220px; top: -180px; border-radius: 50%;
+      background: radial-gradient(circle, var(--blush-2) 0%, rgba(248,230,228,0) 68%); z-index: -1;
+    }
+    .hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 60px; align-items: center; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: .78rem; letter-spacing: .28em; text-transform: uppercase; color: var(--mauve); font-weight: 500; }
+    .eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--gold); }
+    .hero h1 { font-size: clamp(3rem, 6.4vw, 5.6rem); margin: 22px 0 24px; }
+    .hero__lead { font-size: 1.12rem; color: var(--plum-2); max-width: 500px; font-weight: 300; }
+    .hero__cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 36px; }
+    .hero__trust { display: flex; gap: 28px; margin-top: 44px; flex-wrap: wrap; }
+    .trust { display: flex; align-items: center; gap: 12px; }
+    .trust strong { font-family: var(--serif); font-size: 2rem; font-weight: 600; line-height: 1; color: var(--plum); }
+    .trust span { font-size: .82rem; color: var(--plum-2); line-height: 1.3; }
+    .stars { color: var(--gold); letter-spacing: 2px; font-size: .85rem; }
+
+    .hero__art { position: relative; justify-self: center; width: min(460px, 100%); }
+    .arch {
+      aspect-ratio: 4 / 5; border-radius: 240px 240px 28px 28px; overflow: hidden; position: relative;
+      background: linear-gradient(160deg, #f6d7d6 0%, #eebfc3 45%, #d9939d 100%);
+      box-shadow: var(--shadow);
+    }
+    .arch svg { width: 100%; height: 100%; }
+    .arch__ring { position: absolute; inset: -14px; border: 1px solid var(--gold); border-radius: 254px 254px 40px 40px; opacity: .6; pointer-events: none; }
+    .float {
+      position: absolute; background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
+      border-radius: 18px; padding: 14px 18px; box-shadow: var(--shadow);
+      display: flex; align-items: center; gap: 12px; font-size: .85rem;
+      animation: bob 6s ease-in-out infinite;
+    }
+    .float strong { display: block; font-weight: 600; font-size: .92rem; }
+    .float small { color: var(--plum-2); }
+    .float--a { left: -44px; top: 18%; }
+    .float--b { right: -30px; bottom: 14%; animation-delay: -3s; }
+    .float__ic { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--blush); color: var(--mauve); flex: none; }
+    .float__ic svg { width: 20px; height: 20px; }
+    @keyframes bob { 50% { transform: translateY(-10px); } }
+    .sparkle { position: absolute; color: var(--gold); animation: twinkle 3s ease-in-out infinite; }
+    @keyframes twinkle { 50% { opacity: .3; transform: scale(.8) rotate(20deg); } }
+
+    /* Secțiuni */
+    section { scroll-margin-top: 80px; }
+    .section { padding: 110px 0; }
+    .section--blush { background: var(--blush); }
+    .head { text-align: center; max-width: 640px; margin: 0 auto 60px; }
+    .head h2 { font-size: clamp(2.4rem, 4.6vw, 3.6rem); margin-top: 16px; }
+    .head p { color: var(--plum-2); margin-top: 16px; font-weight: 300; font-size: 1.05rem; }
+    .head .eyebrow::after { content: ""; width: 34px; height: 1px; background: var(--gold); }
+
+    /* Servicii */
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .service {
+      background: var(--white); border-radius: var(--radius); padding: 36px 30px 30px;
+      border: 1px solid rgba(231,179,182,.4); position: relative; overflow: hidden;
+      transition: transform .35s, box-shadow .35s;
+    }
+    .service:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .service::after {
+      content: ""; position: absolute; right: -60px; top: -60px; width: 160px; height: 160px; border-radius: 50%;
+      background: var(--blush); transition: transform .5s; z-index: 0;
+    }
+    .service:hover::after { transform: scale(1.4); }
+    .service > * { position: relative; z-index: 1; }
+    .service__ic { width: 58px; height: 58px; border-radius: 50%; background: var(--blush); display: grid; place-items: center; color: var(--mauve); margin-bottom: 24px; }
+    .service__ic svg { width: 28px; height: 28px; }
+    .service h3 { font-size: 1.75rem; margin-bottom: 10px; }
+    .service p { color: var(--plum-2); font-weight: 300; font-size: .97rem; }
+    .service__meta { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 18px; border-top: 1px dashed var(--rose); font-size: .9rem; }
+    .service__meta b { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: var(--mauve-d); }
+    .service__meta span { color: var(--plum-2); }
+
+    /* Prețuri */
+    .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .price-card { background: var(--white); border-radius: var(--radius); padding: 40px; box-shadow: var(--shadow); }
+    .price-card h3 { font-size: 2.1rem; display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+    .price-card h3 svg { width: 30px; height: 30px; color: var(--mauve); }
+    .price-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 14px 0; border-bottom: 1px solid var(--blush); align-items: baseline; }
+    .price-row:last-child { border-bottom: 0; }
+    .price-row__name { font-weight: 500; display: flex; align-items: baseline; gap: 8px; }
+    .price-row__name::after { content: ""; flex: 1; border-bottom: 1px dotted var(--rose); transform: translateY(-4px); min-width: 20px; }
+    .price-row__price { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; color: var(--mauve-d); white-space: nowrap; }
+    .price-row__desc { grid-column: 1 / -1; color: var(--plum-2); font-size: .86rem; font-weight: 300; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .book-link { background: none; border: 0; padding: 0; color: var(--mauve); font-weight: 500; font-size: .84rem; cursor: pointer; white-space: nowrap; }
+    .book-link:hover { color: var(--mauve-d); text-decoration: underline; }
+    .tag-new { font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; background: var(--gold); color: #fff; padding: 2px 8px; border-radius: 999px; font-weight: 600; font-family: var(--sans); }
+
+    /* Galerie */
+    .gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; grid-auto-flow: dense; gap: 16px; }
+    .tile { border-radius: 20px; overflow: hidden; position: relative; }
+    .tile svg { width: 100%; height: 100%; }
+    .tile--tall { grid-row: span 2; }
+    .tile--wide { grid-column: span 2; }
+    .tile figcaption {
+      position: absolute; left: 14px; bottom: 14px; background: rgba(255,255,255,.9); border-radius: 999px;
+      padding: 6px 14px; font-size: .78rem; font-weight: 500; transform: translateY(8px); opacity: 0; transition: .35s;
+    }
+    .tile:hover figcaption { transform: none; opacity: 1; }
+    .tile svg { transition: transform .6s; }
+    .tile:hover svg { transform: scale(1.06); }
+    figure { margin: 0; }
+
+    /* De ce noi */
+    .why { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: center; }
+    .why__ic { width: 74px; height: 74px; border-radius: 50%; margin: 0 auto 20px; display: grid; place-items: center; border: 1px solid var(--rose); color: var(--mauve); background: var(--white); }
+    .why__ic svg { width: 30px; height: 30px; }
+    .why h3 { font-size: 1.5rem; margin-bottom: 8px; }
+    .why p { color: var(--plum-2); font-weight: 300; font-size: .95rem; }
+
+    /* Recenzii */
+    .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .review { background: var(--white); border-radius: var(--radius); padding: 34px 30px; position: relative; border: 1px solid rgba(231,179,182,.4); }
+    .review::before { content: "“"; position: absolute; right: 26px; top: 6px; font-family: var(--serif); font-size: 6rem; color: var(--blush-2); line-height: 1; }
+    .review p { font-family: var(--serif); font-size: 1.3rem; font-style: italic; line-height: 1.4; margin: 14px 0 24px; }
+    .review__who { display: flex; align-items: center; gap: 12px; font-size: .9rem; }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-family: var(--serif); font-weight: 600; font-size: 1.2rem; color: #fff; }
+    .review__who small { display: block; color: var(--plum-2); font-size: .8rem; }
+
+    /* Programare */
+    .booking { display: grid; grid-template-columns: .9fr 1.1fr; gap: 50px; align-items: start; }
+    .booking__info h2 { font-size: clamp(2.4rem, 4.6vw, 3.6rem); margin: 16px 0 20px; }
+    .booking__info > p { color: var(--plum-2); font-weight: 300; font-size: 1.05rem; }
+    .steps { margin-top: 34px; display: grid; gap: 18px; }
+    .step { display: flex; gap: 16px; align-items: flex-start; }
+    .step__n { width: 38px; height: 38px; border-radius: 50%; background: var(--white); border: 1px solid var(--rose); display: grid; place-items: center; font-family: var(--serif); font-weight: 600; font-size: 1.1rem; color: var(--mauve); flex: none; }
+    .step b { display: block; font-weight: 500; }
+    .step span { color: var(--plum-2); font-size: .92rem; font-weight: 300; }
+    .hours { margin-top: 34px; background: var(--white); border-radius: 18px; padding: 22px 24px; }
+    .hours h3 { font-family: var(--sans); font-weight: 500; font-size: .8rem; letter-spacing: .2em; text-transform: uppercase; color: var(--mauve); margin-bottom: 10px; }
+    .hours li { display: flex; justify-content: space-between; padding: 5px 0; font-size: .95rem; }
+    .hours li span:last-child { color: var(--plum-2); }
+    .hours li.is-today { font-weight: 600; color: var(--mauve-d); }
+    .hours li.is-today span:last-child { color: var(--mauve-d); }
+
+    .form { background: var(--white); border-radius: 28px; padding: 40px; box-shadow: var(--shadow); border: 1px solid rgba(231,179,182,.4); }
+    .form h3 { font-size: 2rem; margin-bottom: 6px; }
+    .form > p { color: var(--plum-2); font-size: .92rem; font-weight: 300; margin-bottom: 26px; }
+    .field { margin-bottom: 20px; }
+    .field label, .field .label { display: block; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; color: var(--plum-2); margin-bottom: 8px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .input {
+      width: 100%; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--blush-2); background: var(--cream);
+      transition: border-color .2s, box-shadow .2s; font-size: 1rem;
+    }
+    .input:focus { outline: none; border-color: var(--mauve); box-shadow: 0 0 0 4px rgba(184,112,124,.15); }
+    select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b8707c' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 18px; padding-right: 42px; }
+    textarea.input { resize: vertical; min-height: 80px; }
+    .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; }
+    .slot {
+      padding: 10px 0; border-radius: 12px; border: 1px solid var(--blush-2); background: var(--cream); cursor: pointer;
+      font-size: .92rem; transition: .2s;
+    }
+    .slot:hover:not(:disabled) { border-color: var(--mauve); color: var(--mauve-d); }
+    .slot[aria-pressed="true"] { background: var(--mauve); border-color: var(--mauve); color: #fff; }
+    .slot:disabled { opacity: .35; cursor: not-allowed; text-decoration: line-through; }
+    .slots-note { font-size: .82rem; color: var(--plum-2); margin-top: 8px; }
+    .closed { padding: 14px; border-radius: 12px; background: var(--blush); color: var(--mauve-d); font-size: .9rem; }
+    .preview {
+      background: #e7f8ee; border-radius: 16px 16px 16px 4px; padding: 14px 16px; font-size: .88rem; white-space: pre-line;
+      color: #1d3b2a; border: 1px solid #c7ebd5; margin: 4px 0 22px; position: relative;
+    }
+    .preview__label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--plum-2); font-weight: 500; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .preview__label svg { width: 14px; height: 14px; color: var(--wa-d); }
+    .form .btn--wa { width: 100%; padding: 17px; font-size: 1.05rem; }
+    .form__err { color: #b3261e; font-size: .86rem; margin-top: 10px; min-height: 1.2em; text-align: center; }
+    .form__alt { text-align: center; font-size: .85rem; color: var(--plum-2); margin-top: 8px; }
+    .form__alt a { color: var(--mauve-d); font-weight: 500; }
+
+    /* Footer */
+    .footer { background: var(--plum); color: #ead7dc; padding: 70px 0 30px; }
+    .footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+    .footer .logo__txt { color: #fff; }
+    .footer h4 { font-family: var(--sans); font-size: .76rem; letter-spacing: .22em; text-transform: uppercase; color: var(--rose); margin: 0 0 16px; font-weight: 500; }
+    .footer p, .footer li { font-size: .93rem; font-weight: 300; line-height: 1.9; }
+    .footer a:hover { color: var(--rose); }
+    .socials { display: flex; gap: 10px; margin-top: 20px; }
+    .socials a { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(231,179,182,.4); display: grid; place-items: center; transition: .25s; }
+    .socials a:hover { background: var(--rose); color: var(--plum); }
+    .socials svg { width: 18px; height: 18px; }
+    .footer__bottom { border-top: 1px solid rgba(231,179,182,.2); margin-top: 50px; padding-top: 24px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .82rem; color: #bfa5ad; }
+
+    /* WhatsApp flotant */
+    .wa-float {
+      position: fixed; right: 22px; bottom: 22px; z-index: 50;
+      display: flex; align-items: center; gap: 10px;
+      background: var(--wa); color: #fff; border-radius: 999px; padding: 14px; box-shadow: 0 16px 40px -12px rgba(37,211,102,.8);
+      transition: transform .25s, padding .3s;
+    }
+    .wa-float svg { width: 28px; height: 28px; }
+    .wa-float span { max-width: 0; overflow: hidden; white-space: nowrap; font-weight: 500; transition: max-width .4s, margin .4s; }
+    .wa-float:hover { transform: translateY(-3px); padding-right: 22px; }
+    .wa-float:hover span { max-width: 200px; }
+    .wa-float::before { content: ""; position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--wa); animation: ping 2.4s infinite; }
+    @keyframes ping { 0% { transform: scale(1); opacity: .8; } 80%, 100% { transform: scale(1.45); opacity: 0; } }
+
+    /* Animație la încărcare (hero) */
+    .rise { animation: rise .9s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d, 0s); }
+    @keyframes rise { from { opacity: 0; transform: translateY(22px); } }
+
+    /* Apariție la scroll */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
+    .reveal.is-in { opacity: 1; transform: none; }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero__grid, .booking { grid-template-columns: 1fr; }
+      .hero__art { margin-top: 20px; }
+      .services, .reviews { grid-template-columns: 1fr 1fr; }
+      .why { grid-template-columns: 1fr 1fr; }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .footer__grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 860px) {
+      .nav__links, .nav .btn { display: none; }
+      .burger { display: block; }
+      .nav.is-open .nav__links {
+        display: flex; flex-direction: column; gap: 0; position: absolute; left: 0; right: 0; top: 76px;
+        background: var(--cream); border-bottom: 1px solid var(--blush-2); padding: 8px 16px 20px;
+      }
+      .nav.is-open .nav__links a { padding: 14px 4px; border-bottom: 1px solid var(--blush); font-size: 1.05rem; }
+      .nav.is-open .burger span:first-child { transform: translateY(3px) rotate(45deg); }
+      .nav.is-open .burger span:last-child { transform: translateY(-3px) rotate(-45deg); }
+      .prices { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .container { padding: 0 16px; }
+      .section { padding: 76px 0; }
+      .hero { padding: 40px 0 70px; }
+      .services, .reviews, .why { grid-template-columns: 1fr; }
+      .gallery { grid-auto-rows: 160px; gap: 10px; }
+      .float--a { left: 0; top: 6%; }
+      .float--b { right: 0; bottom: 6%; }
+      .price-card, .form { padding: 26px 20px; }
+      .row2 { grid-template-columns: 1fr; gap: 0; }
+      .footer__grid { grid-template-columns: 1fr; gap: 30px; }
+      .wa-float { right: 14px; bottom: 14px; }
+      .hero__trust { gap: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG-uri reutilizabile -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2zm5.8 14.08c-.24.68-1.42 1.32-1.96 1.37-.5.05-1.13.07-1.83-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3 0-1.43.75-2.13 1.02-2.42.26-.29.58-.36.77-.36h.55c.18 0 .42-.07.65.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.5-.14.14-.29.3-.13.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.42.29.14.46.12.62-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.1 1.68.79 1.97.94.29.14.48.21.55.33.07.12.07.69-.17 1.37z"/></symbol>
+      <symbol id="i-nail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V10a4 4 0 0 1 8 0v11"/><path d="M9.5 10.5a2.5 2.5 0 0 1 5 0V14h-5z" fill="currentColor" fill-opacity=".18"/><path d="M6 21h12"/></g></symbol>
+      <symbol id="i-lash" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2.5 13.5c4.5 5 14.5 5 19 0"/><path d="M5 15.5 3.5 18M8 17l-1 3M12 17.6V21M16 17l1 3M19 15.5l1.5 2.5"/></g></symbol>
+      <symbol id="i-foot" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21c-2 0-3-2-3-5 0-4 2-6 2-9a3 3 0 0 1 6 0c0 3-1 5-1 8 0 4-2 6-4 6z"/><circle cx="15.5" cy="5" r="1.3"/><circle cx="18" cy="7.5" r="1.1"/><circle cx="19.3" cy="10.6" r=".9"/></g></symbol>
+      <symbol id="i-brow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 12c3-4 9-5 18-2"/><path d="M5 16c2 1.6 4.6 2.4 7 2.4s5-.8 7-2.4"/><circle cx="12" cy="15.5" r="1.6" fill="currentColor" fill-opacity=".2"/></g></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 8.5 7 10 4-1.5 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></g></symbol>
+      <symbol id="i-leaf" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19 13 11"/></g></symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></symbol>
+      <symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="m9 15 2 2 4-4"/></g></symbol>
+      <symbol id="i-ig" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></g></symbol>
+      <symbol id="i-fb" viewBox="0 0 24 24"><path fill="currentColor" d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H8v4h2v8h4v-8h3l1-4h-4V8.5c0-.3.2-.5.5-.5z"/></symbol>
+      <symbol id="i-tt" viewBox="0 0 24 24"><path fill="currentColor" d="M16.5 3c.4 2.2 1.9 3.8 4 4v3.2a7 7 0 0 1-4-1.3V15a6 6 0 1 1-6-6h.5v3.3a2.8 2.8 0 1 0 2.3 2.7V3z"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="demo-bar">
+    <span>Demo de site realizat de <strong>Adelin Solutions</strong> · salon fictiv</span>
+    <a href="../../index.html#proiecte">← Înapoi la portofoliu</a>
+  </div>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <div class="container nav__in">
+      <a href="#acasa" class="logo" aria-label="Studio Lune, pagina principală">
+        <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="20" cy="20" r="19" fill="none" stroke="#c9a27e" stroke-width="1"/>
+          <path d="M25 9a12 12 0 1 0 0 22A11 11 0 0 1 25 9z" fill="#b8707c"/>
+          <path d="M28 14l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" fill="#c9a27e"/>
+        </svg>
+        <span class="logo__txt">Studio Lune<small>Unghii &amp; Gene</small></span>
+      </a>
+      <nav class="nav__links" aria-label="Meniu">
+        <a href="#servicii">Servicii</a>
+        <a href="#preturi">Prețuri</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#recenzii">Recenzii</a>
+        <a href="#programare">Contact</a>
+      </nav>
+      <a href="#programare" class="btn btn--rose">Programează-te</a>
+      <button class="burger" aria-label="Deschide meniul" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="acasa">
+      <div class="container hero__grid">
+        <div>
+          <p class="eyebrow rise">Salon de înfrumusețare · Centru</p>
+          <h1 class="reveal">Unghii impecabile,<br>gene care <em class="script">vorbesc</em><br>de la sine.</h1>
+          <p class="hero__lead rise" style="--d:.16s">Manichiură, pedichiură și extensii de gene realizate cu răbdare, produse premium și multă atenție la detalii. Tu te relaxezi, noi ne ocupăm de restul.</p>
+          <div class="hero__cta rise" style="--d:.24s">
+            <a href="#programare" class="btn btn--wa"><svg><use href="#i-wa"/></svg>Programează pe WhatsApp</a>
+            <a href="#preturi" class="btn btn--line">Vezi prețurile</a>
+          </div>
+          <div class="hero__trust rise" style="--d:.32s">
+            <div class="trust"><strong>4,9</strong><span><span class="stars">★★★★★</span><br>din 320+ recenzii</span></div>
+            <div class="trust"><strong>8</strong><span>ani de<br>experiență</span></div>
+            <div class="trust"><strong>3</strong><span>săptămâni de<br>rezistență garantată</span></div>
+          </div>
+        </div>
+
+        <div class="hero__art rise" style="--d:.2s" aria-hidden="true">
+          <div class="arch">
+            <!-- Ilustrație: mână cu unghii și o geană -->
+            <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7dccf"/><stop offset="1" stop-color="#ecc2b2"/></linearGradient>
+                <linearGradient id="polish" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c45a6e"/><stop offset="1" stop-color="#8e3448"/></linearGradient>
+                <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+              </defs>
+              <rect width="400" height="500" fill="url(#glow)"/>
+              <circle cx="300" cy="110" r="70" fill="#fff" opacity=".18"/>
+              <circle cx="80" cy="390" r="110" fill="#fff" opacity=".12"/>
+              <!-- degete -->
+              <g transform="translate(70 120) rotate(-8)">
+                <rect x="0" y="80" width="54" height="330" rx="27" fill="url(#skin)"/>
+                <rect x="64" y="20" width="58" height="390" rx="29" fill="url(#skin)"/>
+                <rect x="132" y="0" width="58" height="410" rx="29" fill="url(#skin)"/>
+                <rect x="200" y="40" width="54" height="370" rx="27" fill="url(#skin)"/>
+                <!-- unghii -->
+                <rect x="9" y="90" width="36" height="58" rx="18" fill="url(#polish)"/>
+                <rect x="74" y="30" width="38" height="62" rx="19" fill="url(#polish)"/>
+                <rect x="142" y="10" width="38" height="64" rx="19" fill="url(#polish)"/>
+                <rect x="209" y="50" width="36" height="60" rx="18" fill="url(#polish)"/>
+                <!-- luciu -->
+                <rect x="16" y="98" width="7" height="26" rx="3.5" fill="#fff" opacity=".55"/>
+                <rect x="82" y="38" width="7" height="28" rx="3.5" fill="#fff" opacity=".55"/>
+                <rect x="150" y="18" width="7" height="28" rx="3.5" fill="#fff" opacity=".55"/>
+                <rect x="216" y="58" width="7" height="26" rx="3.5" fill="#fff" opacity=".55"/>
+                <!-- inel -->
+                <rect x="132" y="170" width="58" height="12" rx="6" fill="#d8b48c"/>
+                <circle cx="161" cy="168" r="8" fill="#fff" stroke="#d8b48c" stroke-width="3"/>
+              </g>
+              <!-- geană stilizată -->
+              <g transform="translate(205 395)" fill="none" stroke="#3f2633" stroke-width="3" stroke-linecap="round">
+                <path d="M0 0c40 30 110 30 150 0" stroke-width="3.5"/>
+                <path d="M10 8 2 26M28 16l-5 20M48 21l-2 21M70 23v22M92 22l2 21M112 18l5 20M132 10l9 18"/>
+              </g>
+            </svg>
+          </div>
+          <div class="arch__ring"></div>
+          <div class="float float--a">
+            <span class="float__ic"><svg><use href="#i-cal"/></svg></span>
+            <div><strong>Locuri libere azi</strong><small>16:00 · 17:30</small></div>
+          </div>
+          <div class="float float--b">
+            <span class="float__ic"><svg><use href="#i-heart"/></svg></span>
+            <div><strong>Clientele fidele</strong><small>85% revin lunar</small></div>
+          </div>
+          <svg class="sparkle" style="right:12%;top:-4%;width:26px;height:26px"><use href="#i-spark"/></svg>
+          <svg class="sparkle" style="left:6%;bottom:30%;width:16px;height:16px;animation-delay:-1.5s"><use href="#i-spark"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICII -->
+    <section class="section section--blush" id="servicii">
+      <div class="container">
+        <div class="head reveal">
+          <p class="eyebrow">Serviciile noastre</p>
+          <h2>Tot ce ai nevoie pentru un look <em class="script">îngrijit</em></h2>
+          <p>Lucrăm doar cu produse profesionale și instrumente sterilizate la fiecare clientă.</p>
+        </div>
+        <div class="services">
+          <article class="service reveal">
+            <div class="service__ic"><svg><use href="#i-nail"/></svg></div>
+            <h3>Manichiură semipermanentă</h3>
+            <p>Unghii perfecte timp de 3 săptămâni, fără ciupituri. Peste 200 de nuanțe din care să alegi.</p>
+            <div class="service__meta"><span>~ 60 min</span><b>de la 110 lei</b></div>
+          </article>
+          <article class="service reveal">
+            <div class="service__ic"><svg><use href="#i-spark"/></svg></div>
+            <h3>Construcție cu gel</h3>
+            <p>Lungime și formă după dorința ta: migdală, coffin, pătrat sau oval. Rezistență și aspect natural.</p>
+            <div class="service__meta"><span>~ 120 min</span><b>de la 170 lei</b></div>
+          </article>
+          <article class="service reveal">
+            <div class="service__ic"><svg><use href="#i-foot"/></svg></div>
+            <h3>Pedichiură spa</h3>
+            <p>Baie relaxantă, exfoliere, masaj și oja preferată. Picioare frumoase și odihnite.</p>
+            <div class="service__meta"><span>~ 75 min</span><b>de la 140 lei</b></div>
+          </article>
+          <article class="service reveal">
+            <div class="service__ic"><svg><use href="#i-lash"/></svg></div>
+            <h3>Extensii de gene</h3>
+            <p>Clasic, volum sau efect „wet look”. Fiecare geană aplicată individual, pentru o privire naturală.</p>
+            <div class="service__meta"><span>~ 120 min</span><b>de la 180 lei</b></div>
+          </article>
+          <article class="service reveal">
+            <div class="service__ic"><svg><use href="#i-lash"/></svg></div>
+            <h3>Laminare gene</h3>
+            <p>Genele tale naturale, curbate și hrănite, fără extensii. Efect de până la 8 săptămâni.</p>
+            <div class="service__meta"><span>~ 60 min</span><b>150 lei</b></div>
+          </article>
+          <article class="service reveal">
+            <div class="service__ic"><svg><use href="#i-brow"/></svg></div>
+            <h3>Sprâncene</h3>
+            <p>Pensat, vopsit și laminare de sprâncene, adaptate formei feței tale.</p>
+            <div class="service__meta"><span>~ 40 min</span><b>de la 60 lei</b></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PREȚURI -->
+    <section class="section" id="preturi">
+      <div class="container">
+        <div class="head reveal">
+          <p class="eyebrow">Listă de prețuri</p>
+          <h2>Prețuri <em class="script">transparente</em></h2>
+          <p>Apasă „Programează” lângă orice serviciu și îl completăm automat în formularul de programare.</p>
+        </div>
+        <div class="prices">
+          <div class="price-card reveal">
+            <h3><svg><use href="#i-nail"/></svg>Unghii</h3>
+            <div id="prices-nails"></div>
+          </div>
+          <div class="price-card reveal">
+            <h3><svg><use href="#i-lash"/></svg>Gene &amp; sprâncene</h3>
+            <div id="prices-lashes"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERIE -->
+    <section class="section section--blush" id="galerie">
+      <div class="container">
+        <div class="head reveal">
+          <p class="eyebrow">Galerie</p>
+          <h2>Lucrări <em class="script">recente</em></h2>
+          <p>Câteva dintre modelele preferate ale clientelor noastre. Mai multe pe Instagram.</p>
+        </div>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </section>
+
+    <!-- DE CE NOI -->
+    <section class="section">
+      <div class="container">
+        <div class="head reveal">
+          <p class="eyebrow">De ce Studio Lune</p>
+          <h2>Mici detalii, <em class="script">mare</em> diferență</h2>
+        </div>
+        <div class="why">
+          <div class="reveal"><div class="why__ic"><svg><use href="#i-shield"/></svg></div><h3>Igienă strictă</h3><p>Instrumente sterilizate în autoclav și pile de unică folosință.</p></div>
+          <div class="reveal"><div class="why__ic"><svg><use href="#i-leaf"/></svg></div><h3>Produse premium</h3><p>Geluri și adezivi hipoalergenici, potriviți și pentru pielea sensibilă.</p></div>
+          <div class="reveal"><div class="why__ic"><svg><use href="#i-clock"/></svg></div><h3>Fără întârzieri</h3><p>Respectăm ora programării. Timpul tău contează.</p></div>
+          <div class="reveal"><div class="why__ic"><svg><use href="#i-heart"/></svg></div><h3>Garanție 7 zile</h3><p>Dacă ceva nu e perfect, revii și îl reparăm gratuit.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECENZII -->
+    <section class="section section--blush" id="recenzii">
+      <div class="container">
+        <div class="head reveal">
+          <p class="eyebrow">Recenzii</p>
+          <h2>Ce spun <em class="script">clientele</em></h2>
+        </div>
+        <div class="reviews">
+          <figure class="review reveal">
+            <span class="stars">★★★★★</span>
+            <p>Cea mai frumoasă manichiură pe care am avut-o. A rezistat aproape 4 săptămâni!</p>
+            <figcaption class="review__who"><span class="avatar" style="background:#d48a96">I</span><div>Ioana M.<small>Manichiură semipermanentă</small></div></figcaption>
+          </figure>
+          <figure class="review reveal">
+            <span class="stars">★★★★★</span>
+            <p>Genele arată super naturale, toată lumea mă întreabă dacă sunt ale mele.</p>
+            <figcaption class="review__who"><span class="avatar" style="background:#b8707c">A</span><div>Andreea P.<small>Extensii gene · volum</small></div></figcaption>
+          </figure>
+          <figure class="review reveal">
+            <span class="stars">★★★★★</span>
+            <p>M-am programat pe WhatsApp în două minute. Atmosferă caldă, revin sigur!</p>
+            <figcaption class="review__who"><span class="avatar" style="background:#c9a27e">M</span><div>Maria C.<small>Pedichiură spa</small></div></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMARE -->
+    <section class="section" id="programare">
+      <div class="container booking">
+        <div class="booking__info reveal">
+          <p class="eyebrow">Programări</p>
+          <h2>Rezervă-ți locul <em class="script">în 1 minut</em></h2>
+          <p>Alege serviciul, ziua și ora. Mesajul se scrie singur, tu doar apeși „Trimite” în WhatsApp, iar noi îți confirmăm programarea cât mai repede.</p>
+          <div class="steps">
+            <div class="step"><span class="step__n">1</span><div><b>Alegi serviciul și ora</b><span>Vezi doar orele în care salonul e deschis.</span></div></div>
+            <div class="step"><span class="step__n">2</span><div><b>Se deschide WhatsApp</b><span>Cu mesajul completat, gata de trimis.</span></div></div>
+            <div class="step"><span class="step__n">3</span><div><b>Primești confirmarea</b><span>De obicei în mai puțin de o oră.</span></div></div>
+          </div>
+          <div class="hours">
+            <h3>Program</h3>
+            <ul id="hours"></ul>
+          </div>
+        </div>
+
+        <form class="form reveal" id="booking" novalidate>
+          <h3>Programare pe WhatsApp</h3>
+          <p>Completează câmpurile și apasă butonul verde.</p>
+
+          <div class="field">
+            <label for="f-service">Serviciu</label>
+            <select class="input" id="f-service" required></select>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="f-date">Data</label>
+              <input class="input" type="date" id="f-date" required>
+            </div>
+            <div class="field">
+              <label for="f-name">Numele tău</label>
+              <input class="input" type="text" id="f-name" placeholder="Ex.: Ioana" autocomplete="given-name" required>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label" id="slots-label">Ora preferată</span>
+            <div class="slots" id="slots" role="group" aria-labelledby="slots-label"></div>
+            <p class="slots-note" id="slots-note"></p>
+          </div>
+          <div class="field">
+            <label for="f-notes">Detalii (opțional)</label>
+            <textarea class="input" id="f-notes" placeholder="Ex.: aș vrea o nuanță nude sau am o poză cu modelul"></textarea>
+          </div>
+
+          <div class="preview__label"><svg><use href="#i-wa"/></svg>Mesajul care se va trimite</div>
+          <div class="preview" id="preview"></div>
+
+          <button type="submit" class="btn btn--wa"><svg><use href="#i-wa"/></svg>Trimite pe WhatsApp</button>
+          <p class="form__err" id="err" role="alert"></p>
+          <p class="form__alt">Preferi să suni? <a href="tel:+40700000000">0700 000 000</a></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <a href="#acasa" class="logo">
+            <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="none" stroke="#c9a27e" stroke-width="1"/><path d="M25 9a12 12 0 1 0 0 22A11 11 0 0 1 25 9z" fill="#e7b3b6"/></svg>
+            <span class="logo__txt">Studio Lune<small style="color:#e7b3b6">Unghii &amp; Gene</small></span>
+          </a>
+          <p style="margin-top:18px;max-width:300px">Un loc liniștit în care te răsfeți și pleci cu zâmbetul pe buze.</p>
+          <div class="socials">
+            <a href="#" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a>
+            <a href="#" aria-label="Facebook"><svg><use href="#i-fb"/></svg></a>
+            <a href="#" aria-label="TikTok"><svg><use href="#i-tt"/></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4>Adresă</h4>
+          <p>Str. Exemplului nr. 10<br>Oraș, România</p>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+40700000000">0700 000 000</a></li>
+            <li><a href="#programare">Programare WhatsApp</a></li>
+            <li><a href="mailto:salut@exemplu.ro">salut@exemplu.ro</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Program</h4>
+          <ul>
+            <li>Luni – Vineri: 09:00 – 20:00</li>
+            <li>Sâmbătă: 10:00 – 16:00</li>
+            <li>Duminică: închis</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span id="year"></span> Studio Lune · Salon fictiv, creat ca exemplu</span>
+        <span>Site realizat de <a href="../../index.html" style="color:var(--rose)">Adelin Solutions</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="Scrie-ne pe WhatsApp">
+    <svg><use href="#i-wa"/></svg><span>Scrie-ne pe WhatsApp</span>
+  </a>
+
+  <script>
+  (() => {
+    /* ====== Configurare salon (de modificat pentru un client real) ====== */
+    const WA_NUMBER = "40700000000";   // număr în format internațional, fără + și spații
+    const SALON = "Studio Lune";
+    // Program: 0 = duminică … 6 = sâmbătă; null = închis
+    const HOURS = { 1: [9, 20], 2: [9, 20], 3: [9, 20], 4: [9, 20], 5: [9, 20], 6: [10, 16], 0: null };
+    const DAY_NAMES = ["Duminică", "Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă"];
+
+    const SERVICES = [
+      { g: "nails", name: "Manichiură clasică", price: "70 lei", dur: 45, desc: "Pilire, cuticule, ojă clasică" },
+      { g: "nails", name: "Manichiură semipermanentă", price: "110 lei", dur: 60, desc: "Rezistă până la 3 săptămâni" },
+      { g: "nails", name: "Construcție cu gel", price: "170 lei", dur: 120, desc: "Orice formă și lungime" },
+      { g: "nails", name: "Întreținere gel", price: "140 lei", dur: 90, desc: "La 3–4 săptămâni" },
+      { g: "nails", name: "Pedichiură spa", price: "140 lei", dur: 75, desc: "Baie, exfoliere, masaj, ojă" },
+      { g: "nails", name: "Nail art (per unghie)", price: "de la 5 lei", dur: 0, desc: "Desene, ornamente, french" },
+      { g: "lashes", name: "Extensii gene clasic", price: "180 lei", dur: 120, desc: "1 extensie pe fiecare geană" },
+      { g: "lashes", name: "Extensii gene volum 2D–4D", price: "230 lei", dur: 150, desc: "Privire intensă, efect pufos" },
+      { g: "lashes", name: "Întreținere extensii", price: "130 lei", dur: 75, desc: "La 2–3 săptămâni", isNew: false },
+      { g: "lashes", name: "Laminare gene", price: "150 lei", dur: 60, desc: "Curbare + hrănire, fără extensii", isNew: true },
+      { g: "lashes", name: "Laminare sprâncene", price: "120 lei", dur: 50, desc: "Sprâncene pline și disciplinate", isNew: true },
+      { g: "lashes", name: "Pensat + vopsit sprâncene", price: "60 lei", dur: 40, desc: "Formă adaptată feței" },
+    ];
+
+    /* ====== Liste de prețuri ====== */
+    const priceRow = (s, i) => `<div class="price-row">
+        <span class="price-row__name">${s.name}${s.isNew ? ' <span class="tag-new">nou</span>' : ""}</span>
+        <span class="price-row__price">${s.price}</span>
+        <span class="price-row__desc">${s.desc}${s.dur ? " · ~" + s.dur + " min" : ""}
+          <button type="button" class="book-link" data-book="${i}">Programează →</button></span>
+      </div>`;
+    document.getElementById("prices-nails").innerHTML = SERVICES.map((s, i) => s.g === "nails" ? priceRow(s, i) : "").join("");
+    document.getElementById("prices-lashes").innerHTML = SERVICES.map((s, i) => s.g === "lashes" ? priceRow(s, i) : "").join("");
+
+    /* ====== Galerie (modele desenate în SVG) ====== */
+    const nailArt = (bg, polish, accent, style) => {
+      const nails = [0, 1, 2, 3, 4].map((k) => {
+        const x = 30 + k * 64, h = [130, 160, 170, 155, 120][k], y = 300 - h;
+        let deco = "";
+        if (style === "french") deco = `<path d="M${x} ${y + 26}q24 -14 48 0v-8a24 24 0 0 0-48 0z" fill="#fff"/>`;
+        if (style === "dots") deco = `<circle cx="${x + 24}" cy="${y + 40}" r="5" fill="${accent}"/><circle cx="${x + 15}" cy="${y + 62}" r="3.5" fill="${accent}"/><circle cx="${x + 32}" cy="${y + 72}" r="3" fill="${accent}"/>`;
+        if (style === "ombre") deco = `<rect x="${x}" y="${y}" width="48" height="90" rx="24" fill="url(#om-${bg.slice(1)})"/>`;
+        if (style === "chrome") deco = `<rect x="${x + 8}" y="${y + 8}" width="10" height="50" rx="5" fill="#fff" opacity=".7"/>`;
+        if (style === "flower" && k % 2 === 0) deco = `<g transform="translate(${x + 24} ${y + 45})">${[0, 72, 144, 216, 288].map((a) => `<ellipse rx="5" ry="9" transform="rotate(${a}) translate(0 -8)" fill="#fff"/>`).join("")}<circle r="4" fill="${accent}"/></g>`;
+        return `<rect x="${x - 6}" y="${y + 40}" width="60" height="${h + 40}" rx="30" fill="#f2d2c4"/><rect x="${x}" y="${y}" width="48" height="90" rx="24" fill="${polish}"/>${deco}`;
+      }).join("");
+      return `<svg viewBox="0 0 360 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs><linearGradient id="om-${bg.slice(1)}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="${accent}" stop-opacity=".2"/></linearGradient></defs>
+        <rect width="360" height="340" fill="${bg}"/><circle cx="300" cy="60" r="70" fill="#fff" opacity=".25"/>${nails}</svg>`;
+    };
+    const lashArt = (bg, ink) => `<svg viewBox="0 0 360 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="360" height="340" fill="${bg}"/><circle cx="70" cy="70" r="80" fill="#fff" opacity=".22"/>
+        <path d="M60 190c50-70 190-70 240 0" fill="none" stroke="${ink}" stroke-width="2" opacity=".35"/>
+        <path d="M60 190c60 45 180 45 240 0" fill="#fff" opacity=".55"/>
+        <circle cx="180" cy="196" r="34" fill="#6b4a3a"/><circle cx="180" cy="196" r="16" fill="#2b1d1a"/><circle cx="188" cy="186" r="6" fill="#fff"/>
+        <path d="M60 190c60-50 180-50 240 0" fill="none" stroke="${ink}" stroke-width="5" stroke-linecap="round"/>
+        <g stroke="${ink}" stroke-width="3" stroke-linecap="round" fill="none">
+          ${Array.from({ length: 15 }, (_, i) => { const t = i / 14, x = 60 + t * 240, y = 190 - Math.sin(t * Math.PI) * 38; const ang = (t - .5) * 1.4; return `<path d="M${x} ${y}q${Math.sin(ang) * 12} -22 ${Math.sin(ang) * 26} -${38 + Math.sin(t * Math.PI) * 10}"/>`; }).join("")}
+        </g></svg>`;
+    const GALLERY = [
+      { cls: "tile--tall", art: nailArt("#f3d3d6", "#b8435e", "#fff", "chrome"), cap: "Roșu cireașă cu efect chrome" },
+      { cls: "", art: lashArt("#f6e3dc", "#2b1d1a"), cap: "Extensii volum 3D" },
+      { cls: "", art: nailArt("#efe2f0", "#f4c7d1", "#fff", "french"), cap: "French roz pudrat" },
+      { cls: "tile--tall", art: nailArt("#f9ece4", "#e9c4a6", "#b8707c", "dots"), cap: "Nude cu buline" },
+      { cls: "tile--wide", art: nailArt("#f5d9de", "#d86c86", "#f4c7d1", "flower"), cap: "Flori de primăvară" },
+      { cls: "", art: lashArt("#ead6e3", "#3f2633"), cap: "Laminare gene" },
+      { cls: "", art: nailArt("#fbe8e0", "#c9a27e", "#fff", "ombre"), cap: "Ombré auriu" },
+    ];
+    document.getElementById("gallery").innerHTML = GALLERY.map((g) =>
+      `<figure class="tile reveal ${g.cls}">${g.art}<figcaption>${g.cap}</figcaption></figure>`).join("");
+
+    /* ====== Program ====== */
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const order = [1, 2, 3, 4, 5, 6, 0];
+    document.getElementById("hours").innerHTML = order.map((d) => {
+      const h = HOURS[d];
+      return `<li class="${d === today.getDay() ? "is-today" : ""}"><span>${DAY_NAMES[d]}${d === today.getDay() ? " (azi)" : ""}</span><span>${h ? String(h[0]).padStart(2, "0") + ":00 – " + h[1] + ":00" : "Închis"}</span></li>`;
+    }).join("");
+
+    /* ====== Formular programare → WhatsApp ====== */
+    const $ = (id) => document.getElementById(id);
+    const fService = $("f-service"), fDate = $("f-date"), fName = $("f-name"), fNotes = $("f-notes");
+    const slotsBox = $("slots"), preview = $("preview"), err = $("err");
+    let slot = null;
+
+    fService.innerHTML = `<option value="">Alege un serviciu…</option>` +
+      `<optgroup label="Unghii">${SERVICES.map((s, i) => s.g === "nails" ? `<option value="${i}">${s.name} · ${s.price}</option>` : "").join("")}</optgroup>` +
+      `<optgroup label="Gene & sprâncene">${SERVICES.map((s, i) => s.g === "lashes" ? `<option value="${i}">${s.name} · ${s.price}</option>` : "").join("")}</optgroup>`;
+
+    const iso = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    const maxDate = new Date(today); maxDate.setDate(maxDate.getDate() + 60);
+    fDate.min = iso(today); fDate.max = iso(maxDate);
+    // prima zi deschisă
+    const first = new Date(today);
+    while (!HOURS[first.getDay()]) first.setDate(first.getDate() + 1);
+    fDate.value = iso(first);
+
+    const parseDate = (v) => { const [y, m, d] = v.split("-").map(Number); return new Date(y, m - 1, d); };
+    const fmtDate = (d) => DAY_NAMES[d.getDay()].toLowerCase() + ", " + d.toLocaleDateString("ro-RO", { day: "numeric", month: "long" });
+
+    function renderSlots() {
+      slot = null;
+      if (!fDate.value) { slotsBox.innerHTML = ""; $("slots-note").textContent = "Alege mai întâi o dată."; return; }
+      const d = parseDate(fDate.value);
+      const h = HOURS[d.getDay()];
+      if (!h) {
+        slotsBox.innerHTML = `<p class="closed" style="grid-column:1/-1">Duminica salonul este închis. Te rugăm să alegi altă zi.</p>`;
+        $("slots-note").textContent = "";
+        updatePreview(); return;
+      }
+      const s = SERVICES[fService.value];
+      const dur = s && s.dur ? s.dur : 60;
+      const now = new Date();
+      const isToday = d.getTime() === today.getTime();
+      const out = [];
+      for (let t = h[0] * 60; t + dur <= h[1] * 60; t += 30) {
+        const hh = Math.floor(t / 60), mm = t % 60;
+        const label = String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0");
+        const past = isToday && (hh * 60 + mm) <= now.getHours() * 60 + now.getMinutes() + 60;
+        out.push(`<button type="button" class="slot" data-t="${label}" aria-pressed="false" ${past ? "disabled" : ""}>${label}</button>`);
+      }
+      slotsBox.innerHTML = out.join("") || `<p class="closed" style="grid-column:1/-1">Nu mai sunt ore disponibile în această zi.</p>`;
+      $("slots-note").textContent = s && s.dur ? `Serviciul durează aproximativ ${s.dur} min. Ora finală o confirmăm noi.` : "Ora finală o confirmăm noi pe WhatsApp.";
+      updatePreview();
+    }
+
+    slotsBox.addEventListener("click", (e) => {
+      const b = e.target.closest(".slot"); if (!b || b.disabled) return;
+      slotsBox.querySelectorAll(".slot").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      slot = b.dataset.t; err.textContent = ""; updatePreview();
+    });
+
+    function message() {
+      const s = SERVICES[fService.value];
+      const lines = [`Bună ziua! Aș dori o programare la ${SALON}.`, ""];
+      lines.push(`💅 Serviciu: ${s ? s.name + " (" + s.price + ")" : "…"}`);
+      lines.push(`📅 Data: ${fDate.value ? fmtDate(parseDate(fDate.value)) : "…"}`);
+      lines.push(`🕐 Ora: ${slot || "…"}`);
+      lines.push(`👤 Nume: ${fName.value.trim() || "…"}`);
+      if (fNotes.value.trim()) lines.push(`📝 Detalii: ${fNotes.value.trim()}`);
+      lines.push("", "Mulțumesc!");
+      return lines.join("\n");
+    }
+    function updatePreview() { preview.textContent = message(); }
+
+    fService.addEventListener("change", () => { err.textContent = ""; renderSlots(); });
+    fDate.addEventListener("change", () => { err.textContent = ""; renderSlots(); });
+    fName.addEventListener("input", () => { err.textContent = ""; updatePreview(); });
+    fNotes.addEventListener("input", updatePreview);
+
+    $("booking").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const missing = [];
+      if (!fService.value) missing.push("serviciul");
+      if (!fDate.value || !HOURS[parseDate(fDate.value).getDay()]) missing.push("o zi în care suntem deschiși");
+      if (!slot) missing.push("ora");
+      if (!fName.value.trim()) missing.push("numele");
+      if (missing.length) {
+        err.textContent = "Te rugăm să alegi " + missing.join(", ") + ".";
+        const firstBad = !fService.value ? fService : !slot ? slotsBox : !fName.value.trim() ? fName : fDate;
+        firstBad.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (firstBad.focus) firstBad.focus({ preventScroll: true });
+        return;
+      }
+      window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message())}`, "_blank", "noopener");
+    });
+
+    // „Programează →” din lista de prețuri
+    document.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-book]"); if (!b) return;
+      fService.value = b.dataset.book;
+      renderSlots();
+      document.getElementById("programare").scrollIntoView({ behavior: "smooth" });
+    });
+
+    // Buton flotant: mesaj scurt
+    $("wa-float").href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Bună ziua! Aș dori câteva informații despre serviciile ${SALON}.`)}`;
+
+    renderSlots();
+
+    /* ====== Meniu mobil ====== */
+    const nav = $("nav"), burger = nav.querySelector(".burger");
+    burger.addEventListener("click", () => {
+      const open = !nav.classList.contains("is-open");
+      nav.classList.toggle("is-open", open); burger.setAttribute("aria-expanded", String(open));
+    });
+    nav.querySelectorAll(".nav__links a").forEach((a) => a.addEventListener("click", () => { nav.classList.remove("is-open"); burger.setAttribute("aria-expanded", "false"); }));
+
+    /* ====== Apariție la scroll ====== */
+    const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); } }), { threshold: .12 });
+    document.querySelectorAll(".reveal").forEach((el, i) => { el.style.transitionDelay = (i % 3) * 90 + "ms"; io.observe(el); });
+
+    $("year").textContent = new Date().getFullYear();
+  })();
+  </script>
+</body>
+</html>

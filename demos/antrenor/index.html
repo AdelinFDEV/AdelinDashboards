@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alex Dobre · Antrenor personal</title>
+  <meta name="description" content="Antrenamente personale 1 la 1, coaching online și plan de nutriție. Calculează-ți caloriile și programează un antrenament de probă pe WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0c0d;
+      --panel: #151517;
+      --panel-2: #1d1d20;
+      --line: #2a2a2e;
+      --text: #f4f4f2;
+      --muted: #9a9a9f;
+      --hot: #ff5a1f;
+      --hot-2: #ff7a45;
+      --wa: #25d366;
+      --display: "Bebas Neue", Impact, sans-serif;
+      --sans: "Inter", system-ui, sans-serif;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: clip; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; line-height: .92; letter-spacing: .01em; text-transform: uppercase; }
+    p { margin: 0; }
+    ul { margin: 0; padding: 0; list-style: none; }
+    button, input, select { font: inherit; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .hot { color: var(--hot); }
+    .outline { color: transparent; -webkit-text-stroke: 1.5px var(--text); }
+    section { scroll-margin-top: 72px; }
+
+    .demo-bar { background: var(--hot); color: #160700; font-size: .8rem; font-weight: 600; text-align: center; padding: 8px 16px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .demo-bar a { text-decoration: underline; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; border-radius: 12px; font-weight: 700; font-size: .95rem; letter-spacing: .04em; text-transform: uppercase; border: 2px solid transparent; cursor: pointer; transition: transform .2s, background .2s, color .2s, border-color .2s, box-shadow .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn svg { width: 20px; height: 20px; }
+    .btn--hot { background: var(--hot); color: #fff; box-shadow: 0 14px 30px -12px rgba(255,90,31,.8); }
+    .btn--hot:hover { background: var(--hot-2); }
+    .btn--line { border-color: var(--line); }
+    .btn--line:hover { border-color: var(--text); }
+    .btn--wa { background: var(--wa); color: #fff; }
+    .btn--wa:hover { background: #1da851; }
+
+    /* Nav */
+    .nav { position: sticky; top: 0; z-index: 40; background: rgba(12,12,13,.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .nav__in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 20px; }
+    .logo { font-family: var(--display); font-size: 1.9rem; letter-spacing: .04em; display: flex; align-items: center; gap: 10px; }
+    .logo i { width: 34px; height: 34px; border-radius: 9px; background: var(--hot); display: grid; place-items: center; font-style: normal; color: #fff; font-size: 1.3rem; }
+    .nav__links { display: flex; gap: 28px; font-size: .88rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .nav__links a:hover { color: var(--text); }
+    .nav .btn { padding: 11px 18px; font-size: .8rem; }
+    .burger { display: none; width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); cursor: pointer; }
+    .burger span { display: block; width: 18px; height: 2px; background: var(--text); margin: 4px auto; transition: transform .3s; }
+
+    /* Hero */
+    .hero { position: relative; padding: 70px 0 0; overflow: hidden; }
+    .hero::before { content: ""; position: absolute; right: -10%; top: -20%; width: 70vw; height: 70vw; max-width: 900px; max-height: 900px; background: radial-gradient(circle, rgba(255,90,31,.22), transparent 60%); pointer-events: none; }
+    .hero__grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: end; position: relative; }
+    .tagline { display: inline-flex; align-items: center; gap: 10px; font-size: .8rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--hot); }
+    .tagline::before { content: ""; width: 28px; height: 2px; background: var(--hot); }
+    .hero h1 { font-size: clamp(4.2rem, 11vw, 9.5rem); margin: 18px 0 22px; }
+    .hero__lead { color: var(--muted); font-size: 1.12rem; max-width: 520px; }
+    .hero__lead b { color: var(--text); }
+    .hero__cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+    .hero__art { position: relative; align-self: stretch; min-height: 460px; }
+    .hero__art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .badge-float { position: absolute; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; display: flex; gap: 12px; align-items: center; box-shadow: 0 20px 40px -20px rgba(0,0,0,.8); animation: bob 5s ease-in-out infinite; }
+    .badge-float b { display: block; font-family: var(--display); font-size: 1.7rem; line-height: 1; color: var(--hot); }
+    .badge-float small { color: var(--muted); font-size: .76rem; line-height: 1.3; display: block; }
+    .badge-float--a { left: 0; top: 18%; }
+    .badge-float--b { right: 0; bottom: 22%; animation-delay: -2.5s; }
+    @keyframes bob { 50% { transform: translateY(-10px); } }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); margin-top: 60px; position: relative; }
+    .stat { padding: 28px 10px 30px; border-right: 1px solid var(--line); text-align: center; }
+    .stat:last-child { border-right: 0; }
+    .stat b { font-family: var(--display); font-size: 3.4rem; line-height: 1; display: block; }
+    .stat span { color: var(--muted); font-size: .85rem; }
+
+    /* Bandă */
+    .marquee { background: var(--hot); color: #140600; overflow: hidden; white-space: nowrap; padding: 14px 0; transform: rotate(-1.5deg); margin: 30px -20px; }
+    .marquee__track { display: inline-flex; gap: 40px; animation: slide 28s linear infinite; font-family: var(--display); font-size: 2rem; letter-spacing: .04em; }
+    .marquee__track span::after { content: "✦"; margin-left: 40px; }
+    @keyframes slide { to { transform: translateX(-50%); } }
+
+    /* Secțiuni */
+    .section { padding: 110px 0; }
+    .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; margin-bottom: 50px; flex-wrap: wrap; }
+    .head h2 { font-size: clamp(3rem, 7vw, 5.4rem); }
+    .head p { color: var(--muted); max-width: 420px; }
+    .kicker { font-size: .78rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--hot); display: block; margin-bottom: 12px; }
+
+    /* Programe */
+    .programs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .program { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px 28px; position: relative; overflow: hidden; transition: border-color .3s, transform .3s; }
+    .program:hover { border-color: var(--hot); transform: translateY(-4px); }
+    .program__n { position: absolute; right: 18px; top: 4px; font-family: var(--display); font-size: 6rem; color: var(--panel-2); line-height: 1; }
+    .program__ic { width: 52px; height: 52px; border-radius: 12px; background: rgba(255,90,31,.12); color: var(--hot); display: grid; place-items: center; margin-bottom: 24px; position: relative; }
+    .program__ic svg { width: 26px; height: 26px; }
+    .program h3 { font-size: 2.2rem; margin-bottom: 10px; position: relative; }
+    .program p { color: var(--muted); font-size: .95rem; position: relative; }
+    .program ul { margin-top: 20px; display: grid; gap: 8px; font-size: .92rem; position: relative; }
+    .program li { display: flex; gap: 10px; align-items: center; }
+    .program li::before { content: ""; width: 6px; height: 6px; background: var(--hot); border-radius: 2px; transform: rotate(45deg); flex: none; }
+
+    /* Calculator */
+    .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; }
+    .calc__form { padding: 40px; }
+    .calc__form h2 { font-size: clamp(2.6rem, 5vw, 3.8rem); margin-bottom: 10px; }
+    .calc__form > p { color: var(--muted); margin-bottom: 28px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .field { margin-bottom: 16px; }
+    .field label, .field .label { display: block; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .input { width: 100%; padding: 13px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); font-size: 1rem; transition: border-color .2s; }
+    .input:focus { outline: none; border-color: var(--hot); }
+    select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff5a1f' stroke-width='2.4'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; padding-right: 40px; }
+    .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; background: var(--bg); padding: 5px; border-radius: 12px; border: 1px solid var(--line); }
+    .seg input { position: absolute; opacity: 0; pointer-events: none; }
+    .seg span { display: block; text-align: center; padding: 9px 4px; border-radius: 8px; font-size: .86rem; font-weight: 600; cursor: pointer; color: var(--muted); transition: .2s; }
+    .seg input:checked + span { background: var(--hot); color: #fff; }
+    .seg input:focus-visible + span { outline: 2px solid var(--hot); }
+    .calc__out { background: linear-gradient(160deg, #1f120c, #151517 60%); padding: 40px; border-left: 1px solid var(--line); display: flex; flex-direction: column; }
+    .big { font-family: var(--display); font-size: clamp(4.5rem, 9vw, 7rem); line-height: .9; color: var(--hot); }
+    .big small { font-size: 2rem; color: var(--text); margin-left: 6px; }
+    .out-label { font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .macros { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 26px 0; }
+    .macro { background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+    .macro b { font-family: var(--display); font-size: 2rem; display: block; line-height: 1; }
+    .macro span { font-size: .78rem; color: var(--muted); }
+    .macro i { display: block; height: 4px; border-radius: 4px; margin-top: 10px; background: var(--line); overflow: hidden; }
+    .macro i em { display: block; height: 100%; background: var(--hot); transition: width .5s; }
+    .out-note { color: var(--muted); font-size: .88rem; margin-bottom: 22px; }
+    .out-note b { color: var(--text); }
+    .calc__out .btn { margin-top: auto; }
+    .disclaimer { font-size: .74rem; color: #6d6d72; margin-top: 12px; }
+
+    /* Rezultate */
+    .results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .result { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .result__bar { display: grid; grid-template-columns: 1fr 1fr; height: 160px; }
+    .result__bar div { display: flex; flex-direction: column; justify-content: flex-end; padding: 14px; position: relative; }
+    .result__bar div:first-child { background: var(--panel-2); }
+    .result__bar div:last-child { background: linear-gradient(160deg, rgba(255,90,31,.35), rgba(255,90,31,.08)); }
+    .result__bar small { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .result__bar b { font-family: var(--display); font-size: 2.6rem; line-height: 1; }
+    .result__body { padding: 22px 24px 26px; }
+    .result__body p { color: #d5d5d2; font-size: .96rem; }
+    .result__who { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; font-size: .85rem; }
+    .result__who span { color: var(--muted); }
+    .stars { color: var(--hot); letter-spacing: 2px; }
+
+    /* Prețuri */
+    .prices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+    .price { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px 28px; display: flex; flex-direction: column; position: relative; }
+    .price--hl { border-color: var(--hot); background: linear-gradient(180deg, rgba(255,90,31,.12), var(--panel) 40%); }
+    .price__tag { position: absolute; top: -13px; right: 24px; background: var(--hot); color: #fff; font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 5px 12px; border-radius: 8px; }
+    .price h3 { font-size: 2.2rem; }
+    .price__sub { color: var(--muted); font-size: .9rem; margin-top: 4px; }
+    .price__val { font-family: var(--display); font-size: 4rem; line-height: 1; margin: 22px 0 2px; }
+    .price__val small { font-family: var(--sans); font-size: .9rem; color: var(--muted); font-weight: 500; }
+    .price__per { color: var(--muted); font-size: .85rem; }
+    .price ul { margin: 22px 0 28px; display: grid; gap: 10px; font-size: .93rem; }
+    .price li { display: flex; gap: 10px; }
+    .price li svg { width: 18px; height: 18px; color: var(--hot); flex: none; margin-top: 3px; }
+    .price .btn { margin-top: auto; }
+
+    /* CTA final */
+    .final { background: var(--hot); color: #140600; border-radius: 28px; padding: 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; position: relative; overflow: hidden; }
+    .final::after { content: "GO"; position: absolute; right: -20px; bottom: -70px; font-family: var(--display); font-size: 22rem; line-height: 1; color: rgba(0,0,0,.08); pointer-events: none; }
+    .final h2 { font-size: clamp(3rem, 6.5vw, 5rem); }
+    .final > div > p { margin-top: 16px; font-weight: 500; max-width: 440px; }
+    .final form { background: #0c0c0d; color: var(--text); border-radius: 20px; padding: 28px; position: relative; z-index: 1; }
+    .final .btn--wa { width: 100%; }
+    .err { color: #ffb199; font-size: .85rem; text-align: center; min-height: 1.2em; margin-top: 8px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chips input { position: absolute; opacity: 0; pointer-events: none; }
+    .chips span { display: block; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); font-size: .84rem; font-weight: 600; cursor: pointer; color: var(--muted); transition: .2s; }
+    .chips input:checked + span { background: var(--hot); border-color: var(--hot); color: #fff; }
+    .chips input:focus-visible + span { outline: 2px solid var(--hot); }
+
+    .footer { border-top: 1px solid var(--line); margin-top: 110px; padding: 40px 0; color: var(--muted); font-size: .88rem; }
+    .footer__in { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .socials { display: flex; gap: 10px; }
+    .socials a { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); display: grid; place-items: center; transition: .2s; }
+    .socials a:hover { border-color: var(--hot); color: var(--hot); }
+    .socials svg { width: 18px; height: 18px; }
+
+    .wa-float { position: fixed; right: 22px; bottom: 22px; z-index: 50; width: 60px; height: 60px; border-radius: 16px; background: var(--wa); color: #fff; display: grid; place-items: center; box-shadow: 0 14px 34px -12px rgba(37,211,102,.8); transition: transform .2s; }
+    .wa-float:hover { transform: translateY(-3px) rotate(-4deg); }
+    .wa-float svg { width: 30px; height: 30px; }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+    .reveal.is-in { opacity: 1; transform: none; }
+    .rise { animation: rise .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d, 0s); }
+    @keyframes rise { from { opacity: 0; transform: translateY(30px); } }
+
+    @media (max-width: 1024px) {
+      .hero__grid, .calc, .final { grid-template-columns: 1fr; }
+      .hero__art { min-height: 380px; max-width: 520px; width: 100%; justify-self: center; }
+      .programs, .results, .prices { grid-template-columns: 1fr 1fr; }
+      .calc__out { border-left: 0; border-top: 1px solid var(--line); }
+    }
+    @media (max-width: 860px) {
+      .nav__links, .nav .btn { display: none; }
+      .burger { display: block; }
+      .nav.is-open .nav__links { display: flex; flex-direction: column; gap: 0; position: absolute; top: 72px; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding: 6px 16px 18px; }
+      .nav.is-open .nav__links a { padding: 14px 4px; border-bottom: 1px solid var(--line); color: var(--text); }
+      .nav.is-open .burger span:first-child { transform: translateY(3px) rotate(45deg); }
+      .nav.is-open .burger span:last-child { transform: translateY(-3px) rotate(-45deg); }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2) { border-right: 0; }
+      .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    }
+    @media (max-width: 640px) {
+      .container { padding: 0 16px; }
+      .section { padding: 76px 0; }
+      .hero { padding-top: 40px; }
+      .programs, .results, .prices { grid-template-columns: 1fr; }
+      .calc__form, .calc__out { padding: 26px 20px; }
+      .grid3 { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+      .grid2 { grid-template-columns: 1fr; gap: 0; }
+      .final { padding: 30px 20px; border-radius: 22px; }
+      .final form { padding: 22px 18px; }
+      .stat b { font-size: 2.8rem; }
+      .badge-float--a { top: 6%; }
+      .wa-float { right: 14px; bottom: 14px; }
+      .macros { gap: 6px; }
+      .macro { padding: 10px; }
+      .macro b { font-size: 1.6rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2zm5.8 14.08c-.24.68-1.42 1.32-1.96 1.37-.5.05-1.13.07-1.83-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3 0-1.43.75-2.13 1.02-2.42.26-.29.58-.36.77-.36h.55c.18 0 .42-.07.65.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.5-.14.14-.29.3-.13.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.42.29.14.46.12.62-.07.17-.19.72-.84.91-1.130.19-.29.38-.24.65-.14.26.1 1.68.79 1.97.94.29.14.48.21.55.33.07.12.07.69-.17 1.37z"/></symbol>
+      <symbol id="i-dumb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></g></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/><path d="m9 10 2 2 4-4"/></g></symbol>
+      <symbol id="i-group" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M2.5 20c0-3.5 2.5-6 5.5-6s5.5 2.5 5.5 6M14 14.5c3.5-.5 6.5 1.5 7 5.5"/></g></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5L20 7"/></symbol>
+      <symbol id="i-ig" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></g></symbol>
+      <symbol id="i-tt" viewBox="0 0 24 24"><path fill="currentColor" d="M16.5 3c.4 2.2 1.9 3.8 4 4v3.2a7 7 0 0 1-4-1.3V15a6 6 0 1 1-6-6h.5v3.3a2.8 2.8 0 1 0 2.3 2.7V3z"/></symbol>
+      <symbol id="i-yt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9 5 3-5 3z" fill="currentColor"/></g></symbol>
+    </defs>
+  </svg>
+
+  <div class="demo-bar"><span>Demo de site realizat de Adelin Solutions · antrenor fictiv</span><a href="../../index.html#proiecte">← Înapoi la portofoliu</a></div>
+
+  <header class="nav" id="nav">
+    <div class="container nav__in">
+      <a href="#acasa" class="logo"><i>A</i>ALEX DOBRE</a>
+      <nav class="nav__links" aria-label="Meniu">
+        <a href="#programe">Programe</a>
+        <a href="#calculator">Calculator</a>
+        <a href="#rezultate">Rezultate</a>
+        <a href="#preturi">Prețuri</a>
+      </nav>
+      <a href="#start" class="btn btn--hot">Antrenament de probă</a>
+      <button class="burger" aria-label="Deschide meniul" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="acasa">
+      <div class="container">
+        <div class="hero__grid">
+          <div>
+            <span class="tagline rise">Antrenor personal certificat · 1 la 1 & online</span>
+            <h1 class="rise" style="--d:.06s">Mai <span class="hot">puternic</span>.<br><span class="outline">În fiecare</span><br>săptămână.</h1>
+            <p class="hero__lead rise" style="--d:.14s">Fără diete extreme și fără ore pierdute la sală. Un plan clar de <b>antrenament și nutriție</b>, făcut pentru corpul, programul și obiectivul tău.</p>
+            <div class="hero__cta rise" style="--d:.22s">
+              <a href="#start" class="btn btn--hot">Primul antrenament gratuit</a>
+              <a href="#calculator" class="btn btn--line">Calculează-ți caloriile</a>
+            </div>
+          </div>
+          <div class="hero__art rise" style="--d:.18s" aria-hidden="true">
+            <svg viewBox="0 0 460 520" preserveAspectRatio="xMidYMax meet">
+              <defs>
+                <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5a1f"/><stop offset="1" stop-color="#b8370c"/></linearGradient>
+              </defs>
+              <circle cx="240" cy="270" r="200" fill="none" stroke="#2a2a2e" stroke-width="2"/>
+              <circle cx="240" cy="270" r="150" fill="none" stroke="#2a2a2e" stroke-width="1" stroke-dasharray="4 10"/>
+              <!-- kettlebell -->
+              <g transform="translate(240 300)">
+                <path d="M-70 -70a70 70 0 0 1 140 0" fill="none" stroke="#f4f4f2" stroke-width="26" stroke-linecap="round"/>
+                <circle cx="0" cy="40" r="125" fill="url(#hg)"/>
+                <ellipse cx="-45" cy="-10" rx="22" ry="48" fill="#fff" opacity=".18" transform="rotate(25 -45 -10)"/>
+                <text x="0" y="78" text-anchor="middle" font-family="Bebas Neue, Impact" font-size="96" fill="#140600" opacity=".85">24</text>
+                <text x="0" y="104" text-anchor="middle" font-family="Inter" font-weight="800" font-size="18" fill="#140600" opacity=".7" letter-spacing="4">KG</text>
+              </g>
+              <!-- puls -->
+              <path d="M10 470h90l20-40 25 70 25-110 25 80h245" fill="none" stroke="#ff5a1f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" opacity=".9"/>
+            </svg>
+            <div class="badge-float badge-float--a"><div><b>−8 KG</b><small>în medie, în 12 săptămâni*</small></div></div>
+            <div class="badge-float badge-float--b"><div><b>45 MIN</b><small>durata unui antrenament</small></div></div>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><b>9+</b><span>ani de experiență</span></div>
+          <div class="stat"><b>350+</b><span>clienți antrenați</span></div>
+          <div class="stat"><b>3×</b><span>pe săptămână e suficient</span></div>
+          <div class="stat"><b>100%</b><span>plan personalizat</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true"><div class="marquee__track">
+      <span>Slăbire</span><span>Masă musculară</span><span>Forță</span><span>Mobilitate</span><span>Postură</span><span>Energie</span><span>Nutriție</span>
+      <span>Slăbire</span><span>Masă musculară</span><span>Forță</span><span>Mobilitate</span><span>Postură</span><span>Energie</span><span>Nutriție</span>
+    </div></div>
+
+    <!-- Programe -->
+    <section class="section" id="programe">
+      <div class="container">
+        <div class="head reveal">
+          <div><span class="kicker">Programe</span><h2>Alege cum <span class="hot">lucrăm</span></h2></div>
+          <p>Fiecare program include evaluare inițială, plan de antrenament și ghid de nutriție adaptat.</p>
+        </div>
+        <div class="programs">
+          <article class="program reveal">
+            <span class="program__n">01</span>
+            <div class="program__ic"><svg><use href="#i-dumb"/></svg></div>
+            <h3>Personal 1 la 1</h3>
+            <p>Lucrăm împreună la sală. Corectez fiecare mișcare, te motivez și ajustez planul din mers.</p>
+            <ul><li>Antrenamente de 45–60 min</li><li>Tehnică corectă, fără accidentări</li><li>Măsurători lunare</li></ul>
+          </article>
+          <article class="program reveal">
+            <span class="program__n">02</span>
+            <div class="program__ic"><svg><use href="#i-phone"/></svg></div>
+            <h3>Coaching online</h3>
+            <p>Te antrenezi când vrei, unde vrei. Primești planul în aplicație și verificări săptămânale cu mine.</p>
+            <ul><li>Video cu fiecare exercițiu</li><li>Check-in săptămânal</li><li>Suport pe WhatsApp</li></ul>
+          </article>
+          <article class="program reveal">
+            <span class="program__n">03</span>
+            <div class="program__ic"><svg><use href="#i-group"/></svg></div>
+            <h3>Duo / grup mic</h3>
+            <p>Cu partenerul sau prietenii, 2–4 persoane. Energie de grup, atenție personală, preț mai mic.</p>
+            <ul><li>Maxim 4 persoane</li><li>Atmosferă motivantă</li><li>Cost împărțit</li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculator -->
+    <section class="section" id="calculator" style="padding-top:0">
+      <div class="container">
+        <div class="calc reveal">
+          <form class="calc__form" id="calc" novalidate>
+            <span class="kicker">Calculator gratuit</span>
+            <h2>De câte calorii ai <span class="hot">nevoie?</span></h2>
+            <p>Completează datele și afli instant caloriile și proteinele zilnice pentru obiectivul tău.</p>
+            <div class="field">
+              <span class="label">Sex</span>
+              <div class="seg" role="radiogroup">
+                <label><input type="radio" name="sex" value="m" checked><span>Bărbat</span></label>
+                <label><input type="radio" name="sex" value="f"><span>Femeie</span></label>
+              </div>
+            </div>
+            <div class="grid3">
+              <div class="field"><label for="c-age">Vârstă</label><input class="input" id="c-age" type="number" min="15" max="90" value="30" inputmode="numeric"></div>
+              <div class="field"><label for="c-h">Înălțime (cm)</label><input class="input" id="c-h" type="number" min="130" max="220" value="178" inputmode="numeric"></div>
+              <div class="field"><label for="c-w">Greutate (kg)</label><input class="input" id="c-w" type="number" min="35" max="250" value="84" inputmode="decimal"></div>
+            </div>
+            <div class="field">
+              <label for="c-act">Cât de activ ești?</label>
+              <select class="input" id="c-act">
+                <option value="1.2">Sedentar (birou, fără sport)</option>
+                <option value="1.375" selected>Ușor activ (1–3 antrenamente / săpt.)</option>
+                <option value="1.55">Moderat (3–5 antrenamente / săpt.)</option>
+                <option value="1.725">Foarte activ (6–7 antrenamente / săpt.)</option>
+              </select>
+            </div>
+            <div class="field">
+              <span class="label">Obiectiv</span>
+              <div class="seg" role="radiogroup">
+                <label><input type="radio" name="goal" value="cut" checked><span>Slăbire</span></label>
+                <label><input type="radio" name="goal" value="keep"><span>Menținere</span></label>
+                <label><input type="radio" name="goal" value="bulk"><span>Masă</span></label>
+              </div>
+            </div>
+          </form>
+          <div class="calc__out" aria-live="polite">
+            <span class="out-label">Ținta ta zilnică</span>
+            <p class="big" id="o-kcal">–<small>kcal</small></p>
+            <div class="macros">
+              <div class="macro"><b id="o-p">–</b><span>proteine (g)</span><i><em id="o-pb"></em></i></div>
+              <div class="macro"><b id="o-c">–</b><span>carbohidrați (g)</span><i><em id="o-cb"></em></i></div>
+              <div class="macro"><b id="o-f">–</b><span>grăsimi (g)</span><i><em id="o-fb"></em></i></div>
+            </div>
+            <p class="out-note" id="o-note"></p>
+            <a href="#" class="btn btn--wa" id="o-wa" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Vreau un plan după rezultat</a>
+            <p class="disclaimer">Estimare orientativă (formula Mifflin-St Jeor). Nu înlocuiește sfatul unui medic sau nutriționist.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rezultate -->
+    <section class="section" id="rezultate" style="padding-top:0">
+      <div class="container">
+        <div class="head reveal">
+          <div><span class="kicker">Rezultate</span><h2>Oameni reali, <span class="hot">schimbări reale</span></h2></div>
+          <p>Fiecare client pornește din alt punct. Ce au în comun: consecvență și un plan potrivit lor.</p>
+        </div>
+        <div class="results">
+          <article class="result reveal">
+            <div class="result__bar"><div><small>Început</small><b>96 kg</b></div><div><small>După 16 săpt.</small><b>84 kg</b></div></div>
+            <div class="result__body"><p>„Am încercat singur ani de zile. Cu Alex am slăbit 12 kg fără să mă simt la dietă.”</p><div class="result__who"><b>Mihai, 38</b><span class="stars">★★★★★</span></div></div>
+          </article>
+          <article class="result reveal">
+            <div class="result__bar"><div><small>Genuflexiuni</small><b>40 kg</b></div><div><small>După 12 săpt.</small><b>80 kg</b></div></div>
+            <div class="result__body"><p>„Mi-am dublat forța și nu mă mai doare spatele. Cel mai bun cadou pe care mi l-am făcut.”</p><div class="result__who"><b>Elena, 31</b><span class="stars">★★★★★</span></div></div>
+          </article>
+          <article class="result reveal">
+            <div class="result__bar"><div><small>Antrenamente</small><b>0 / săpt.</b></div><div><small>Acum</small><b>3 / săpt.</b></div></div>
+            <div class="result__body"><p>„Coaching-ul online mi-a dat structura de care aveam nevoie, chiar și cu doi copii mici.”</p><div class="result__who"><b>Radu, 42</b><span class="stars">★★★★★</span></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prețuri -->
+    <section class="section" id="preturi" style="padding-top:0">
+      <div class="container">
+        <div class="head reveal">
+          <div><span class="kicker">Prețuri</span><h2>Investește în <span class="hot">tine</span></h2></div>
+          <p>Fără contracte pe termen lung. Primul antrenament este gratuit.</p>
+        </div>
+        <div class="prices">
+          <div class="price reveal">
+            <h3>Online</h3><p class="price__sub">Coaching de la distanță</p>
+            <p class="price__val">299 <small>lei / lună</small></p><p class="price__per">≈ 10 lei pe zi</p>
+            <ul><li><svg><use href="#i-check"/></svg>Plan de antrenament în aplicație</li><li><svg><use href="#i-check"/></svg>Ghid de nutriție</li><li><svg><use href="#i-check"/></svg>Check-in săptămânal</li><li><svg><use href="#i-check"/></svg>Suport pe WhatsApp</li></ul>
+            <a href="#start" class="btn btn--line" data-plan="Online">Încep acum</a>
+          </div>
+          <div class="price price--hl reveal">
+            <span class="price__tag">Cel mai popular</span>
+            <h3>Personal 12</h3><p class="price__sub">12 ședințe 1 la 1 (o lună)</p>
+            <p class="price__val">1.320 <small>lei</small></p><p class="price__per">110 lei / ședință</p>
+            <ul><li><svg><use href="#i-check"/></svg>3 antrenamente pe săptămână</li><li><svg><use href="#i-check"/></svg>Plan de nutriție personalizat</li><li><svg><use href="#i-check"/></svg>Măsurători și poze de progres</li><li><svg><use href="#i-check"/></svg>Acces inclus la coaching online</li></ul>
+            <a href="#start" class="btn btn--hot" data-plan="Personal 12">Rezervă locul</a>
+          </div>
+          <div class="price reveal">
+            <h3>Personal 8</h3><p class="price__sub">8 ședințe 1 la 1 (o lună)</p>
+            <p class="price__val">960 <small>lei</small></p><p class="price__per">120 lei / ședință</p>
+            <ul><li><svg><use href="#i-check"/></svg>2 antrenamente pe săptămână</li><li><svg><use href="#i-check"/></svg>Ghid de nutriție</li><li><svg><use href="#i-check"/></svg>Măsurători lunare</li><li><svg><use href="#i-check"/></svg>Ședință individuală: 140 lei</li></ul>
+            <a href="#start" class="btn btn--line" data-plan="Personal 8">Încep acum</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section id="start">
+      <div class="container">
+        <div class="final reveal">
+          <div>
+            <h2>Primul antrenament e <br>pe mine.</h2>
+            <p>Ne cunoaștem, facem o evaluare rapidă și un antrenament de probă. Fără obligații. Alege ce vrei să obții și scrie-mi pe WhatsApp.</p>
+          </div>
+          <form id="lead" novalidate>
+            <div class="field">
+              <span class="label">Obiectivul tău</span>
+              <div class="chips" role="radiogroup">
+                <label><input type="radio" name="obj" value="să slăbesc" checked><span>Slăbire</span></label>
+                <label><input type="radio" name="obj" value="să pun masă musculară"><span>Masă musculară</span></label>
+                <label><input type="radio" name="obj" value="să devin mai puternic"><span>Forță</span></label>
+                <label><input type="radio" name="obj" value="să mă simt mai bine și să am mai multă energie"><span>Sănătate</span></label>
+              </div>
+            </div>
+            <div class="grid2">
+              <div class="field"><label for="l-plan">Program</label>
+                <select class="input" id="l-plan"><option>Antrenament de probă</option><option>Online</option><option>Personal 8</option><option>Personal 12</option><option>Duo / grup mic</option></select>
+              </div>
+              <div class="field"><label for="l-lvl">Experiență</label>
+                <select class="input" id="l-lvl"><option>Începător</option><option selected>Mediu</option><option>Avansat</option></select>
+              </div>
+            </div>
+            <div class="field"><label for="l-name">Numele tău</label><input class="input" id="l-name" placeholder="Ex.: Andrei" autocomplete="given-name"></div>
+            <button type="submit" class="btn btn--wa"><svg><use href="#i-wa"/></svg>Trimite pe WhatsApp</button>
+            <p class="err" id="l-err" role="alert"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__in">
+      <a href="#acasa" class="logo" style="font-size:1.5rem"><i style="width:28px;height:28px;font-size:1.1rem">A</i>ALEX DOBRE</a>
+      <span>© <span id="year"></span> · Antrenor fictiv, creat ca exemplu · <a href="../../index.html" style="color:var(--hot)">Adelin Solutions</a></span>
+      <div class="socials"><a href="#" aria-label="Instagram"><svg><use href="#i-ig"/></svg></a><a href="#" aria-label="TikTok"><svg><use href="#i-tt"/></svg></a><a href="#" aria-label="YouTube"><svg><use href="#i-yt"/></svg></a></div>
+    </div>
+    <div class="container" style="margin-top:14px;font-size:.76rem;color:#6d6d72">* Rezultatele diferă de la o persoană la alta și depind de consecvență, alimentație și starea de sănătate.</div>
+  </footer>
+
+  <a class="wa-float" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="Scrie-mi pe WhatsApp"><svg><use href="#i-wa"/></svg></a>
+
+  <script>
+  (() => {
+    const WA = "40700000000";
+    const $ = (id) => document.getElementById(id);
+    const wa = (text) => `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
+    const nf = new Intl.NumberFormat("ro-RO");
+    $("wa-float").href = wa("Salut Alex! Aș vrea mai multe detalii despre antrenamente.");
+
+    /* ===== Calculator calorii (Mifflin-St Jeor) ===== */
+    const GOALS = { cut: { f: 0.8, name: "slăbire", p: 2.0 }, keep: { f: 1, name: "menținere", p: 1.6 }, bulk: { f: 1.1, name: "masă musculară", p: 1.8 } };
+    function calc() {
+      const sex = document.querySelector('input[name="sex"]:checked').value;
+      const age = +$("c-age").value, h = +$("c-h").value, w = +$("c-w").value, act = +$("c-act").value;
+      const goal = GOALS[document.querySelector('input[name="goal"]:checked').value];
+      if (!(age >= 15 && age <= 90 && h >= 130 && h <= 220 && w >= 35 && w <= 250)) {
+        $("o-kcal").innerHTML = "–<small>kcal</small>";
+        $("o-note").textContent = "Introdu o vârstă între 15–90, înălțime 130–220 cm și greutate 35–250 kg.";
+        return;
+      }
+      const bmr = 10 * w + 6.25 * h - 5 * age + (sex === "m" ? 5 : -161);
+      const tdee = bmr * act;
+      const kcal = Math.round(tdee * goal.f / 10) * 10;
+      const p = Math.round(w * goal.p);
+      const f = Math.round(kcal * 0.27 / 9);
+      const c = Math.max(0, Math.round((kcal - p * 4 - f * 9) / 4));
+      $("o-kcal").innerHTML = nf.format(kcal) + "<small>kcal</small>";
+      $("o-p").textContent = p; $("o-c").textContent = c; $("o-f").textContent = f;
+      const tot = p * 4 + c * 4 + f * 9;
+      $("o-pb").style.width = (p * 4 / tot * 100) + "%";
+      $("o-cb").style.width = (c * 4 / tot * 100) + "%";
+      $("o-fb").style.width = (f * 9 / tot * 100) + "%";
+      const diff = Math.round(tdee - kcal);
+      $("o-note").innerHTML = goal.f < 1
+        ? `Consumi aproximativ <b>${nf.format(Math.round(tdee))} kcal</b> pe zi. Cu un deficit de ~${nf.format(diff)} kcal poți pierde în jur de <b>0,5 kg pe săptămână</b>, fără să pierzi mușchi.`
+        : goal.f > 1
+          ? `Un surplus mic de ~${nf.format(-diff)} kcal, împreună cu antrenamentul de forță, te ajută să pui <b>masă musculară de calitate</b>.`
+          : `Atât consumi într-o zi obișnuită. Ideal pentru a-ți <b>menține greutatea</b> și a lucra la forță.`;
+      $("o-wa").href = wa(`Salut Alex! Am folosit calculatorul de pe site:\n• Obiectiv: ${goal.name}\n• ${sex === "m" ? "Bărbat" : "Femeie"}, ${age} ani, ${h} cm, ${w} kg\n• Rezultat: ${nf.format(kcal)} kcal/zi, ${p} g proteine\n\nAș vrea un plan de antrenament și nutriție.`);
+    }
+    $("calc").addEventListener("input", calc);
+    $("calc").addEventListener("change", calc);
+    calc();
+
+    /* ===== Formular final ===== */
+    document.querySelectorAll("[data-plan]").forEach((a) => a.addEventListener("click", () => { $("l-plan").value = a.dataset.plan; }));
+    $("lead").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = $("l-name").value.trim();
+      if (!name) { $("l-err").textContent = "Spune-mi cum te cheamă."; $("l-name").focus(); return; }
+      $("l-err").textContent = "";
+      const obj = document.querySelector('input[name="obj"]:checked').value;
+      window.open(wa(`Salut Alex, sunt ${name}!\nAș vrea ${obj}.\n• Program: ${$("l-plan").value}\n• Nivel: ${$("l-lvl").value}\n\nCând putem face primul antrenament?`), "_blank", "noopener");
+    });
+    $("l-name").addEventListener("input", () => $("l-err").textContent = "");
+
+    /* ===== Meniu mobil + animații ===== */
+    const nav = $("nav"), burger = nav.querySelector(".burger");
+    burger.addEventListener("click", () => { const o = !nav.classList.contains("is-open"); nav.classList.toggle("is-open", o); burger.setAttribute("aria-expanded", String(o)); });
+    nav.querySelectorAll(".nav__links a").forEach((a) => a.addEventListener("click", () => { nav.classList.remove("is-open"); burger.setAttribute("aria-expanded", "false"); }));
+    const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); } }), { threshold: .12 });
+    document.querySelectorAll(".reveal").forEach((el, i) => { el.style.transitionDelay = (i % 3) * 80 + "ms"; io.observe(el); });
+    $("year").textContent = new Date().getFullYear();
+  })();
+  </script>
+</body>
+</html>
