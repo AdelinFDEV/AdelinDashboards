@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vânzări magazin · Demo dashboard · Adelin Solutions</title>
+  <meta name="description" content="Demo de dashboard de vânzări pentru un magazin mic: vânzările zilei, comparații cu perioada anterioară, bon mediu, clienți și vânzări pe ore și zile.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <div class="demo-bar">
+    <a href="../index.html#proiecte" class="demo-bar__back">← Înapoi la portofoliu</a>
+    <span class="demo-bar__note"><strong>Demo interactiv</strong> · date fictive pentru un magazin mic</span>
+    <a href="../index.html#contact" class="demo-bar__cta">Vreau unul pentru magazinul meu</a>
+  </div>
+
+  <div class="wrap">
+
+    <header class="head">
+      <div class="head__store">
+        <div class="store-logo">MD</div>
+        <div>
+          <h1>Vânzări · Magazin Demo</h1>
+          <p class="head__meta"><span class="live-dot"></span><span id="updated">Actualizat azi la 18:00</span></p>
+        </div>
+      </div>
+      <div class="seg" role="group" aria-label="Perioadă">
+        <button type="button" data-period="day" aria-pressed="true">Azi</button>
+        <button type="button" data-period="week" aria-pressed="false">Săptămâna</button>
+        <button type="button" data-period="month" aria-pressed="false">Luna</button>
+      </div>
+    </header>
+
+    <!-- KPI -->
+    <section class="kpis" aria-label="Indicatori principali">
+      <article class="card kpi">
+        <p class="kpi__label">
+          <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>Vânzări
+        </p>
+        <p class="kpi__value" id="k-sales">–</p>
+        <div class="kpi__delta"><span id="k-sales-d"></span><span class="cmp-label"></span></div>
+        <p class="kpi__prev" id="k-sales-p"></p>
+      </article>
+      <article class="card kpi">
+        <p class="kpi__label">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M16 4a4 4 0 0 1 0 8M22 21c0-3-1.5-5-4-5.6"/></svg>Clienți (bonuri)
+        </p>
+        <p class="kpi__value" id="k-clients">–</p>
+        <div class="kpi__delta"><span id="k-clients-d"></span><span class="cmp-label"></span></div>
+        <p class="kpi__prev" id="k-clients-p"></p>
+      </article>
+      <article class="card kpi">
+        <p class="kpi__label">
+          <svg viewBox="0 0 24 24"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>Bon mediu
+        </p>
+        <p class="kpi__value" id="k-ticket">–</p>
+        <div class="kpi__delta"><span id="k-ticket-d"></span><span class="cmp-label"></span></div>
+        <p class="kpi__prev" id="k-ticket-p"></p>
+      </article>
+      <article class="card kpi kpi--peak">
+        <p class="kpi__label">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Ora de vârf
+        </p>
+        <p class="kpi__value" id="k-peak">–</p>
+        <p class="kpi__delta" id="k-peak-share"></p>
+        <div class="peak-bar" aria-hidden="true"><span id="k-peak-bar"></span></div>
+      </article>
+    </section>
+
+    <!-- Vânzări pe ore + recomandări -->
+    <div class="grid-main">
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2 class="card__title">Vânzări pe ore</h2>
+            <p class="card__sub" id="hour-sub"></p>
+          </div>
+          <div class="card__tools">
+            <button type="button" class="chip-btn" data-toggle-table="hour" aria-pressed="false">Tabel</button>
+          </div>
+        </div>
+        <div class="legend">
+          <span><i class="sw-cur"></i><span id="lg-cur">Azi</span></span>
+          <span><i class="sw-prev"></i><span id="lg-prev">Joia trecută</span></span>
+        </div>
+        <div class="chart" id="chart-hour"></div>
+        <div class="table-wrap" id="table-hour" hidden></div>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2 class="card__title">Ce îți spun datele</h2>
+            <p class="card__sub">Recomandări din ultimele 4 săptămâni</p>
+          </div>
+        </div>
+        <div class="insights" id="insights"></div>
+      </section>
+    </div>
+
+    <!-- Zile + heatmap -->
+    <div class="grid-bottom">
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2 class="card__title">Vânzări pe zile</h2>
+            <p class="card__sub">Media pe zi · ultimele 4 săptămâni</p>
+          </div>
+          <div class="card__tools">
+            <button type="button" class="chip-btn" data-toggle-table="dow" aria-pressed="false">Tabel</button>
+          </div>
+        </div>
+        <div class="chart" id="chart-dow"></div>
+        <div class="table-wrap" id="table-dow" hidden></div>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2 class="card__title">Când ai cei mai mulți clienți</h2>
+            <p class="card__sub">Vânzări medii pe zi și oră · ultimele 4 săptămâni — planifică personalul și promoțiile</p>
+          </div>
+        </div>
+        <div class="heat" id="heat" role="img" aria-label="Hartă termică a vânzărilor medii pe zile și ore"></div>
+        <div class="heat-legend">
+          <span id="heat-min">0 lei</span>
+          <span class="heat-legend__bar" id="heat-bar"></span>
+          <span id="heat-max">–</span>
+          <span class="heat-legend__top"><i></i> Top 5 intervale</span>
+        </div>
+      </section>
+    </div>
+
+    <footer class="foot">
+      <span>Demo realizat de <a href="../index.html">Adelin Solutions</a> · Toate cifrele sunt fictive.</span>
+      <span>Sursa datelor într-un proiect real: casa de marcat, SmartBill, Oblio, Shopify, Excel…</span>
+    </footer>
+  </div>
+
+  <div class="tip" id="tip" role="tooltip"></div>
+
+  <script>
+  (() => {
+    /* =========================================================
+       1. Date fictive, deterministe (aceleași la fiecare încărcare)
+       ========================================================= */
+    const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]; // program 08:00–21:00
+    const CUT = 18;                                                     // „acum” = 18:00
+    const DAYS = ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminică"];
+    const DAYS_SHORT = ["Lun", "Mar", "Mie", "Joi", "Vin", "Sâm", "Dum"];
+    const DAYS_ART = ["Lunea", "Marțea", "Miercurea", "Joia", "Vinerea", "Sâmbăta", "Duminica"];
+    const MONTHS = ["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"];
+
+    const hourShape = { 8: .35, 9: .55, 10: .72, 11: .82, 12: 1.05, 13: 1.12, 14: .78, 15: .7, 16: .86, 17: 1.22, 18: 1.38, 19: 1.12, 20: .58 };
+    const dowShape = [.86, .76, .9, .96, 1.16, 1.36, .72];
+
+    function rng(seed) {
+      return () => {
+        seed = (seed + 0x6D2B79F5) | 0;
+        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    const dayKey = (d) => d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+    const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+    const dowOf = (d) => (d.getDay() + 6) % 7; // 0 = luni
+    const sameDay = (a, b) => dayKey(a) === dayKey(b);
+
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const rows = []; // { date, key, dow, hour, clients, sales }
+    for (let i = 75; i >= 0; i--) {
+      const date = addDays(today, -i);
+      const r = rng(dayKey(date));
+      const dow = dowOf(date);
+      const trend = 1 + (75 - i) * 0.0016;          // creștere ușoară în timp
+      const dayMood = 0.9 + r() * 0.2;              // zile mai bune / mai slabe
+      for (const h of HOURS) {
+        const clients = Math.max(1, Math.round(10 * hourShape[h] * dowShape[dow] * trend * dayMood * (0.8 + r() * 0.4)));
+        const ticket = (dow >= 5 ? 61 : 54) * (0.86 + r() * 0.28) * (h >= 17 ? 1.06 : 1);
+        rows.push({ date, key: dayKey(date), dow, hour: h, clients, sales: clients * ticket });
+      }
+    }
+
+    /* =========================================================
+       2. Formatare (ro-RO)
+       ========================================================= */
+    const nf0 = new Intl.NumberFormat("ro-RO", { maximumFractionDigits: 0 });
+    const nf1 = new Intl.NumberFormat("ro-RO", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    const lei = (v) => nf0.format(Math.round(v)) + " lei";
+    const leiShort = (v) => v >= 1000 ? nf1.format(v / 1000).replace(/,0$/, "") + "k" : nf0.format(Math.round(v));
+    const hh = (h) => String(h).padStart(2, "0") + ":00";
+    const pct = (a, b) => b ? (a - b) / b * 100 : 0;
+    const fmtDate = (d) => d.getDate() + " " + MONTHS[d.getMonth()];
+
+    /* =========================================================
+       3. Perioade: curentă vs. aceeași perioadă anterioară
+       ========================================================= */
+    const inCut = (row, refDay) => !sameDay(row.date, refDay) || row.hour < CUT;
+
+    function periodFilters(period) {
+      if (period === "day") {
+        const prevDay = addDays(today, -7);
+        return {
+          cur: (r) => sameDay(r.date, today) && r.hour < CUT,
+          prev: (r) => sameDay(r.date, prevDay) && r.hour < CUT,
+          prevChart: (r) => sameDay(r.date, prevDay),          // ziua trecută completă, pentru context
+          curLabel: "Azi, până la 18:00",
+          prevLabel: DAYS_ART[dowOf(today)] + " trecută",
+          cmp: "vs. " + DAYS_ART[dowOf(today)].toLowerCase() + " trecută",
+          sub: "Azi comparat cu " + DAYS_ART[dowOf(today)].toLowerCase() + " trecută (" + fmtDate(prevDay) + ")",
+        };
+      }
+      if (period === "week") {
+        const monday = addDays(today, -dowOf(today));
+        const prevMonday = addDays(monday, -7);
+        const prevRef = addDays(today, -7);
+        return {
+          cur: (r) => r.date >= monday && r.date <= today && inCut(r, today),
+          prev: (r) => r.date >= prevMonday && r.date <= prevRef && inCut(r, prevRef),
+          curLabel: "Săptămâna aceasta",
+          prevLabel: "Săptămâna trecută",
+          cmp: "vs. săpt. trecută",
+          sub: "Total pe ore, " + fmtDate(monday) + " – azi, față de aceleași zile de săptămâna trecută",
+        };
+      }
+      // month
+      const first = new Date(today.getFullYear(), today.getMonth(), 1);
+      const prevFirst = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+      const prevLast = new Date(today.getFullYear(), today.getMonth() - 1, Math.min(today.getDate(), new Date(today.getFullYear(), today.getMonth(), 0).getDate()));
+      return {
+        cur: (r) => r.date >= first && r.date <= today && inCut(r, today),
+        prev: (r) => r.date >= prevFirst && r.date <= prevLast && inCut(r, prevLast),
+        curLabel: MONTHS[today.getMonth()][0].toUpperCase() + MONTHS[today.getMonth()].slice(1),
+        prevLabel: MONTHS[prevFirst.getMonth()][0].toUpperCase() + MONTHS[prevFirst.getMonth()].slice(1),
+        cmp: "vs. luna trecută",
+        sub: "Total pe ore, 1–" + today.getDate() + " " + MONTHS[today.getMonth()] + ", față de 1–" + prevLast.getDate() + " " + MONTHS[prevFirst.getMonth()],
+      };
+    }
+
+    const sum = (list, f) => list.reduce((a, r) => a + r[f], 0);
+    const byHour = (list) => HOURS.map((h) => list.filter((r) => r.hour === h).reduce((a, r) => a + r.sales, 0));
+
+    /* =========================================================
+       4. Tooltip comun
+       ========================================================= */
+    const tip = document.getElementById("tip");
+    function showTip(html, x, y) {
+      tip.innerHTML = html;
+      tip.classList.add("is-on");
+      const w = tip.offsetWidth, h = tip.offsetHeight;
+      let left = x + 14, top = y - h - 12;
+      if (left + w > window.innerWidth - 8) left = x - w - 14;
+      if (left < 8) left = 8;
+      if (top < 8) top = y + 16;
+      tip.style.left = left + "px"; tip.style.top = top + "px";
+    }
+    const hideTip = () => tip.classList.remove("is-on");
+
+    /* =========================================================
+       5. Grafic linie: ore (curent vs. anterior, o singură axă)
+       ========================================================= */
+    const NS = "http://www.w3.org/2000/svg";
+    const el = (tag, attrs = {}, parent) => {
+      const n = document.createElementNS(NS, tag);
+      for (const k in attrs) n.setAttribute(k, attrs[k]);
+      if (parent) parent.appendChild(n);
+      return n;
+    };
+    function niceMax(v) {
+      const p = Math.pow(10, Math.floor(Math.log10(v)));
+      for (const m of [1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) if (m * p >= v) return m * p;
+      return 10 * p;
+    }
+
+    function renderLine(container, { cur, prev, nowIdx, curName, prevName }) {
+      container.innerHTML = "";
+      const W = Math.max(container.clientWidth, 280);
+      const H = W < 500 ? 230 : W < 700 ? 280 : 340;
+      const m = { l: 44, r: 52, t: 16, b: 28 };
+      const iw = W - m.l - m.r, ih = H - m.t - m.b;
+      const max = niceMax(Math.max(...cur.filter((v) => v != null), ...prev) * 1.05);
+      const x = (i) => m.l + (i / (HOURS.length - 1)) * iw;
+      const y = (v) => m.t + ih - (v / max) * ih;
+
+      const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img", "aria-label": "Grafic vânzări pe ore" }, container);
+      const defs = el("defs", {}, svg);
+      const grad = el("linearGradient", { id: "g-cur", x1: 0, x2: 0, y1: 0, y2: 1 }, defs);
+      el("stop", { offset: "0%", "stop-color": "#c8f53a", "stop-opacity": .22 }, grad);
+      el("stop", { offset: "100%", "stop-color": "#c8f53a", "stop-opacity": 0 }, grad);
+
+      // grilă + axa Y
+      for (let i = 0; i <= 4; i++) {
+        const v = (max / 4) * i, yy = y(v);
+        el("line", { x1: m.l, x2: W - m.r, y1: yy, y2: yy, class: i === 0 ? "base-line" : "grid-line" }, svg);
+        const t = el("text", { x: m.l - 8, y: yy + 4, "text-anchor": "end", class: "axis-label" }, svg);
+        t.textContent = leiShort(v);
+      }
+      // axa X
+      const step = W < 500 ? 2 : 1;
+      HOURS.forEach((h, i) => {
+        if (i % step) return;
+        const t = el("text", { x: x(i), y: H - 8, "text-anchor": "middle", class: "axis-label" }, svg);
+        t.textContent = String(h).padStart(2, "0");
+      });
+
+      // marcaj „acum”
+      if (nowIdx != null) {
+        const nx = x(nowIdx - 0.5);
+        el("line", { x1: nx, x2: nx, y1: m.t, y2: m.t + ih, class: "now-line" }, svg);
+        const t = el("text", { x: nx + 4, y: m.t + ih - 6, class: "now-label" }, svg);
+        t.textContent = "acum";
+      }
+
+      const path = (vals) => vals.map((v, i) => v == null ? null : [x(i), y(v)]).filter(Boolean)
+        .map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join("");
+
+      // perioada anterioară (gri, în spate)
+      el("path", { d: path(prev), fill: "none", stroke: "var(--prev)", "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+
+      // perioada curentă (accent) + arie
+      const curPts = cur.map((v, i) => v == null ? null : [x(i), y(v)]).filter(Boolean);
+      if (curPts.length) {
+        const area = "M" + curPts[0][0] + "," + (m.t + ih) + curPts.map((p) => "L" + p[0] + "," + p[1]).join("") + "L" + curPts[curPts.length - 1][0] + "," + (m.t + ih) + "Z";
+        el("path", { d: area, fill: "url(#g-cur)" }, svg);
+        el("path", { d: path(cur), fill: "none", stroke: "var(--accent)", "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+
+        // etichetă directă: ultimul punct curent
+        const lastI = cur.reduce((a, v, i) => v != null ? i : a, 0);
+        const lp = [x(lastI), y(cur[lastI])];
+        el("circle", { cx: lp[0], cy: lp[1], r: 4.5, fill: "var(--accent)", stroke: "var(--surface)", "stroke-width": 2 }, svg);
+        const lt = el("text", { x: lp[0] + 8, y: lp[1] - 8, class: "direct-label" }, svg);
+        lt.textContent = leiShort(cur[lastI]);
+      }
+      // etichetă directă: finalul perioadei anterioare
+      const pl = prev.length - 1;
+      const pt = el("text", { x: x(pl) + 6, y: y(prev[pl]) + 4, class: "direct-label direct-label--muted" }, svg);
+      pt.textContent = leiShort(prev[pl]);
+
+      // stratul de hover: crosshair + tooltip
+      const cross = el("line", { y1: m.t, y2: m.t + ih, stroke: "var(--text-2)", "stroke-width": 1, opacity: 0 }, svg);
+      const dPrev = el("circle", { r: 4.5, fill: "var(--prev)", stroke: "var(--surface)", "stroke-width": 2, opacity: 0 }, svg);
+      const dCur = el("circle", { r: 4.5, fill: "var(--accent)", stroke: "var(--surface)", "stroke-width": 2, opacity: 0 }, svg);
+      const hit = el("rect", { x: m.l - 10, y: m.t, width: iw + 20, height: ih, fill: "transparent" }, svg);
+
+      function onMove(ev) {
+        const r = svg.getBoundingClientRect();
+        const px = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+        const i = Math.max(0, Math.min(HOURS.length - 1, Math.round(((px - m.l) / iw) * (HOURS.length - 1))));
+        const xx = x(i);
+        cross.setAttribute("x1", xx); cross.setAttribute("x2", xx); cross.setAttribute("opacity", .5);
+        dPrev.setAttribute("cx", xx); dPrev.setAttribute("cy", y(prev[i])); dPrev.setAttribute("opacity", 1);
+        if (cur[i] != null) { dCur.setAttribute("cx", xx); dCur.setAttribute("cy", y(cur[i])); dCur.setAttribute("opacity", 1); }
+        else dCur.setAttribute("opacity", 0);
+        let html = `<div class="tip__title">${hh(HOURS[i])} – ${hh(HOURS[i] + 1)}</div>`;
+        html += `<div class="tip__row"><span><i class="tip__sw" style="background:var(--accent)"></i>${curName}</span><b>${cur[i] != null ? lei(cur[i]) : "—"}</b></div>`;
+        html += `<div class="tip__row"><span><i class="tip__sw" style="background:var(--prev)"></i>${prevName}</span><b>${lei(prev[i])}</b></div>`;
+        if (cur[i] != null && prev[i]) {
+          const d = pct(cur[i], prev[i]);
+          html += `<div class="tip__row tip__foot"><span>Diferență</span><b style="color:${d >= 0 ? "var(--good)" : "var(--bad)"}">${d >= 0 ? "▲" : "▼"} ${nf1.format(Math.abs(d))}%</b></div>`;
+        }
+        const ex = ev.touches ? ev.touches[0].clientX : ev.clientX;
+        showTip(html, ex, r.top + y(Math.max(cur[i] ?? 0, prev[i])));
+      }
+      function onLeave() { cross.setAttribute("opacity", 0); dPrev.setAttribute("opacity", 0); dCur.setAttribute("opacity", 0); hideTip(); }
+      hit.addEventListener("mousemove", onMove);
+      hit.addEventListener("touchstart", onMove, { passive: true });
+      hit.addEventListener("touchmove", onMove, { passive: true });
+      hit.addEventListener("mouseleave", onLeave);
+      hit.addEventListener("touchend", onLeave);
+    }
+
+    /* =========================================================
+       6. Grafic bare: zile ale săptămânii (o serie, o culoare)
+       ========================================================= */
+    function barPath(x, y, w, h, r) {
+      r = Math.min(r, w / 2, h);
+      return `M${x},${y + h}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + h}Z`;
+    }
+    function renderBars(container, values) {
+      container.innerHTML = "";
+      const W = Math.max(container.clientWidth, 260);
+      const H = 260;
+      const m = { l: 44, r: 8, t: 26, b: 28 };
+      const iw = W - m.l - m.r, ih = H - m.t - m.b;
+      const max = niceMax(Math.max(...values) * 1.08);
+      const band = iw / values.length, bw = Math.min(band * 0.56, 44);
+      const y = (v) => m.t + ih - (v / max) * ih;
+      const avg = values.reduce((a, b) => a + b, 0) / values.length;
+      const iMax = values.indexOf(Math.max(...values)), iMin = values.indexOf(Math.min(...values));
+
+      const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img", "aria-label": "Grafic vânzări medii pe zile ale săptămânii" }, container);
+      for (let i = 0; i <= 4; i++) {
+        const v = (max / 4) * i, yy = y(v);
+        if (i > 0) el("line", { x1: m.l, x2: W - m.r, y1: yy, y2: yy, class: "grid-line" }, svg);
+        const t = el("text", { x: m.l - 8, y: yy + 4, "text-anchor": "end", class: "axis-label" }, svg);
+        t.textContent = leiShort(v);
+      }
+      values.forEach((v, i) => {
+        const cx = m.l + band * i + band / 2;
+        const bx = cx - bw / 2, by = y(v);
+        const g = el("g", {}, svg);
+        el("path", { d: barPath(bx, by, bw, m.t + ih - by, 4), fill: "var(--accent)", opacity: i === iMax || i === iMin ? 1 : 0.55 }, g);
+        const t = el("text", { x: cx, y: H - 8, "text-anchor": "middle", class: "axis-label" }, svg);
+        t.textContent = DAYS_SHORT[i];
+        if (i === iMax || i === iMin) {
+          const lt = el("text", { x: cx, y: by - 8, "text-anchor": "middle", class: "direct-label" }, svg);
+          lt.textContent = leiShort(v);
+        }
+        const hit = el("rect", { x: m.l + band * i, y: m.t, width: band, height: ih, fill: "transparent" }, g);
+        const show = (ev) => {
+          const d = pct(v, avg);
+          const cx2 = ev.touches ? ev.touches[0].clientX : ev.clientX;
+          showTip(`<div class="tip__title">${DAYS[i]}</div>
+            <div class="tip__row"><span>Medie vânzări</span><b>${lei(v)}</b></div>
+            <div class="tip__row tip__foot"><span>Față de media săptămânii</span><b style="color:${d >= 0 ? "var(--good)" : "var(--bad)"}">${d >= 0 ? "▲" : "▼"} ${nf1.format(Math.abs(d))}%</b></div>`,
+            cx2, svg.getBoundingClientRect().top + by);
+        };
+        hit.addEventListener("mousemove", show);
+        hit.addEventListener("touchstart", show, { passive: true });
+        hit.addEventListener("mouseleave", hideTip);
+        hit.addEventListener("touchend", hideTip);
+      });
+      el("line", { x1: m.l, x2: W - m.r, y1: m.t + ih, y2: m.t + ih, class: "base-line" }, svg);
+    }
+
+    /* =========================================================
+       7. Heatmap zi × oră (rampă secvențială, o singură nuanță)
+       ========================================================= */
+    const hex = (s) => [1, 3, 5].map((i) => parseInt(s.slice(i, i + 2), 16));
+    const LOW = hex("#1c222d"), HIGH = hex("#c8f53a");
+    const mix = (t) => "rgb(" + LOW.map((a, i) => Math.round(a + (HIGH[i] - a) * t)).join(",") + ")";
+
+    function renderHeat(matrix) {
+      const box = document.getElementById("heat");
+      box.innerHTML = "";
+      const flat = matrix.flat();
+      const max = Math.max(...flat);
+      const top = [...flat].sort((a, b) => b - a).slice(0, 5);
+      const threshold = top[top.length - 1];
+
+      box.appendChild(document.createElement("span"));
+      HOURS.forEach((h, i) => {
+        const s = document.createElement("span");
+        s.className = "heat__hour" + (i % 2 ? " heat__hour--odd" : ""); s.textContent = String(h).padStart(2, "0");
+        box.appendChild(s);
+      });
+      // rândul orelor sus, apoi zilele
+      matrix.forEach((row, d) => {
+        const lab = document.createElement("span");
+        lab.className = "heat__day"; lab.textContent = DAYS_SHORT[d];
+        box.appendChild(lab);
+        row.forEach((v, hi) => {
+          const c = document.createElement("span");
+          c.className = "heat__cell" + (v >= threshold ? " is-top" : "");
+          c.style.background = mix(Math.pow(v / max, 1.15));
+          c.setAttribute("aria-label", `${DAYS[d]}, ${hh(HOURS[hi])}: ${lei(v)}`);
+          const show = (ev) => {
+            const r = c.getBoundingClientRect();
+            showTip(`<div class="tip__title">${DAYS[d]} · ${hh(HOURS[hi])}–${hh(HOURS[hi] + 1)}</div>
+              <div class="tip__row"><span>Vânzări medii</span><b>${lei(v)}</b></div>
+              <div class="tip__row"><span>Față de ora de vârf</span><b>${nf0.format(v / max * 100)}%</b></div>`,
+              r.left + r.width / 2, r.top);
+          };
+          c.addEventListener("mouseenter", show);
+          c.addEventListener("touchstart", show, { passive: true });
+          c.addEventListener("mouseleave", hideTip);
+          box.appendChild(c);
+        });
+      });
+      document.getElementById("heat-bar").style.background = `linear-gradient(90deg, ${mix(0)}, ${mix(0.5)}, ${mix(1)})`;
+      document.getElementById("heat-min").textContent = leiShort(Math.min(...flat)) + " lei";
+      document.getElementById("heat-max").textContent = leiShort(max) + " lei";
+    }
+
+    /* =========================================================
+       8. Tabele (vedere accesibilă)
+       ========================================================= */
+    function tableHour(cur, prev, curName, prevName) {
+      let h = `<table class="data-table"><thead><tr><th>Oră</th><th>${curName}</th><th>${prevName}</th><th>Dif.</th></tr></thead><tbody>`;
+      HOURS.forEach((hr, i) => {
+        const d = cur[i] != null && prev[i] ? pct(cur[i], prev[i]) : null;
+        h += `<tr><td>${hh(hr)}</td><td>${cur[i] != null ? lei(cur[i]) : "—"}</td><td>${lei(prev[i])}</td><td>${d == null ? "—" : (d >= 0 ? "+" : "−") + nf1.format(Math.abs(d)) + "%"}</td></tr>`;
+      });
+      return h + "</tbody></table>";
+    }
+    function tableDow(vals) {
+      let h = `<table class="data-table"><thead><tr><th>Zi</th><th>Medie vânzări</th></tr></thead><tbody>`;
+      vals.forEach((v, i) => { h += `<tr><td>${DAYS[i]}</td><td>${lei(v)}</td></tr>`; });
+      return h + "</tbody></table>";
+    }
+
+    /* =========================================================
+       9. Ultimele 4 săptămâni complete (tipare stabile)
+       ========================================================= */
+    const last4 = rows.filter((r) => r.date >= addDays(today, -28) && r.date < today);
+    const dowAvg = DAYS.map((_, d) => {
+      const list = last4.filter((r) => r.dow === d);
+      const days = new Set(list.map((r) => r.key)).size || 1;
+      return sum(list, "sales") / days;
+    });
+    const heatMatrix = DAYS.map((_, d) => HOURS.map((h) => {
+      const list = last4.filter((r) => r.dow === d && r.hour === h);
+      return list.length ? sum(list, "sales") / list.length : 0;
+    }));
+
+    function renderInsights(state) {
+      // cel mai bun interval de 2 ore (medie pe toată săptămâna)
+      const hourTot = HOURS.map((_, hi) => heatMatrix.reduce((a, row) => a + row[hi], 0));
+      const dayTot = hourTot.reduce((a, b) => a + b, 0);
+      let bi = 0;
+      for (let i = 0; i < HOURS.length - 1; i++) if (hourTot[i] + hourTot[i + 1] > hourTot[bi] + hourTot[bi + 1]) bi = i;
+      const share = (hourTot[bi] + hourTot[bi + 1]) / dayTot * 100;
+
+      const avg = dowAvg.reduce((a, b) => a + b, 0) / 7;
+      const iMin = dowAvg.indexOf(Math.min(...dowAvg));
+      const iMax = dowAvg.indexOf(Math.max(...dowAvg));
+
+      // ora cea mai liniștită în timpul zilei (exclus deschiderea și închiderea)
+      let qi = 2;
+      for (let i = 2; i < HOURS.length - 2; i++) if (hourTot[i] < hourTot[qi]) qi = i;
+
+      const icon = {
+        users: '<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M19 8v6M16 11h6"/></svg>',
+        tag: '<svg viewBox="0 0 24 24"><path d="M20 12 12 20 3 11V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>',
+        star: '<svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.3.9-4.5 4.4 1 6.1L12 17l-5.5 3 1-6.1L3 9.5l6.3-.9z"/></svg>',
+        clock: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+      };
+      const items = [
+        { i: icon.users, t: "Întărește echipa la orele de vârf",
+          p: `Între <strong>${hh(HOURS[bi])} și ${hh(HOURS[bi] + 2)}</strong> se face <strong>${nf0.format(share)}%</strong> din vânzările zilei. Programează o persoană în plus în acest interval.` },
+        { i: icon.tag, t: `${DAYS_ART[iMin]} e ziua cea mai slabă`,
+          p: `Vinzi cu <strong>${nf0.format(Math.abs(pct(dowAvg[iMin], avg)))}% mai puțin</strong> decât media. Momentul ideal pentru o promoție sau o ofertă „doar azi”.` },
+        { i: icon.star, t: `${DAYS_ART[iMax]} e ziua ta cea mai bună`,
+          p: `Cu <strong>${nf0.format(pct(dowAvg[iMax], avg))}% peste medie</strong>. Asigură-te că ai stoc complet și personal suficient.` },
+        { i: icon.clock, t: "Ora cea mai liniștită",
+          p: `La <strong>${hh(HOURS[qi])}</strong> vin cei mai puțini clienți în timpul zilei. Folosește-o pentru recepția mărfii, inventar sau pauze.` },
+      ];
+      document.getElementById("insights").innerHTML = items.map((x) =>
+        `<div class="insight"><span class="insight__icon">${x.i}</span><div><h3>${x.t}</h3><p>${x.p}</p></div></div>`).join("");
+    }
+
+    /* =========================================================
+       10. Randare după perioadă
+       ========================================================= */
+    let state = { period: "day" };
+    const deltaHtml = (a, b) => {
+      const d = pct(a, b);
+      return `<span class="delta ${d >= 0 ? "delta--up" : "delta--down"}">${d >= 0 ? "▲" : "▼"} ${nf1.format(Math.abs(d))}%</span>`;
+    };
+
+    function render() {
+      const P = periodFilters(state.period);
+      const cur = rows.filter(P.cur), prev = rows.filter(P.prev);
+      const prevChartRows = rows.filter(P.prevChart || P.prev);
+
+      // KPI
+      const s1 = sum(cur, "sales"), s0 = sum(prev, "sales");
+      const c1 = sum(cur, "clients"), c0 = sum(prev, "clients");
+      const t1 = s1 / c1, t0 = s0 / c0;
+      document.getElementById("k-sales").innerHTML = nf0.format(Math.round(s1)) + "<small>lei</small>";
+      document.getElementById("k-clients").textContent = nf0.format(c1);
+      document.getElementById("k-ticket").innerHTML = nf1.format(t1) + "<small>lei</small>";
+      document.getElementById("k-sales-d").innerHTML = deltaHtml(s1, s0);
+      document.getElementById("k-clients-d").innerHTML = deltaHtml(c1, c0);
+      document.getElementById("k-ticket-d").innerHTML = deltaHtml(t1, t0);
+      document.querySelectorAll(".cmp-label").forEach((n) => n.textContent = P.cmp);
+      document.getElementById("k-sales-p").textContent = P.prevLabel + ": " + lei(s0);
+      document.getElementById("k-clients-p").textContent = P.prevLabel + ": " + nf0.format(c0) + " clienți";
+      document.getElementById("k-ticket-p").textContent = P.prevLabel + ": " + nf1.format(t0) + " lei";
+
+      // pe ore
+      const hCurAll = byHour(cur);
+      const hCur = hCurAll.map((v, i) => state.period === "day" && HOURS[i] >= CUT ? null : v);
+      const hPrev = byHour(prevChartRows);
+      const pi = hCurAll.indexOf(Math.max(...hCurAll));
+      document.getElementById("k-peak").textContent = hh(HOURS[pi]) + "–" + hh(HOURS[pi] + 1);
+      const share = hCurAll[pi] / s1 * 100;
+      document.getElementById("k-peak-share").innerHTML = `<span><strong style="color:var(--text)">${nf0.format(share)}%</strong> din vânzările perioadei</span>`;
+      document.getElementById("k-peak-bar").style.width = Math.min(100, share * 3) + "%";
+
+      document.getElementById("hour-sub").textContent = P.sub;
+      document.getElementById("lg-cur").textContent = P.curLabel;
+      document.getElementById("lg-prev").textContent = P.prevLabel;
+
+      const hourOpts = { cur: hCur, prev: hPrev, nowIdx: state.period === "day" ? HOURS.indexOf(CUT) : null, curName: P.curLabel, prevName: P.prevLabel };
+      state.hourOpts = hourOpts;
+      renderLine(document.getElementById("chart-hour"), hourOpts);
+      document.getElementById("table-hour").innerHTML = tableHour(hCur, hPrev, P.curLabel, P.prevLabel);
+    }
+
+    function renderStatic() {
+      renderBars(document.getElementById("chart-dow"), dowAvg);
+      document.getElementById("table-dow").innerHTML = tableDow(dowAvg);
+      renderHeat(heatMatrix);
+      renderInsights();
+    }
+
+    // Comutator perioadă
+    document.querySelectorAll(".seg button").forEach((b) => b.addEventListener("click", () => {
+      document.querySelectorAll(".seg button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      state.period = b.dataset.period;
+      render();
+    }));
+
+    // Comutator grafic / tabel
+    document.querySelectorAll("[data-toggle-table]").forEach((b) => b.addEventListener("click", () => {
+      const id = b.dataset.toggleTable;
+      const on = b.getAttribute("aria-pressed") !== "true";
+      b.setAttribute("aria-pressed", String(on));
+      document.getElementById("table-" + id).hidden = !on;
+      document.getElementById("chart-" + id).hidden = on;
+      if (!on) id === "hour" ? renderLine(document.getElementById("chart-hour"), state.hourOpts) : renderBars(document.getElementById("chart-dow"), dowAvg);
+    }));
+
+    // Redimensionare
+    let rt;
+    window.addEventListener("resize", () => {
+      clearTimeout(rt);
+      rt = setTimeout(() => {
+        renderLine(document.getElementById("chart-hour"), state.hourOpts);
+        renderBars(document.getElementById("chart-dow"), dowAvg);
+      }, 120);
+    });
+    window.addEventListener("scroll", hideTip, { passive: true });
+
+    render();
+    renderStatic();
+  })();
+  </script>
+</body>
+</html>
