@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <title>Reclame și clienți noi · Demo dashboard · Adelin Solutions</title>
+  <meta name="description" content="Demo de dashboard de marketing: cât cheltui pe reclame, câți clienți aduce fiecare canal, cât te costă un client și unde să muți bugetul.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dash.css">
+  <style>
+    .sim { display: grid; gap: 16px; }
+    .sim__row { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; color: var(--text-2); }
+    .sim__row b { color: var(--text); font-variant-numeric: tabular-nums; }
+    .sim input[type=range] { width: 100%; accent-color: var(--accent); height: 28px; cursor: pointer; }
+    .sim__out { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .sim__box { padding: 14px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--line); }
+    .sim__box span { color: var(--muted); font-size: .78rem; display: block; }
+    .sim__box strong { font-family: var(--font-head); font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+    .sim__box strong.pos { color: var(--good); }
+    .sim__note { color: var(--muted); font-size: .78rem; }
+    .funnel-note { color: var(--muted); font-size: .8rem; margin-top: 12px; }
+    .funnel-note b { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <div class="demo-bar">
+    <a href="../index.html#proiecte" class="demo-bar__back">← Portofoliu</a>
+    <span class="demo-bar__note"><strong>Demo interactiv</strong> · date fictive · mută cursorul din simulatorul de buget</span>
+    <a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20demo-ul%20cu%20dashboard-ul%20de%20reclame%20%C8%99i%20a%C8%99%20vrea%20ceva%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener" class="demo-bar__cta">Vreau unul pentru afacerea mea</a>
+  </div>
+
+  <div class="wrap">
+    <header class="head">
+      <div class="head__biz">
+        <div class="biz-logo">DC</div>
+        <div>
+          <h1>Reclame și clienți noi · DentaCare</h1>
+          <p class="head__meta"><span class="live-dot"></span>Clinică stomatologică · date din Google Ads, Meta Ads, TikTok și formularul de pe site</p>
+        </div>
+      </div>
+      <div class="seg" role="group" aria-label="Perioadă" id="period">
+        <button type="button" data-v="7" aria-pressed="false">7 zile</button>
+        <button type="button" data-v="30" aria-pressed="true">30 zile</button>
+        <button type="button" data-v="90" aria-pressed="false">90 zile</button>
+      </div>
+    </header>
+
+    <div class="money">
+      <span class="money__icon">!</span>
+      <div class="money__text">
+        <strong>Buget cheltuit pe reclame care nu aduc clienți</strong>
+        <span id="money-text"></span>
+      </div>
+      <span class="money__val num" id="money-val"></span>
+    </div>
+
+    <section class="kpis" aria-label="Indicatori principali">
+      <article class="card"><p class="kpi__label">Buget cheltuit</p><p class="kpi__value num" id="k-sp"></p><p class="kpi__foot" id="k-sp-f"></p></article>
+      <article class="card"><p class="kpi__label">Cereri de programare</p><p class="kpi__value num" id="k-ld"></p><p class="kpi__foot" id="k-ld-f"></p></article>
+      <article class="card"><p class="kpi__label">Cost pe client nou</p><p class="kpi__value num" id="k-cac"></p><p class="kpi__foot" id="k-cac-f"></p></article>
+      <article class="card"><p class="kpi__label">La 1 leu investit primești</p><p class="kpi__value num" id="k-roas"></p><p class="kpi__foot" id="k-roas-f"></p></article>
+    </section>
+
+    <div class="grid grid--21">
+      <section class="card">
+        <div class="card__head"><div><h2 class="card__title">Cereri pe zi, pe fiecare canal</h2><p class="card__sub">Medie pe 7 zile, ca să vezi tendința și nu zgomotul</p></div></div>
+        <div class="legend" id="lg"></div>
+        <div class="chart" id="c-line"></div>
+      </section>
+      <section class="card">
+        <div class="card__head"><div><h2 class="card__title">Ce îți spun datele</h2><p class="card__sub">Concluzii generate automat</p></div></div>
+        <div class="insights" id="insights"></div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-bottom:16px">
+      <div class="card__head"><div><h2 class="card__title">Fiecare canal, pe bani</h2><p class="card__sub">Nu contează câte like-uri aduce o reclamă, ci câți clienți plătitori</p></div></div>
+      <div class="tbl-wrap">
+        <table class="tbl" id="t-ch">
+          <thead><tr><th>Canal</th><th>Buget</th><th>Cereri</th><th>Cost / cerere</th><th>Clienți noi</th><th>Încasări</th><th>Lei la 1 leu</th><th>Ce faci</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="grid grid--11">
+      <section class="card">
+        <div class="card__head"><div><h2 class="card__title">Unde se pierd oamenii pe drum</h2><p class="card__sub">De la reclamă văzută până la client care plătește</p></div></div>
+        <div id="c-funnel"></div>
+        <p class="funnel-note" id="funnel-note"></p>
+      </section>
+      <section class="card">
+        <div class="card__head"><div><h2 class="card__title">Simulator: mută bugetul</h2><p class="card__sub">Ce s-ar întâmpla dacă muți bani din TikTok în Google Ads</p></div></div>
+        <div class="sim">
+          <div>
+            <div class="sim__row"><span>Sumă mutată</span><b id="sim-amt"></b></div>
+            <input type="range" id="sim-r" min="0" max="100" value="50" step="5" aria-label="Procent din bugetul TikTok mutat în Google Ads">
+            <div class="sim__row"><span id="sim-a"></span><span id="sim-b"></span></div>
+          </div>
+          <div class="sim__out">
+            <div class="sim__box"><span>Clienți noi în plus</span><strong id="sim-cl"></strong></div>
+            <div class="sim__box"><span>Încasări în plus</span><strong id="sim-rev"></strong></div>
+          </div>
+          <p class="sim__note">Estimare pe baza rezultatelor din perioada selectată, cu randament mai mic (80%) pentru bugetul suplimentar.</p>
+        </div>
+      </section>
+    </div>
+
+    <section class="cta">
+      <h2>Știi exact care reclamă îți aduce clienți?</h2>
+      <p>Adun într-un singur ecran datele din Google, Facebook, Instagram, TikTok și din formularul tău, ca să nu mai plătești reclame pe ghicite.</p>
+      <a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20demo-ul%20cu%20dashboard-ul%20de%20reclame%20%C8%99i%20a%C8%99%20vrea%20ceva%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener">Scrie-mi pe WhatsApp</a>
+    </section>
+    <p class="foot">Demo realizat de Adelin Solutions · toate cifrele sunt fictive.</p>
+  </div>
+
+  <script src="dash.js"></script>
+  <script>
+  (() => {
+    const { rng, sum, lei, num, dec } = D;
+    const DAYS = 190, VAL = 1150; // valoare medie a unui client nou (lei)
+    // [nume, culoare, buget/zi, cost/cerere, rată cerere→client, afișări la 1 leu, CTR]
+    const CH = [
+      { name: "Google Ads", color: "var(--s1)", day: 95, cpl: 24, close: 0.34, imp: 38, ctr: 0.052 },
+      { name: "Facebook și Instagram", color: "var(--s2)", day: 110, cpl: 31, close: 0.22, imp: 140, ctr: 0.014 },
+      { name: "TikTok", color: "var(--s3)", day: 70, cpl: 58, close: 0.08, imp: 260, ctr: 0.009 },
+      { name: "Google Maps și recomandări", color: "var(--s4)", day: 0, free: 1.9, close: 0.46, imp: 0, ctr: 0 },
+    ];
+    CH.forEach((c, ci) => {
+      const r = rng(100 + ci * 17);
+      c.spend = []; c.leads = [];
+      for (let i = 0; i < DAYS; i++) {
+        const sp = c.day * (0.85 + r() * 0.3);
+        const base = c.day ? sp / (c.cpl * (ci === 2 ? 0.9 + i / 900 : 1.08 - i / 1500)) : c.free * (0.9 + i / 600);
+        c.spend.push(sp); c.leads.push(base * (0.55 + r() * 0.9));
+      }
+    });
+    const smooth = (a) => a.map((_, i) => { const s = a.slice(Math.max(0, i - 6), i + 1); return sum(s) / s.length; });
+    document.getElementById("lg").innerHTML = CH.map((c) => `<span><i style="background:${c.color}"></i>${c.name}</span>`).join("");
+
+    let P = 30, S;
+    function stats(off) {
+      const sl = (a) => (off ? a.slice(-2 * P, -P) : a.slice(-P));
+      const rows = CH.map((c) => {
+        const spend = sum(sl(c.spend)), leads = sum(sl(c.leads)), clients = leads * c.close;
+        return { ...c, spend, leads, clients, revenue: clients * VAL };
+      });
+      return { rows, spend: sum(rows.map((r) => r.spend)), leads: sum(rows.map((r) => r.leads)), clients: sum(rows.map((r) => r.clients)), revenue: sum(rows.map((r) => r.revenue)) };
+    }
+
+    function render() {
+      S = stats(false); const Pv = stats(true);
+      const paid = S.rows.filter((r) => r.day), paidCl = sum(paid.map((r) => r.clients)), paidRev = sum(paid.map((r) => r.revenue));
+      const pvPaid = Pv.rows.filter((r) => r.day);
+      const cac = S.spend / paidCl, cacP = Pv.spend / sum(pvPaid.map((r) => r.clients));
+      D.set("k-sp", lei(S.spend));
+      D.set("k-sp-f", `<span>pe 3 canale plătite, în ${P} zile</span>`);
+      D.set("k-ld", num(S.leads));
+      D.set("k-ld-f", D.delta(S.leads, Pv.leads, { suffix: " față de perioada anterioară" }));
+      D.set("k-cac", lei(cac));
+      D.set("k-cac-f", D.delta(cac, cacP, { invert: true, suffix: ` · un client aduce ~${lei(VAL)}` }));
+      D.set("k-roas", `${dec(paidRev / S.spend)}<small>lei</small>`);
+      D.set("k-roas-f", `<span>${lei(paidRev)} încasări din reclame</span>`);
+
+      const tk = S.rows[2], g = S.rows[0];
+      D.set("money-val", lei(tk.spend));
+      D.set("money-text", `TikTok a consumat <b>${lei(tk.spend)}</b> și a adus doar <b>${num(tk.clients)} clienți</b>. Aceiași bani în Google Ads ar fi adus aproximativ <b>${num((tk.spend / g.spend) * g.clients * 0.8)}</b>.`);
+
+      D.line("#c-line", { labels: D.dayLabels(P), series: CH.map((c) => ({ name: c.name, color: D.css(c.color.slice(4, -1)), values: smooth(c.leads).slice(-P) })), fmt: (v) => dec(v), area: false, height: 270 });
+
+      document.querySelector("#t-ch tbody").innerHTML = S.rows.map((r) => {
+        const roas = r.day ? r.revenue / r.spend : null;
+        const b = roas === null ? ["good", "Gratuit: cere recenzii"] : roas >= 8 ? ["good", "Crește bugetul"] : roas >= 4 ? ["warn", "Păstrează"] : ["bad", "Oprește sau refă"];
+        return `<tr><td><span class="sw" style="background:${r.color}"></span>${r.name}</td><td>${r.day ? lei(r.spend) : "—"}</td><td>${num(r.leads)}</td><td>${r.day ? lei(r.spend / r.leads) : "0 lei"}</td><td>${num(r.clients)}</td><td>${lei(r.revenue)}</td><td>${roas === null ? "—" : dec(roas) + " lei"}</td><td><span class="badge badge--${b[0]}">${b[1]}</span></td></tr>`;
+      }).join("");
+
+      // pâlnie (doar canale plătite)
+      const imp = sum(paid.map((r) => r.spend * r.imp)), clicks = sum(paid.map((r) => r.spend * r.imp * r.ctr)), leads = sum(paid.map((r) => r.leads));
+      const steps = [["Au văzut reclama", imp], ["Au dat click", clicks], ["Au cerut programare", leads], ["Au devenit clienți", paidCl]];
+      D.hbars("#c-funnel", steps.map(([l, v], i) => ({ label: l, value: Math.pow(v / imp, 0.28) * 100, text: num(v), color: i === 3 ? D.css("--accent") : D.css("--s1"), raw: v, prev: i ? steps[i - 1][1] : null })), {
+        max: 100,
+        tipFn: (it) => D.tipRows(it.label, [{ label: "Persoane", value: num(it.raw) }, ...(it.prev ? [{ label: "Din pasul anterior", value: dec((it.raw / it.prev) * 100) + "%" }] : [])]),
+      });
+      D.set("funnel-note", `Lungimea barelor e comprimată ca să se vadă toți pașii. Din <b>${num(leads)}</b> cereri, doar <b>${num(paidCl)}</b> devin clienți: <b>${num(leads - paidCl)}</b> oameni interesați rămân fără răspuns rapid sau fără reamintire.`);
+
+      D.insights("#insights", [
+        { type: "good", title: "Google Ads e cel mai bun canal plătit", text: `Pentru 1 leu investit primești <strong>${dec(g.revenue / g.spend)} lei</strong>. Oamenii caută deja „dentist” când te găsesc.` },
+        { type: "bad", title: "TikTok aduce vizualizări, nu clienți", text: `Un client de pe TikTok te costă <strong>${lei(tk.spend / tk.clients)}</strong>, față de ${lei(g.spend / g.clients)} pe Google.` },
+        { type: "good", title: "Recomandările sunt gratuite și se închid cel mai bine", text: `<strong>46%</strong> dintre cei veniți din Google Maps devin clienți. Cere o recenzie după fiecare vizită.` },
+        { type: "warn", title: "Răspunde mai repede la cereri", text: `Cererile la care răspunzi în primele 5 minute se transformă în clienți mult mai des. Un răspuns automat rezolvă asta.` },
+      ]);
+      sim();
+    }
+
+    const slider = document.getElementById("sim-r");
+    function sim() {
+      const tk = S.rows[2], g = S.rows[0], f = slider.value / 100, moved = tk.spend * f;
+      const gain = (moved / g.spend) * g.clients * 0.8, loss = tk.clients * f, net = gain - loss;
+      D.set("sim-amt", `${lei(moved)} (${slider.value}%)`);
+      D.set("sim-a", `TikTok: <b>${lei(tk.spend - moved)}</b>`);
+      D.set("sim-b", `Google Ads: <b>${lei(g.spend + moved)}</b>`);
+      const cl = document.getElementById("sim-cl"), rv = document.getElementById("sim-rev");
+      cl.textContent = "+" + num(net); rv.textContent = "+" + lei(net * VAL);
+      cl.classList.toggle("pos", net >= 0.5); rv.classList.toggle("pos", net >= 0.5);
+    }
+    slider.addEventListener("input", sim);
+    D.seg("#period", (v) => { P = +v; render(); });
+    render();
+  })();
+  </script>
+</body>
+</html>

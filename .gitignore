@@ -1,3 +1,6 @@
 .claude/
 .DS_Store
 Thumbs.db
+
+# Fotos originales sin optimizar (las versiones recortadas viven en demos/salon/img)
+/img/

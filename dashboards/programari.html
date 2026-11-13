@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <title>Programări și grad de ocupare · Demo dashboard · Adelin Solutions</title>
+  <meta name="description" content="Demo de dashboard pentru saloane, clinici și cabinete: grad de ocupare, neprezentări, încasări pe angajat și clienți care nu au mai revenit.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dash.css">
+  <style>
+    .client { display: flex; align-items: center; gap: 10px; }
+    .client i { width: 30px; height: 30px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; font-style: normal; font-size: .72rem; font-weight: 600; color: var(--text-2); flex: none; }
+    .client small { display: block; color: var(--muted); font-weight: 400; font-size: .76rem; }
+  </style>
+</head>
+<body>
+
+  <div class="demo-bar">
+    <a href="../index.html#proiecte" class="demo-bar__back">← Portofoliu</a>
+    <span class="demo-bar__note"><strong>Demo interactiv</strong> · date fictive · pentru saloane, clinici, cabinete și săli</span>
+    <a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20demo-ul%20cu%20dashboard-ul%20de%20program%C4%83ri%20%C8%99i%20a%C8%99%20vrea%20ceva%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener" class="demo-bar__cta">Vreau unul pentru afacerea mea</a>
+  </div>
+
+  <div class="wrap">
+    <header class="head">
+      <div class="head__biz">
+        <div class="biz-logo">SB</div>
+        <div>
+          <h1>Programări · Studio Bella</h1>
+          <p class="head__meta"><span class="live-dot"></span>Salon de înfrumusețare · 4 angajate · sincronizat cu agenda de programări</p>
+        </div>
+      </div>
+      <div class="seg" role="group" aria-label="Perioadă" id="period">
+        <button type="button" data-v="7" aria-pressed="false">7 zile</button>
+        <button type="button" data-v="30" aria-pressed="true">30 zile</button>
+        <button type="button" data-v="90" aria-pressed="false">90 zile</button>
+      </div>
+    </header>
+
+    <div class="money">
+      <span class="money__icon">!</span>
+      <div class="money__text">
+        <strong>Bani pierduți din locuri goale și neprezentări</strong>
+        <span id="money-text"></span>
+      </div>
+      <span class="money__val num" id="money-val"></span>
+    </div>
+
+    <section class="kpis" aria-label="Indicatori principali">
+      <article class="card"><p class="kpi__label">Încasări</p><p class="kpi__value num" id="k-rev"></p><p class="kpi__foot" id="k-rev-f"></p></article>
+      <article class="card"><p class="kpi__label">Grad de ocupare</p><p class="kpi__value num" id="k-occ"></p><p class="kpi__foot" id="k-occ-f"></p><div class="meter"><span id="k-occ-m"></span></div></article>
+      <article class="card"><p class="kpi__label">Neprezentări</p><p class="kpi__value num" id="k-ns"></p><p class="kpi__foot" id="k-ns-f"></p></article>
+      <article class="card"><p class="kpi__label">Clienți care revin</p><p class="kpi__value num" id="k-ret"></p><p class="kpi__foot" id="k-ret-f"></p></article>
+    </section>
+
+    <div class="grid grid--21">
+      <section class="card">
+        <div class="card__head"><div><h2 class="card__title">Când e plin și când stai degeaba</h2><p class="card__sub">Grad de ocupare pe zi și oră · casetele palide sunt ore plătite fără clienți</p></div></div>
+        <div id="c-heat"></div>
+      </section>
+      <section class="card">
+        <div class="card__head"><div><h2 class="card__title">Ce îți spun datele</h2><p class="card__sub">Concluzii generate automat</p></div></div>
+        <div class="insights" id="insights"></div>
+      </section>
+    </div>
+
+    <div class="grid grid--11">
+      <section class="card">
+        <div class="card__head"><div><h2 class="card__title">Încasări pe angajat</h2><p class="card__sub">Lei încasați în perioada selectată</p></div></div>
+        <div id="c-staff"></div>
+      </section>
+      <section class="card">
+        <div class="card__head"><div><h2 class="card__title">Ce serviciu merită promovat</h2><p class="card__sub">Lei câștigați pe oră de lucru, după costul materialelor</p></div></div>
+        <div id="c-serv"></div>
+      </section>
+    </div>
+
+    <div class="grid grid--12">
+      <section class="card">
+        <div class="card__head"><div><h2 class="card__title">Ocupare pe zilele săptămânii</h2><p class="card__sub">Procent din locurile disponibile · cele mai pline zile evidențiate</p></div></div>
+        <div class="chart" id="c-dow"></div>
+      </section>
+      <section class="card">
+        <div class="card__head"><div><h2 class="card__title">Clienți care nu au mai venit</h2><p class="card__sub">Veneau regulat, dar au trecut peste 60 de zile · un mesaj îi aduce înapoi</p></div></div>
+        <div class="tbl-wrap">
+          <table class="tbl" id="t-lost">
+            <thead><tr><th>Client</th><th>Ultima vizită</th><th>Cheltuia / lună</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section class="cta">
+      <h2>Fiecare loc gol din agendă e un ban pierdut</h2>
+      <p>Conectez aplicația ta de programări sau agenda din Google Calendar și vezi zilnic unde pierzi și ce poți umple.</p>
+      <a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20demo-ul%20cu%20dashboard-ul%20de%20program%C4%83ri%20%C8%99i%20a%C8%99%20vrea%20ceva%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener">Scrie-mi pe WhatsApp</a>
+    </section>
+    <p class="foot">Demo realizat de Adelin Solutions · toate cifrele și numele sunt fictive.</p>
+  </div>
+
+  <script src="dash.js"></script>
+  <script>
+  (() => {
+    const { rng, sum, lei, num, pct, dec } = D;
+    const DAYS = 180, r = rng(11), today = new Date();
+    const CAP = [30, 30, 32, 32, 34, 28, 0];                    // locuri pe zi (L..D), duminică închis
+    const FILL = [0.52, 0.58, 0.71, 0.78, 0.93, 0.96, 0];
+    const TICKET = 148;
+    const days = [];
+    for (let i = 0; i < DAYS; i++) {
+      const d = new Date(today); d.setDate(today.getDate() - (DAYS - 1 - i));
+      const dow = (d.getDay() + 6) % 7, cap = CAP[dow];
+      const booked = Math.min(cap, Math.round(cap * FILL[dow] * (0.9 + r() * 0.2) * (0.94 + i / 2800)));
+      const ns = Math.round(booked * (0.05 + r() * 0.07));
+      days.push({ dow, cap, booked, ns, rev: (booked - ns) * TICKET * (0.9 + r() * 0.2) });
+    }
+    const STAFF = [["Andreea · unghii", 0.31, "var(--s1)"], ["Ioana · coafor", 0.28, "var(--s2)"], ["Maria · gene și sprâncene", 0.24, "var(--s3)"], ["Elena · cosmetică", 0.17, "var(--s4)"]];
+    const SERVICES = [["Extensii gene", 138], ["Tratament facial", 121], ["Manichiură semipermanentă", 96], ["Vopsit + coafat", 88], ["Pedichiură", 74], ["Tuns + coafat", 62]];
+    const LOST = [["Cristina D.", 74, 320], ["Alina M.", 68, 280], ["Raluca P.", 91, 260], ["Gabriela S.", 63, 190], ["Simona T.", 82, 150]];
+    const HOURS = ["9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"];
+    const DOW = ["Lu", "Ma", "Mi", "Jo", "Vi", "Sâ"];
+    const hr = rng(3);
+    const heatVals = DOW.map((_, d) => HOURS.map((_, h) => {
+      const shape = 0.55 + 0.25 * Math.exp(-Math.pow(h - 2, 2) / 5) + 0.6 * Math.exp(-Math.pow(h - 8.5, 2) / 6);
+      return Math.round(Math.min(100, FILL[d] * shape * 105 * (0.9 + hr() * 0.2)));
+    }));
+
+    let P = 30;
+    const agg = (arr) => ({ cap: sum(arr.map((d) => d.cap)), booked: sum(arr.map((d) => d.booked)), ns: sum(arr.map((d) => d.ns)), rev: sum(arr.map((d) => d.rev)) });
+
+    function render() {
+      const c = agg(days.slice(-P)), p = agg(days.slice(-2 * P, -P));
+      const occ = ((c.booked - c.ns) / c.cap) * 100, occP = ((p.booked - p.ns) / p.cap) * 100;
+      const empty = c.cap - c.booked;
+      D.set("k-rev", lei(c.rev));
+      D.set("k-rev-f", D.delta(c.rev, p.rev, { suffix: " față de perioada anterioară" }));
+      D.set("k-occ", `${num(occ)}<small>%</small>`);
+      D.set("k-occ-f", `<span>${num(c.booked - c.ns)} din ${num(c.cap)} locuri folosite</span>`);
+      document.getElementById("k-occ-m").style.width = occ + "%";
+      D.set("k-ns", num(c.ns));
+      D.set("k-ns-f", D.delta(c.ns, p.ns, { invert: true, suffix: ` · ${lei(c.ns * TICKET)} pierduți` }));
+      D.set("k-ret", `68<small>%</small>`);
+      D.set("k-ret-f", `<span>revin în mai puțin de 6 săptămâni</span>`);
+
+      const lost = (empty + c.ns) * TICKET;
+      D.set("money-val", lei(lost));
+      D.set("money-text", `<b>${num(empty)} locuri rămase goale</b> și <b>${num(c.ns)} clienți care nu au venit</b> în ultimele ${P} zile. Un reminder automat pe WhatsApp reduce neprezentările la jumătate.`);
+
+      D.hbars("#c-staff", STAFF.map(([n, s, col]) => ({ label: n, value: c.rev * s, color: col })), { fmt: lei });
+
+      const byDow = DOW.map((_, d) => { const a = agg(days.slice(-Math.max(P, 28)).filter((x) => x.dow === d)); return ((a.booked - a.ns) / a.cap) * 100; });
+      const order = byDow.map((v, i) => [v, i]).sort((a, b) => b[0] - a[0]);
+      D.cols("#c-dow", { labels: ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă"], values: byDow, fmt: (v) => num(v) + "%", highlight: [order[0][1], order[1][1]], color: D.css("--prev"), tipLabel: "Ocupare" });
+
+      const weak = order.slice(-2).map((o) => ["luni", "marți", "miercuri", "joi", "vineri", "sâmbătă"][o[1]]);
+      D.insights("#insights", [
+        { type: "bad", title: `${num(c.ns)} neprezentări = ${lei(c.ns * TICKET)}`, text: `Aproape <strong>${dec((c.ns / c.booked) * 100)}%</strong> dintre programări nu se prezintă. Un mesaj cu o zi înainte rezolvă jumătate.` },
+        { type: "warn", title: `Zilele de ${weak[1]} și ${weak[0]} sunt pe jumătate goale`, text: `O ofertă „−15% ${weak[1]} și ${weak[0]} dimineața” umple orele pe care oricum le plătești.` },
+        { type: "good", title: "Vineri și sâmbătă ești la capacitate", text: `Peste <strong>90%</strong> ocupare. Poți crește prețul cu 10% în aceste zile fără să pierzi clienți.` },
+        { type: "good", title: "Extensiile de gene aduc cei mai mulți bani pe oră", text: `<strong>138 lei/oră</strong> față de 62 lei la tuns. Promovează-le în reclame și pe site.` },
+      ]);
+    }
+
+    D.hbars("#c-serv", SERVICES.map(([n, v], i) => ({ label: n, value: v, color: i === 0 ? D.css("--accent") : D.css("--prev") })), { fmt: (v) => num(v) + " lei/oră" });
+    D.heat("#c-heat", { rows: DOW, colLabels: HOURS, values: heatVals, fmt: (v) => v + "%", unit: "Ocupare", legend: ["gol", "plin"] });
+
+    const tb = document.querySelector("#t-lost tbody");
+    tb.innerHTML = LOST.map(([n, d, v]) => `
+      <tr><td><span class="client"><i>${n.split(" ").map((w) => w[0]).join("")}</i><span>${n}<small>client fidel</small></span></span></td>
+      <td>acum ${d} zile</td><td>${lei(v)}</td><td><button class="btn-sm" data-n="${n}">Trimite mesaj</button></td></tr>`).join("");
+    tb.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      b.disabled = true; b.textContent = "✓ Trimis";
+      D.toast(`<strong>Mesaj WhatsApp trimis către ${b.dataset.n}</strong><br>„Ne e dor de tine! Ai −15% la următoarea programare, valabil 14 zile.”`);
+    });
+
+    D.seg("#period", (v) => { P = +v; render(); });
+    render();
+  })();
+  </script>
+</body>
+</html>

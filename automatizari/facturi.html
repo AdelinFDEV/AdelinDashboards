@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <title>Facturi citite de AI · Demo automatizare · Adelin Solutions</title>
+  <meta name="description" content="Demo interactiv: AI-ul citește facturile primite pe email, verifică cifrele, le trece în registrul de cheltuieli, arhivează PDF-ul și îți amintește de scadență.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auto.css">
+  <style>
+    .inbox { display: grid; gap: 6px; }
+    .mail { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 10px; align-items: center; text-align: left; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-2); cursor: pointer; width: 100%; }
+    .mail:hover { border-color: var(--muted); }
+    .mail[aria-pressed="true"] { border-color: var(--accent); background: rgba(200,245,58,.06); }
+    .mail i { width: 34px; height: 34px; border-radius: 50%; background: var(--page); display: grid; place-items: center; font-style: normal; font-weight: 700; font-size: .8rem; color: var(--text-2); }
+    .mail b { display: block; font-size: .88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mail small { color: var(--muted); font-size: .78rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mail em { font-style: normal; font-size: .7rem; color: var(--muted); border: 1px solid var(--line); padding: 2px 7px; border-radius: 999px; white-space: nowrap; }
+    .mail.is-done em { color: var(--good); border-color: currentColor; }
+    .mail.is-flag em { color: var(--warn); border-color: currentColor; }
+
+    .paper { background: #fdfdfb; color: #1d2330; border-radius: 10px; padding: 18px; font-size: .78rem; line-height: 1.5; box-shadow: 0 14px 30px -18px #000; position: relative; overflow: hidden; }
+    .paper h4 { margin: 0; font: 700 1.1rem var(--font-head); letter-spacing: .04em; }
+    .paper__top { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .paper__top div:last-child { text-align: right; }
+    .paper table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+    .paper th { text-align: left; font-size: .68rem; text-transform: uppercase; color: #6b7385; border-bottom: 1.5px solid #1d2330; padding: 4px 0; }
+    .paper td { padding: 4px 0; border-bottom: 1px solid #e6e8ec; }
+    .paper td:last-child, .paper th:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+    .paper__sum { margin-left: auto; width: 62%; display: grid; gap: 2px; }
+    .paper__sum p { display: flex; justify-content: space-between; }
+    .paper__sum p:last-child { font-weight: 700; font-size: .92rem; border-top: 1.5px solid #1d2330; padding-top: 4px; margin-top: 2px; }
+    .paper .f { border-radius: 4px; padding: 0 3px; margin: 0 -3px; transition: background .3s, box-shadow .3s; }
+    .paper .f.hl { background: #e4dfff; box-shadow: 0 0 0 1.5px #8a7dfa; }
+    .paper .f.err { background: #ffe0e0; box-shadow: 0 0 0 1.5px #e5484d; }
+    .scan { position: absolute; left: 0; right: 0; top: 0; height: 40px; background: linear-gradient(180deg, transparent, rgba(138,125,250,.28)); border-bottom: 2px solid #8a7dfa; opacity: 0; pointer-events: none; }
+    .scan.on { animation: scan 1.5s ease-in-out; }
+    @keyframes scan { 0% { top: -40px; opacity: 1; } 100% { top: 100%; opacity: 1; } }
+    .tot-row td { font-weight: 700; border-bottom: 0; }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">
+    <a href="../index.html#automatizari" class="demo-bar__back">← Portofoliu</a>
+    <span class="demo-bar__note"><strong>Demo interactiv</strong> · alege o factură din inbox și apasă „Procesează”</span>
+    <a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20demo-ul%20cu%20automatizarea%20pentru%20facturi%20%C8%99i%20a%C8%99%20vrea%20ceva%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener" class="demo-bar__cta">Vreau această automatizare</a>
+  </div>
+
+  <div class="wrap">
+    <header class="a-head">
+      <div>
+        <span class="eyebrow">Automatizare 03 · Facturi și cheltuieli</span>
+        <h1>Facturile se trec singure în registru. Tu doar aprobi plata.</h1>
+        <p>AI-ul deschide PDF-ul primit pe email, citește furnizorul, sumele și scadența, verifică dacă cifrele se leagă, apoi completează tabelul și îți amintește când trebuie plătit.</p>
+      </div>
+      <div class="versus">
+        <div><span>Manual</span><strong>6 minute</strong><span>pentru fiecare factură</span></div>
+        <i>→</i>
+        <div class="now"><span>Automat</span><strong>8 secunde</strong><span>și fără greșeli de tastare</span></div>
+      </div>
+    </header>
+
+    <div class="lab">
+      <section class="card">
+        <div class="card__bar"><h2>Inbox · facturi@firmata.ro<small>Trei emailuri necitite, fiecare cu un PDF atașat</small></h2></div>
+        <div class="pad">
+          <div class="inbox" id="inbox"></div>
+          <p class="sub-h">PDF atașat</p>
+          <div class="paper" id="paper"></div>
+          <button class="btn-run" id="run" type="button" data-lock style="margin-top:16px;width:100%;justify-content:center">▶ Procesează factura</button>
+        </div>
+      </section>
+
+      <div style="display:grid;gap:16px;min-width:0">
+        <section class="card">
+          <div class="card__bar">
+            <h2>Fluxul de lucru<small>Pornește singur la fiecare email cu factură</small></h2>
+            <span class="status" id="status"><i></i><span>În așteptare</span></span>
+          </div>
+          <div class="canvas-wrap"><div class="canvas" id="canvas"></div></div>
+          <div class="flow__bottom">
+            <div class="pane"><h3 id="data-title">Date</h3><dl class="data" id="data" style="margin:0"></dl></div>
+            <div class="pane"><h3>Jurnal</h3><ol class="log" id="log"></ol></div>
+          </div>
+          <div class="summary" id="summary" hidden></div>
+        </section>
+
+        <section class="card">
+          <div class="card__bar"><h2>Registrul de cheltuieli<small>Google Sheets · gata de trimis contabilului la final de lună</small></h2></div>
+          <div class="tbl-wrap">
+            <table class="tbl" id="reg">
+              <thead><tr><th>Furnizor</th><th>Nr. factură</th><th>Categorie</th><th>Scadență</th><th class="r">Fără TVA</th><th class="r">TVA</th><th class="r">Total</th><th>Stare</th></tr></thead>
+              <tbody></tbody>
+              <tfoot><tr class="tot-row"><td colspan="6">Total de plată luna aceasta</td><td class="r" id="reg-tot"></td><td></td></tr></tfoot>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="gains">
+      <div class="card gain"><strong>~10 ore pe lună</strong><h3>Timp câștigat</h3><p>La 100 de facturi pe lună, scapi de o zi întreagă de introdus date.</p></div>
+      <div class="card gain"><strong>0 penalități</strong><h3>Nicio scadență ratată</h3><p>Primești reamintire înainte de termen, cu suma și contul furnizorului.</p></div>
+      <div class="card gain"><strong>Verificat</strong><h3>Greșelile sunt prinse</h3><p>Totaluri care nu se leagă sau facturi trimise de două ori ajung la tine, nu în contabilitate.</p></div>
+    </div>
+
+    <section class="cta">
+      <h2>Câte ore pierzi lunar cu facturile?</h2>
+      <p>Leg automatizarea la emailul tău, la registrul din Sheets sau Excel și, dacă vrei, la programul de contabilitate.</p>
+      <a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20demo-ul%20cu%20automatizarea%20pentru%20facturi%20%C8%99i%20a%C8%99%20vrea%20ceva%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener">Scrie-mi pe WhatsApp</a>
+      <div class="others"><a href="lead-uri.html">← Demo 01 · Răspuns la cereri</a><a href="asistent-programari.html">← Demo 02 · Asistent de programări</a></div>
+    </section>
+    <p class="foot">Demonstrație simulată în browser, cu furnizori și sume fictive. Fluxul real rulează în n8n și citește PDF-urile cu un model AI.</p>
+  </div>
+
+  <script src="auto.js"></script>
+  <script>
+  (() => {
+    const $ = (id) => document.getElementById(id);
+    const money = (n) => new Intl.NumberFormat("ro-RO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
+    const dstr = (off) => { const d = new Date(); d.setDate(d.getDate() + off); return d.toLocaleDateString("ro-RO", { day: "2-digit", month: "2-digit", year: "numeric" }); };
+    const VAT = 0.21;
+
+    // total = suma tipărită pe factură; a treia are intenționat o greșeală
+    const INV = [
+      { id: "a", from: "Electro Distrib SRL", cui: "RO18457230", nr: "ED-2041", cat: "Echipamente", issued: -2, due: 14, subj: "Factura ED-2041", items: [["Laptop de birou 15,6\"", 1, 3200], ["Monitor 27\"", 2, 890], ["Cablu HDMI 2 m", 2, 35]] },
+      { id: "b", from: "Papetărie Rapid SRL", cui: "RO30911874", nr: "PR-7718", cat: "Consumabile", issued: -9, due: 3, subj: "Factura dvs. nr. PR-7718", items: [["Hârtie A4, 5 topuri", 4, 115], ["Toner imprimantă", 1, 310]] },
+      { id: "c", from: "Trans Logistic SRL", cui: "RO22760415", nr: "TL-0389", cat: "Transport", issued: -1, due: 20, subj: "Factura transport noiembrie", items: [["Transport marfă București–Cluj", 2, 1450], ["Taxă urgență", 1, 200]], printedTotal: 3951.00 },
+    ];
+    INV.forEach((v) => { v.sub = v.items.reduce((s, [, q, p]) => s + q * p, 0); v.vat = +(v.sub * VAT).toFixed(2); v.calc = +(v.sub + v.vat).toFixed(2); v.total = v.printedTotal || v.calc; });
+
+    const reg = [
+      { f: "Chirie Birouri Central SRL", nr: "CB-1102", cat: "Chirie", due: dstr(6), sub: 4500, vat: 945, total: 5445, st: "De plătit" },
+      { f: "NetFibra SA", nr: "NF-558201", cat: "Internet", due: dstr(-3), sub: 180, vat: 37.8, total: 217.8, st: "Plătită" },
+    ];
+    const state = {}; let sel = "a";
+
+    function renderInbox() {
+      $("inbox").innerHTML = INV.map((v) => `
+        <button type="button" class="mail ${state[v.id] === "ok" ? "is-done" : state[v.id] === "flag" ? "is-flag" : ""}" data-id="${v.id}" aria-pressed="${v.id === sel}">
+          <i>${v.from[0]}</i><span><b>${v.from}</b><small>${v.subj} · 📎 ${v.nr}.pdf</small></span><em>${state[v.id] === "ok" ? "✓ Procesată" : state[v.id] === "flag" ? "! De verificat" : "Nouă"}</em>
+        </button>`).join("");
+    }
+    function renderPaper() {
+      const v = INV.find((x) => x.id === sel);
+      $("paper").innerHTML = `<div class="scan" id="scan"></div>
+        <div class="paper__top"><div><h4>FACTURĂ</h4><span class="f" data-f="from"><b>${v.from}</b></span><br>CUI: <span class="f" data-f="cui">${v.cui}</span></div>
+        <div>Nr. <span class="f" data-f="nr"><b>${v.nr}</b></span><br>Data: ${dstr(v.issued)}<br>Scadență: <span class="f" data-f="due">${dstr(v.due)}</span></div></div>
+        <table><thead><tr><th>Denumire</th><th>Cant.</th><th>Valoare</th></tr></thead><tbody>${v.items.map(([n, q, p]) => `<tr><td>${n}</td><td>${q}</td><td>${money(q * p)}</td></tr>`).join("")}</tbody></table>
+        <div class="paper__sum"><p><span>Subtotal</span><span class="f" data-f="sub">${money(v.sub)}</span></p><p><span>TVA 21%</span><span class="f" data-f="vat">${money(v.vat)}</span></p><p><span>Total (lei)</span><span class="f" data-f="total">${money(v.total)}</span></p></div>`;
+    }
+    function renderReg(newNr) {
+      document.querySelector("#reg tbody").innerHTML = reg.map((r) => `<tr class="${r.nr === newNr ? "new" : ""}"><td>${r.f}</td><td>${r.nr}</td><td>${r.cat}</td><td>${r.due}</td><td class="r">${money(r.sub)}</td><td class="r">${money(r.vat)}</td><td class="r">${money(r.total)}</td><td><span class="pill pill--${r.st === "Plătită" ? "ok" : "warm"}">${r.st}</span></td></tr>`).join("");
+      $("reg-tot").textContent = money(reg.filter((r) => r.st !== "Plătită").reduce((s, r) => s + r.total, 0)) + " lei";
+    }
+    $("inbox").addEventListener("click", (e) => { const b = e.target.closest(".mail"); if (!b || Auto.busy) return; sel = b.dataset.id; renderInbox(); renderPaper(); Auto.reset(); });
+
+    Auto.init({
+      nodes: [
+        { id: "mail", col: 0, row: 1, icon: "mail", kind: "trigger", title: "Email cu factură", sub: "PDF atașat" },
+        { id: "ai", col: 1, row: 1, icon: "ai", kind: "ai", title: "AI citește PDF-ul", sub: "furnizor, sume, scadență" },
+        { id: "check", col: 2, row: 1, icon: "check", title: "Verifică cifrele", sub: "calcule + duplicate" },
+        { id: "sw", col: 3, row: 1, icon: "split", kind: "logic", title: "Totul e corect?", sub: "" },
+        { id: "sheet", col: 4, row: 0, icon: "sheet", title: "Registru cheltuieli", sub: "rând nou" },
+        { id: "drive", col: 5, row: 0, icon: "drive", title: "Arhivă Drive", sub: "PDF redenumit" },
+        { id: "remind", col: 6, row: 0, icon: "bell", title: "Reminder plată", sub: "înainte de scadență" },
+        { id: "review", col: 4, row: 2, icon: "user", title: "Trimite la tine", sub: "de verificat manual" },
+      ],
+      edges: [["mail", "ai"], ["ai", "check"], ["check", "sw"], ["sw", "sheet", "corect"], ["sheet", "drive"], ["drive", "remind"], ["sw", "review", "problemă"]],
+    });
+
+    const mark = async (f, cls = "hl") => { const el = document.querySelector(`#paper [data-f="${f}"]`); el && el.classList.add(cls); await Auto.sleep(170); };
+
+    $("run").addEventListener("click", async () => {
+      if (Auto.busy) return;
+      const v = INV.find((x) => x.id === sel), dup = reg.some((r) => r.nr === v.nr), mismatch = Math.abs(v.calc - v.total) > 0.01;
+      renderPaper(); Auto.begin();
+      await Auto.step("mail", { ms: 500, sec: 0.2, out: { de_la: v.from, subiect: v.subj, atasament: v.nr + ".pdf" }, log: "email nou cu atașament PDF" });
+      $("scan").classList.add("on");
+      const reading = Auto.step("ai", { ms: 1700, sec: 3.4, out: { furnizor: v.from, cui: v.cui, numar: v.nr, scadenta: dstr(v.due), fara_tva: money(v.sub), tva: money(v.vat), total: money(v.total), categorie: v.cat + " (dedusă de AI)" }, log: "a extras 7 câmpuri din PDF și a ales categoria" });
+      await Auto.sleep(500); for (const f of ["from", "cui", "nr", "due", "sub", "vat", "total"]) await mark(f);
+      await reading;
+      await Auto.step("check", { ms: 800, sec: 0.5, out: { "subtotal + TVA": money(v.calc), total_pe_factura: money(v.total), se_potriveste: mismatch ? "NU, diferență " + money(v.calc - v.total) + " lei" : "da", deja_in_registru: dup ? "DA" : "nu" }, log: dup ? "factura există deja în registru" : mismatch ? `totalul nu se leagă: diferență de ${money(v.calc - v.total)} lei` : "calculele se potrivesc, nu e duplicat" });
+      const bad = dup || mismatch;
+      await Auto.step("sw", { ms: 400, sec: 0.1, out: { ramura: bad ? "problemă" : "corect" }, log: bad ? "oprește înregistrarea automată" : "continuă automat" });
+
+      if (bad) {
+        Auto.skip(["sheet", "drive", "remind"]);
+        if (mismatch) await mark("total", "err");
+        await Auto.step("review", { sec: 0.6, out: { catre: "tine, pe email și WhatsApp", motiv: dup ? "factură duplicată" : "total greșit pe factură", actiune: "aștept decizia ta" }, log: "ți-a trimis factura cu problema explicată" });
+        if (!dup) state[v.id] = "flag"; renderInbox();
+        return Auto.end(dup
+          ? `<strong>Duplicat prins în {t} secunde.</strong> Factura ${v.nr} era deja în registru, deci nu a fost adăugată a doua oară și nu riști să o plătești de două ori.`
+          : `<strong>Greșeală prinsă în {t} secunde.</strong> Pe factură scrie ${money(v.total)} lei, dar subtotalul plus TVA dau ${money(v.calc)} lei. Nu a intrat nimic în registru până nu decizi tu.`);
+      }
+
+      await Auto.step("sheet", { sec: 0.6, out: { rand_nou: "da", furnizor: v.from, total: money(v.total) + " lei", stare: "De plătit" }, log: "rând adăugat în registrul de cheltuieli" });
+      reg.unshift({ f: v.from, nr: v.nr, cat: v.cat, due: dstr(v.due), sub: v.sub, vat: v.vat, total: v.total, st: "De plătit" }); renderReg(v.nr);
+      const file = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}_${v.from.split(" ")[0]}_${v.nr}.pdf`;
+      await Auto.step("drive", { sec: 0.8, out: { folder: "Facturi / " + v.cat, fisier: file }, log: "PDF arhivat și redenumit ordonat" });
+      const soon = v.due <= 5;
+      await Auto.step("remind", { sec: 0.3, out: { cand: soon ? "azi, scadența e în " + v.due + " zile" : "cu 3 zile înainte de " + dstr(v.due), mesaj: `De plătit ${money(v.total)} lei către ${v.from}` }, log: soon ? "scadență apropiată: te-a anunțat acum" : "reamintire programată înainte de scadență" });
+      state[v.id] = "ok"; renderInbox();
+      Auto.end(`<strong>Factură înregistrată în {t} secunde</strong>, față de aproximativ 6 minute manual. ${soon ? "Scadența e în " + v.due + " zile, așa că ai primit deja reamintirea de plată." : "Reamintirea de plată e programată."}`);
+    });
+
+    renderInbox(); renderPaper(); renderReg();
+  })();
+  </script>
+</body>
+</html>

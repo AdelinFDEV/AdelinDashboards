@@ -3,319 +3,232 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adelin Solutions · Dashboard-uri, site-uri web și automatizări</title>
-  <meta name="description" content="Adelin Solutions: dashboard-uri pentru analiza datelor, site-uri web moderne și automatizări care îți economisesc ore de muncă.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>Adelin Solutions · Dashboard-uri, site-uri web și automatizări cu AI</title>
+  <meta name="description" content="Dashboard-uri care îți arată unde pierzi bani, site-uri care aduc programări și automatizări cu AI care răspund clienților în locul tău. Testează 9 demo-uri live.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <!-- Bară de sus (doar pe mobil) -->
-  <header class="topbar">
-    <a href="#acasa" class="topbar__brand"><span class="logo-mark">A</span> Adelin Solutions</a>
-    <button class="menu-toggle" aria-label="Deschide meniul" aria-expanded="false" aria-controls="sidebar">
-      <span></span><span></span>
-    </button>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="wa" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.600 15.100L2 22l5-1.300A10 10 0 1 0 12 2zm5.300 14.200c-.200.600-1.300 1.200-1.800 1.200-.500.100-1 .200-3.300-.700-2.800-1.100-4.500-3.900-4.700-4.100-.100-.200-1.100-1.500-1.100-2.800 0-1.300.700-2 1-2.300.200-.200.500-.300.700-.300h.500c.200 0 .400 0 .600.500l.900 2.100c.100.200.100.400 0 .600l-.400.600-.400.400c-.100.200-.300.300-.100.600.200.300.800 1.300 1.700 2.100 1.200 1 2.100 1.400 2.400 1.500.300.100.500.100.600-.100l.900-1.100c.200-.300.400-.200.700-.100l2 .900c.300.200.500.200.600.400 0 .100 0 .600-.200 1.100z"/></symbol>
+  </svg>
+
+  <div class="glow" aria-hidden="true"></div>
+
+  <!-- Navigație -->
+  <header class="nav" id="nav">
+    <a href="#acasa" class="nav__brand"><span class="mark">A</span><span>Adelin <b>Solutions</b></span></a>
+    <nav class="nav__links" aria-label="Secțiuni">
+      <a href="#servicii">Servicii</a>
+      <a href="#proiecte">Demo-uri live</a>
+      <a href="#proces">Cum lucrez</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn--wa btn--sm" href="https://wa.me/40750210645" data-wa="Salut, Adelin! Am văzut site-ul tău și aș vrea să discutăm despre un proiect." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>WhatsApp</a>
   </header>
 
-  <!-- Meniu lateral tip CV -->
-  <aside class="sidebar" id="sidebar">
-    <div class="profile">
-      <div class="profile__photo">
-        <!-- Înlocuiește cu poza ta: <img src="assets/poza.jpg" alt="Numele tău"> -->
-        <span class="profile__initials">A</span>
-      </div>
-      <p class="profile__brand">Adelin Solutions</p>
-      <h1 class="profile__name">Adelin</h1>
-      <p class="profile__role">Dashboard-uri · Site-uri web · Automatizări</p>
-      <p class="status"><span class="status__dot"></span> Disponibil pentru proiecte noi</p>
-    </div>
+  <main>
 
-    <nav class="nav" aria-label="Secțiuni">
-      <a href="#acasa" class="nav__link is-active"><span class="nav__num">01</span> Acasă</a>
-      <a href="#servicii" class="nav__link"><span class="nav__num">02</span> Servicii</a>
-      <a href="#proiecte" class="nav__link"><span class="nav__num">03</span> Proiecte</a>
-      <a href="#proces" class="nav__link"><span class="nav__num">04</span> Cum lucrez</a>
-      <a href="#contact" class="nav__link"><span class="nav__num">05</span> Contact</a>
-    </nav>
-
-    <div class="sidebar__block">
-      <p class="sidebar__label">Instrumente</p>
-      <ul class="tags">
-        <li>Power BI</li><li>Looker Studio</li><li>SQL</li><li>Python</li>
-        <li>Excel</li><li>n8n</li><li>Make</li><li>HTML/CSS/JS</li>
-      </ul>
-    </div>
-
-    <div class="sidebar__footer">
-      <a href="#contact" class="btn btn--primary btn--block">Cere o ofertă</a>
-      <p class="sidebar__copy">© <span id="year"></span> Adelin Solutions</p>
-    </div>
-  </aside>
-
-  <main class="content">
-
-    <!-- 01 · ACASĂ -->
-    <section class="section hero" id="acasa">
-      <div class="hero__text">
-        <p class="eyebrow">Salut, sunt Adelin</p>
-        <h2 class="hero__title">Transform datele tale în <span class="highlight">decizii</span>.</h2>
-        <p class="hero__lead">
-          Creez dashboard-uri clare ca să vezi starea afacerii dintr-o privire,
-          construiesc site-uri care aduc clienți și automatizez sarcinile care îți fură ore întregi.
-        </p>
+    <!-- HERO -->
+    <section class="hero" id="acasa">
+      <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="hero__copy">
+        <p class="chip"><span class="chip__dot"></span>Disponibil pentru proiecte noi · răspund în 24 de ore</p>
+        <h1 class="hero__title">
+          <span class="line"><span>Tehnologie care îți</span></span>
+          <span class="line"><span>aduce <em>clienți</em>, nu doar</span></span>
+          <span class="line"><span>arată bine.</span></span>
+        </h1>
+        <p class="hero__lead">Construiesc dashboard-uri care îți arată unde pierzi bani, site-uri care aduc programări și automatizări cu AI care răspund clienților în locul tău.</p>
         <div class="hero__actions">
-          <a href="#proiecte" class="btn btn--primary">Vezi proiectele</a>
-          <a href="#contact" class="btn btn--ghost">Hai să vorbim →</a>
+          <a href="#proiecte" class="btn btn--primary btn--lg">Testează demo-urile live <span aria-hidden="true">↓</span></a>
+          <a class="btn btn--ghost btn--lg" href="https://wa.me/40750210645" data-wa="Salut, Adelin! Am văzut site-ul tău și aș vrea să discutăm despre un proiect." target="_blank" rel="noopener">Scrie-mi pe WhatsApp</a>
         </div>
-        <ul class="hero__stats">
-          <li><strong data-count="24" data-suffix="h">0</strong><span>timp de răspuns la cererea ta</span></li>
-          <li><strong data-count="3">0</strong><span>servicii, un singur partener</span></li>
-          <li><strong data-count="100" data-suffix="%">0</strong><span>personalizat, fără șabloane</span></li>
-        </ul>
       </div>
 
-      <!-- Mini dashboard animat -->
-      <div class="hero__visual" aria-hidden="true">
-        <div class="dash">
-          <div class="dash__head">
-            <span class="dash__dots"><i></i><i></i><i></i></span>
-            <span class="dash__title">vanzari_2026.dashboard</span>
-          </div>
-          <div class="dash__kpis">
-            <div class="kpi"><span>Venituri</span><strong>642,5k lei</strong><em class="up">▲ 18%</em></div>
-            <div class="kpi"><span>Clienți</span><strong>1.284</strong><em class="up">▲ 9%</em></div>
-            <div class="kpi"><span>Costuri</span><strong>210,3k lei</strong><em class="down">▼ 6%</em></div>
-          </div>
-          <div class="dash__chart">
-            <svg viewBox="0 0 300 110" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="area" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stop-color="currentColor" stop-opacity=".35"/>
-                  <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <path class="chart-area" d="M0,90 L30,82 L60,85 L90,64 L120,70 L150,48 L180,54 L210,34 L240,38 L270,18 L300,12 L300,110 L0,110 Z" fill="url(#area)"/>
-              <path class="chart-line" d="M0,90 L30,82 L60,85 L90,64 L120,70 L150,48 L180,54 L210,34 L240,38 L270,18 L300,12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div class="dash__bars">
-            <i style="--h:45%"></i><i style="--h:70%"></i><i style="--h:55%"></i><i style="--h:85%"></i>
-            <i style="--h:60%"></i><i style="--h:95%"></i><i style="--h:75%"></i>
-          </div>
-        </div>
-        <div class="float-card float-card--auto">
-          <span class="float-card__icon">⚡</span>
-          <div><strong>Automatizare activă</strong><small>Raport trimis · acum 2 min</small></div>
+      <!-- Scenă cu demo-uri reale, încărcate live -->
+      <div class="stage" id="stage" aria-hidden="true">
+        <div class="stage__tilt">
+          <div class="win win--left"><div class="win__bar"><i></i><i></i><i></i><span>site-ul tău</span></div><div class="pv" data-src="demos/salon/index.html" data-eager></div></div>
+          <div class="win win--right"><div class="win__bar"><i></i><i></i><i></i><span>automatizare cu AI</span></div><div class="pv" data-src="automatizari/lead-uri.html" data-eager></div></div>
+          <div class="win win--main"><div class="win__bar"><i></i><i></i><i></i><span>dashboard-ul afacerii tale</span></div><div class="pv" data-src="dashboards/vanzari.html" data-eager></div></div>
+          <div class="float float--a"><b>+10,3%</b><span>vânzări față de luna trecută</span></div>
+          <div class="float float--b"><span class="float__ic">⚡</span><div><b>Client nou</b><span>răspuns trimis în 4 secunde</span></div></div>
         </div>
       </div>
+
+      <ul class="stats">
+        <li><strong data-count="9">0</strong><span>demo-uri pe care le poți testa acum</span></li>
+        <li><strong data-count="24" data-suffix="h">0</strong><span>timp de răspuns la mesajul tău</span></li>
+        <li><strong data-count="100" data-suffix="%">0</strong><span>făcut pe afacerea ta, fără șabloane</span></li>
+        <li><strong data-count="1">0</strong><span>singur om, de la idee la livrare</span></li>
+      </ul>
     </section>
 
-    <!-- 02 · SERVICII -->
+    <!-- Bandă cu domenii -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Saloane de înfrumusețare</span><i>✦</i><span>Clinici și cabinete</span><i>✦</i><span>Antrenori personali</span><i>✦</i><span>Magazine online</span><i>✦</i><span>Psihologi</span><i>✦</i><span>Firme de servicii</span><i>✦</i><span>Restaurante</span><i>✦</i>
+        <span>Saloane de înfrumusețare</span><i>✦</i><span>Clinici și cabinete</span><i>✦</i><span>Antrenori personali</span><i>✦</i><span>Magazine online</span><i>✦</i><span>Psihologi</span><i>✦</i><span>Firme de servicii</span><i>✦</i><span>Restaurante</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- Problema -->
+    <section class="section manifest">
+      <p class="eyebrow">De ce contează</p>
+      <p class="manifest__text" id="manifest">Majoritatea afacerilor mici pierd bani în trei locuri: nu își cunosc cifrele, au un site care nu aduce programări și răspund prea târziu clienților. Eu le rezolv pe toate trei.</p>
+    </section>
+
+    <!-- SERVICII -->
     <section class="section" id="servicii">
       <header class="section__head">
-        <p class="eyebrow">02 — Servicii</p>
-        <h2 class="section__title">Trei moduri prin care îți dezvolt afacerea</h2>
+        <p class="eyebrow">01 — Servicii</p>
+        <h2 class="section__title">Trei lucruri pe care le fac <em>foarte bine</em></h2>
       </header>
 
-      <div class="services">
-        <article class="service reveal">
-          <div class="service__icon">
-            <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" /></svg>
+      <div class="bento">
+        <article class="tile tile--wide reveal" data-spot>
+          <div class="tile__text">
+            <span class="tile__n">01</span>
+            <h3>Dashboard-uri de date</h3>
+            <p>Leg casa de marcat, magazinul online, Excel-ul sau agenda de programări și primești un singur ecran cu cifrele care contează, actualizat singur.</p>
+            <ul class="ticks"><li>Vezi profitul, nu doar încasările</li><li>Afli din timp când ceva merge prost</li><li>Pe telefon și pe calculator</li></ul>
+            <a href="#proiecte" class="link" data-tab="dashboard">Vezi 3 dashboard-uri live →</a>
           </div>
-          <h3>Dashboard-uri de date</h3>
-          <p>Conectez sursele tale de date (Excel, CRM, ERP, magazin online, Google Sheets) și le transform în panouri vizuale cu indicatorii care contează cu adevărat.</p>
-          <ul class="checklist">
-            <li>KPI pentru vânzări, financiar și operațiuni</li>
-            <li>Date actualizate automat</li>
-            <li>Acces de pe telefon și calculator</li>
-          </ul>
+          <div class="art art--chart" aria-hidden="true">
+            <div class="art__kpis"><b>146.925 <small>lei</small></b><span>▲ 10,3%</span></div>
+            <svg viewBox="0 0 320 120" preserveAspectRatio="none"><defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#c8f53a" stop-opacity=".35"/><stop offset="1" stop-color="#c8f53a" stop-opacity="0"/></linearGradient></defs><path d="M0,96 L32,84 L64,90 L96,66 L128,72 L160,50 L192,58 L224,34 L256,40 L288,18 L320,10 L320,120 L0,120Z" fill="url(#ga)"/><path class="art__line" d="M0,96 L32,84 L64,90 L96,66 L128,72 L160,50 L192,58 L224,34 L256,40 L288,18 L320,10" fill="none" stroke="#c8f53a" stroke-width="2.500" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>
+            <div class="art__bars"><i style="--h:42%"></i><i style="--h:66%"></i><i style="--h:52%"></i><i style="--h:84%"></i><i style="--h:60%"></i><i style="--h:96%"></i><i style="--h:74%"></i></div>
+          </div>
         </article>
 
-        <article class="service reveal">
-          <div class="service__icon">
-            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M6 6.5h.01M9 6.5h.01"/></svg>
-          </div>
+        <article class="tile reveal" data-spot>
+          <span class="tile__n">02</span>
+          <div class="art art--site" aria-hidden="true"><span></span><b></b><b class="s"></b><em>Rezervă acum</em></div>
           <h3>Site-uri web</h3>
-          <p>Site-uri rapide și moderne, gândite să transforme vizitatorii în clienți. De la o pagină de prezentare până la un site complet de firmă.</p>
-          <ul class="checklist">
-            <li>Design personalizat și responsive</li>
-            <li>Optimizate pentru Google (SEO)</li>
-            <li>Formulare și statistici integrate</li>
-          </ul>
+          <p>Pagini rapide, gândite pentru telefon, în care vizitatorul ajunge la programare în mai puțin de un minut.</p>
+          <ul class="ticks"><li>Programare directă pe WhatsApp</li><li>Design făcut pe brandul tău</li></ul>
+          <a href="#proiecte" class="link" data-tab="web">Vezi 3 site-uri live →</a>
         </article>
 
-        <article class="service reveal">
-          <div class="service__icon">
-            <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
-          </div>
-          <h3>Automatizări</h3>
-          <p>Elimin sarcinile repetitive: rapoarte care se generează singure, date care circulă între aplicații și notificări care ajung exact când e nevoie.</p>
-          <ul class="checklist">
-            <li>Rapoarte automate pe email</li>
-            <li>Integrare între instrumentele tale</li>
-            <li>Mai puține greșeli, mai mult timp liber</li>
-          </ul>
+        <article class="tile reveal" data-spot>
+          <span class="tile__n">03</span>
+          <div class="art art--flow" aria-hidden="true"><span>Mesaj</span><i></i><span class="ai">AI</span><i></i><span>Răspuns</span></div>
+          <h3>Automatizări cu AI</h3>
+          <p>Fluxuri construite în n8n care răspund clienților, fac programări și citesc facturi cât tu îți vezi de treabă.</p>
+          <ul class="ticks"><li>Lucrează zi și noapte</li><li>Se leagă la ce folosești deja</li></ul>
+          <a href="#proiecte" class="link" data-tab="auto">Vezi 3 automatizări live →</a>
         </article>
       </div>
     </section>
 
-    <!-- 03 · PROIECTE -->
+    <!-- DEMO-URI -->
     <section class="section" id="proiecte">
-      <header class="section__head">
-        <p class="eyebrow">03 — Proiecte</p>
-        <h2 class="section__title">Lucrări selectate</h2>
-        <p class="section__sub">Exemple de soluții pe care le construiesc. În curând, studii de caz reale cu rezultate.</p>
+      <span id="dashboarduri" class="anchor"></span><span id="site-uri" class="anchor"></span><span id="automatizari" class="anchor"></span>
+      <header class="section__head section__head--row">
+        <div>
+          <p class="eyebrow">02 — Demo-uri live</p>
+          <h2 class="section__title">Nu îți povestesc. <em>Îți arăt.</em></h2>
+          <p class="section__sub">Ce vezi mai jos nu sunt poze, sunt demo-urile reale, încărcate live. Treci cu mouse-ul peste ele, apoi deschide-le și testează-le.</p>
+        </div>
+        <div class="tabs" role="tablist" id="tabs">
+          <span class="tabs__pill" aria-hidden="true"></span>
+          <button role="tab" aria-selected="true" data-filter="all">Toate <sup>9</sup></button>
+          <button role="tab" aria-selected="false" data-filter="dashboard">Dashboard-uri</button>
+          <button role="tab" aria-selected="false" data-filter="web">Site-uri</button>
+          <button role="tab" aria-selected="false" data-filter="auto">Automatizări AI</button>
+        </div>
       </header>
 
-      <div class="filters" role="tablist">
-        <button class="filter is-active" data-filter="all">Toate</button>
-        <button class="filter" data-filter="dashboard">Dashboard-uri</button>
-        <button class="filter" data-filter="web">Site-uri web</button>
-        <button class="filter" data-filter="auto">Automatizări</button>
-      </div>
-
-      <div class="projects">
-        <a href="dashboards/vanzari-magazin.html" class="project project--live reveal" data-cat="dashboard">
-          <div class="project__thumb thumb--dash">
-            <span class="project__badge"><i></i> Demo live</span>
-            <div class="mini-kpis"><i></i><i></i><i></i></div>
-            <div class="mini-bars"><i style="--h:40%"></i><i style="--h:65%"></i><i style="--h:50%"></i><i style="--h:80%"></i><i style="--h:70%"></i><i style="--h:90%"></i></div>
-          </div>
-          <div class="project__body">
-            <span class="project__tag">Dashboard</span>
-            <h3>Vânzările zilei pentru un magazin mic</h3>
-            <p>Cum merge azi față de săptămâna trecută, bonul mediu, numărul de clienți și orele de vârf — totul într-un singur ecran.</p>
-            <span class="project__link">Deschide dashboard-ul →</span>
-          </div>
-        </a>
-
-        <a href="dashboards/stoc-magazin.html" class="project project--live reveal" data-cat="dashboard">
-          <div class="project__thumb thumb--stock">
-            <span class="project__badge"><i></i> Demo live</span>
-            <div class="mini-stock">
-              <p><b style="--w:12%;--c:#ff6b6b"></b></p>
-              <p><b style="--w:28%;--c:#fab219"></b></p>
-              <p><b style="--w:64%;--c:#3ccf5a"></b></p>
-              <p><b style="--w:82%;--c:#3ccf5a"></b></p>
-              <p><b style="--w:100%;--c:#ec835a"></b></p>
-            </div>
-          </div>
-          <div class="project__body">
-            <span class="project__tag">Dashboard</span>
-            <h3>Stoc: ce se termină și ce stă pe raft</h3>
-            <p>Alerte înainte să rămâi fără marfă, banii blocați în stoc mort și câte zile mai ține fiecare produs.</p>
-            <span class="project__link">Deschide dashboard-ul →</span>
-          </div>
-        </a>
-
-        <a href="dashboards/marja-produse.html" class="project project--live reveal" data-cat="dashboard">
-          <div class="project__thumb thumb--profit">
-            <span class="project__badge"><i></i> Demo live</span>
-            <svg class="mini-pareto" viewBox="0 0 160 90" preserveAspectRatio="none" aria-hidden="true">
-              <rect x="0" y="0" width="40" height="90" fill="rgba(200,245,58,.12)"/>
-              <path d="M0,90 L10,52 L20,34 L30,22 L40,16 L60,10 L80,7 L110,4 L160,2" fill="none" stroke="#c8f53a" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
-            </svg>
-          </div>
-          <div class="project__body">
-            <span class="project__tag">Dashboard</span>
-            <h3>Ce produse aduc bani cu adevărat</h3>
-            <p>Top produse după profit, produsele care se vând mult dar aduc puțin și analiza ABC: puține produse fac cea mai mare parte din profit.</p>
-            <span class="project__link">Deschide dashboard-ul →</span>
-          </div>
-        </a>
-
-        <a href="demos/salon/index.html" class="project project--live reveal" data-cat="web">
-          <div class="project__thumb thumb--salon">
-            <span class="project__badge"><i></i> Demo live</span>
-            <div class="mini-salon">
-              <span class="mini-salon__arch"></span>
-              <div class="mini-salon__txt"><b></b><b class="short"></b><em><i></i>WhatsApp</em></div>
-            </div>
-          </div>
-          <div class="project__body">
-            <span class="project__tag">Site web</span>
-            <h3>Landing page pentru salon de unghii și gene</h3>
-            <p>Design elegant, listă de prețuri și programare directă pe WhatsApp: clienta alege serviciul, ziua și ora, iar mesajul se scrie singur.</p>
-            <span class="project__link">Deschide site-ul →</span>
-          </div>
-        </a>
-
-        <a href="demos/psiholog/index.html" class="project project--live reveal" data-cat="web">
-          <div class="project__thumb thumb--psy">
-            <span class="project__badge"><i></i> Demo live</span>
-            <div class="mini-psy">
-              <span class="mini-psy__blob"></span>
-              <div class="mini-psy__txt"><b></b><b></b><b class="short"></b><em></em></div>
-            </div>
-          </div>
-          <div class="project__body">
-            <span class="project__tag">Site web</span>
-            <h3>Site pentru psiholog</h3>
-            <p>Ton calm și de încredere: domenii de lucru, tarife, întrebări frecvente și cerere de programare discretă pe WhatsApp.</p>
-            <span class="project__link">Deschide site-ul →</span>
-          </div>
-        </a>
-
-        <a href="demos/antrenor/index.html" class="project project--live reveal" data-cat="web">
-          <div class="project__thumb thumb--fit">
-            <span class="project__badge"><i></i> Demo live</span>
-            <div class="mini-fit"><strong>MAI<br><span>PUTERNIC</span></strong><i></i></div>
-          </div>
-          <div class="project__body">
-            <span class="project__tag">Site web</span>
-            <h3>Site pentru antrenor personal</h3>
-            <p>Design energic, calculator de calorii care generează lead-uri, pachete de prețuri și programare pe WhatsApp.</p>
-            <span class="project__link">Deschide site-ul →</span>
-          </div>
-        </a>
-
-        <article class="project reveal" data-cat="auto">
-          <div class="project__thumb thumb--auto">
-            <div class="flow"><span>Formular</span><i></i><span>CRM</span><i></i><span>Email</span></div>
-          </div>
-          <div class="project__body">
-            <span class="project__tag">Automatizare</span>
-            <h3>Flux automat de lead-uri</h3>
-            <p>Fiecare contact nou este înregistrat, clasificat și primește răspuns fără intervenție manuală.</p>
-          </div>
+      <div class="demos" id="demos">
+        <article class="demo reveal" data-cat="dashboard">
+          <div class="win"><div class="win__bar"><i></i><i></i><i></i><span>dashboard · vânzări</span></div><div class="pv" data-src="dashboards/vanzari.html"></div></div>
+          <div class="demo__body"><span class="tag">Dashboard · Magazine</span><h3><a href="dashboards/vanzari.html">Vânzări și profit dintr-o privire</a></h3><p>Cât ai încasat, cât îți rămâne, ce produse aduc profitul și câți bani pierzi din coșuri abandonate.</p><span class="go">Deschide dashboard-ul <i>→</i></span></div>
+        </article>
+        <article class="demo reveal" data-cat="dashboard">
+          <div class="win"><div class="win__bar"><i></i><i></i><i></i><span>dashboard · programări</span></div><div class="pv" data-src="dashboards/programari.html"></div></div>
+          <div class="demo__body"><span class="tag">Dashboard · Saloane și clinici</span><h3><a href="dashboards/programari.html">Programări și locuri goale</a></h3><p>Grad de ocupare pe ore, neprezentări transformate în lei și clienții care nu au mai revenit.</p><span class="go">Deschide dashboard-ul <i>→</i></span></div>
+        </article>
+        <article class="demo reveal" data-cat="dashboard">
+          <div class="win"><div class="win__bar"><i></i><i></i><i></i><span>dashboard · reclame</span></div><div class="pv" data-src="dashboards/marketing.html"></div></div>
+          <div class="demo__body"><span class="tag">Dashboard · Reclame</span><h3><a href="dashboards/marketing.html">Care reclamă îți aduce clienți</a></h3><p>Cost pe client pentru fiecare canal și un simulator care arată unde să muți bugetul.</p><span class="go">Deschide dashboard-ul <i>→</i></span></div>
         </article>
 
+        <article class="demo reveal" data-cat="web">
+          <div class="win"><div class="win__bar"><i></i><i></i><i></i><span>site · antrenor personal</span></div><div class="pv" data-src="demos/antrenor/index.html"></div></div>
+          <div class="demo__body"><span class="tag">Site web · Fitness</span><h3><a href="demos/antrenor/index.html">Antrenor personal</a></h3><p>Calculator de calorii care aduce clienți, pachete de prețuri și rezervarea ședinței gratuite.</p><span class="go">Deschide site-ul <i>→</i></span></div>
+        </article>
+        <article class="demo reveal" data-cat="web">
+          <div class="win"><div class="win__bar"><i></i><i></i><i></i><span>site · cabinet psihologie</span></div><div class="pv" data-src="demos/psiholog/index.html"></div></div>
+          <div class="demo__body"><span class="tag">Site web · Sănătate</span><h3><a href="demos/psiholog/index.html">Cabinet de psihologie</a></h3><p>Ton calm și de încredere, alegerea ședinței cu preț și ore libere, programare discretă.</p><span class="go">Deschide site-ul <i>→</i></span></div>
+        </article>
+        <article class="demo reveal" data-cat="web">
+          <div class="win"><div class="win__bar"><i></i><i></i><i></i><span>site · salon de unghii</span></div><div class="pv" data-src="demos/salon/index.html"></div></div>
+          <div class="demo__body"><span class="tag">Site web · Beauty</span><h3><a href="demos/salon/index.html">Salon de unghii</a></h3><p>Clienta alege serviciile, vede totalul, își alege ziua și ora, iar mesajul de rezervare se scrie singur.</p><span class="go">Deschide site-ul <i>→</i></span></div>
+        </article>
+
+        <article class="demo reveal" data-cat="auto">
+          <div class="win"><div class="win__bar"><i></i><i></i><i></i><span>automatizare · cereri</span></div><div class="pv" data-src="automatizari/lead-uri.html"></div></div>
+          <div class="demo__body"><span class="tag">Automatizare · Vânzări</span><h3><a href="automatizari/lead-uri.html">Răspuns la cereri în 10 secunde</a></h3><p>AI-ul citește cererea, vede cât de grăbit e clientul, îl trece în tabel și îi răspunde pe loc.</p><span class="go">Rulează demo-ul <i>→</i></span></div>
+        </article>
+        <article class="demo reveal" data-cat="auto">
+          <div class="win"><div class="win__bar"><i></i><i></i><i></i><span>automatizare · programări</span></div><div class="pv" data-src="automatizari/asistent-programari.html"></div></div>
+          <div class="demo__body"><span class="tag">Automatizare · Programări</span><h3><a href="automatizari/asistent-programari.html">Asistent care îți umple agenda</a></h3><p>Răspunde clienților pe WhatsApp zi și noapte, face programarea și trimite reminder.</p><span class="go">Vorbește cu asistentul <i>→</i></span></div>
+        </article>
+        <article class="demo reveal" data-cat="auto">
+          <div class="win"><div class="win__bar"><i></i><i></i><i></i><span>automatizare · facturi</span></div><div class="pv" data-src="automatizari/facturi.html"></div></div>
+          <div class="demo__body"><span class="tag">Automatizare · Contabilitate</span><h3><a href="automatizari/facturi.html">Facturi citite de AI</a></h3><p>Citește PDF-ul, verifică cifrele, completează registrul și îți amintește de scadență.</p><span class="go">Rulează demo-ul <i>→</i></span></div>
+        </article>
       </div>
     </section>
 
-    <!-- 04 · PROCES -->
+    <!-- PROCES -->
     <section class="section" id="proces">
       <header class="section__head">
-        <p class="eyebrow">04 — Cum lucrez</p>
-        <h2 class="section__title">De la idee la rezultat, în 4 pași</h2>
+        <p class="eyebrow">03 — Cum lucrez</p>
+        <h2 class="section__title">De la primul mesaj la rezultat, <em>în 4 pași</em></h2>
       </header>
-
-      <ol class="timeline">
-        <li class="reveal"><span class="timeline__n">01</span><div><h3>Ascult</h3><p>Un apel în care înțeleg afacerea ta, datele tale și ce vrei să obții.</p></div></li>
-        <li class="reveal"><span class="timeline__n">02</span><div><h3>Propun</h3><p>Îți trimit o ofertă clară: ce voi face, în cât timp și la ce preț.</p></div></li>
-        <li class="reveal"><span class="timeline__n">03</span><div><h3>Construiesc</h3><p>Dezvolt soluția cu livrări parțiale, ca să vezi progresul pas cu pas.</p></div></li>
-        <li class="reveal"><span class="timeline__n">04</span><div><h3>Te sprijin</h3><p>Îți arăt cum să o folosești și rămân disponibil pentru ajustări și îmbunătățiri.</p></div></li>
+      <ol class="steps">
+        <li class="reveal"><span>01</span><h3>Ascult</h3><p>Îmi scrii pe WhatsApp și stabilim un apel scurt. Vreau să înțeleg afacerea ta și ce te ține în loc.</p></li>
+        <li class="reveal"><span>02</span><h3>Propun</h3><p>Primești o ofertă clară: ce fac, în cât timp și la ce preț. Fără costuri ascunse.</p></li>
+        <li class="reveal"><span>03</span><h3>Construiesc</h3><p>Lucrez cu livrări parțiale, ca să vezi progresul și să poți cere schimbări din mers.</p></li>
+        <li class="reveal"><span>04</span><h3>Te sprijin</h3><p>Îți arăt cum se folosește și rămân aproape pentru ajustări și îmbunătățiri.</p></li>
       </ol>
     </section>
 
-    <!-- 05 · CONTACT -->
-    <section class="section contact" id="contact">
-      <div class="contact__card reveal">
-        <p class="eyebrow">05 — Contact</p>
-        <h2 class="contact__title">Ai date pe care nu le folosești sau sarcini care se repetă?</h2>
-        <p class="contact__lead">Spune-mi despre afacerea ta și îți propun o soluție, fără niciun angajament.</p>
-        <div class="contact__actions">
-          <!-- Înlocuiește cu emailul și telefonul tău reale -->
-          <a href="mailto:contact@domeniultau.ro" class="btn btn--primary btn--lg">contact@domeniultau.ro</a>
-          <a href="https://wa.me/40700000000" class="btn btn--ghost btn--lg" target="_blank" rel="noopener">WhatsApp →</a>
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="cta reveal">
+        <div class="cta__aurora" aria-hidden="true"></div>
+        <p class="eyebrow">04 — Contact</p>
+        <h2 class="cta__title">Hai să vedem ce pot face <em>pentru afacerea ta</em>.</h2>
+        <p class="cta__lead">Alege ce te interesează și scrie-mi pe WhatsApp. Mesajul e deja pregătit, trebuie doar să apeși „Trimite”.</p>
+        <div class="choices" id="choices" role="group" aria-label="Ce te interesează">
+          <button type="button" aria-pressed="false" data-msg="un dashboard pentru afacerea mea">Un dashboard</button>
+          <button type="button" aria-pressed="false" data-msg="un site web">Un site web</button>
+          <button type="button" aria-pressed="false" data-msg="o automatizare cu AI">O automatizare cu AI</button>
+          <button type="button" aria-pressed="true" data-msg="">Încă nu știu</button>
         </div>
+        <div class="cta__actions">
+          <a class="btn btn--wa btn--xl" id="wa-main" href="https://wa.me/40750210645" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Scrie-mi pe WhatsApp</a>
+          <p class="cta__phone"><span>WhatsApp</span><a id="wa-num" href="https://wa.me/40750210645" target="_blank" rel="noopener">0750 210 645</a></p>
+        </div>
+        <p class="cta__note">Răspund în cel mult 24 de ore. Prima discuție nu te costă nimic și nu te obligă la nimic.</p>
       </div>
     </section>
-
   </main>
+
+  <footer class="footer">
+    <a href="#acasa" class="nav__brand"><span class="mark">A</span><span>Adelin <b>Solutions</b></span></a>
+    <p>Dashboard-uri · Site-uri web · Automatizări cu AI</p>
+    <p>© <span id="year"></span> Adelin Solutions · WhatsApp <a href="https://wa.me/40750210645" target="_blank" rel="noopener">0750 210 645</a></p>
+  </footer>
+
+  <a class="fab" href="https://wa.me/40750210645" data-wa="Salut, Adelin! Am văzut site-ul tău și aș vrea să discutăm despre un proiect." target="_blank" rel="noopener" aria-label="Scrie-mi pe WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
 
   <script src="js/main.js"></script>
 </body>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <title>Răspuns automat la cereri · Demo automatizare cu AI · Adelin Solutions</title>
+  <meta name="description" content="Demo interactiv: o cerere venită din formularul site-ului este citită de AI, clasificată, salvată în tabelul de clienți și primește răspuns pe WhatsApp în câteva secunde.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auto.css">
+  <style>
+    .notif { margin-top: 12px; border: 1px dashed var(--line); border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; font-size: .86rem; color: var(--muted); transition: border-color .3s, background .3s; }
+    .notif.is-on { border: 1px solid rgba(200,245,58,.5); background: rgba(200,245,58,.07); color: var(--text); animation: rise .35s; }
+    .notif i { width: 34px; height: 34px; border-radius: 10px; background: var(--surface-2); display: grid; place-items: center; font-style: normal; flex: none; }
+    .notif b { display: block; }
+    .phone .chat { height: 250px; }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">
+    <a href="../index.html#automatizari" class="demo-bar__back">← Portofoliu</a>
+    <span class="demo-bar__note"><strong>Demo interactiv</strong> · simulare a unui flux real construit în n8n cu AI</span>
+    <a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20demo-ul%20cu%20automatizarea%20de%20r%C4%83spuns%20la%20cereri%20%C8%99i%20a%C8%99%20vrea%20ceva%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener" class="demo-bar__cta">Vreau această automatizare</a>
+  </div>
+
+  <div class="wrap">
+    <header class="a-head">
+      <div>
+        <span class="eyebrow">Automatizare 01 · Cereri de ofertă</span>
+        <h1>Fiecare client primește răspuns în 10 secunde, chiar și la 2 noaptea</h1>
+        <p>Cine răspunde primul câștigă clientul. AI-ul citește cererea, își dă seama cât de grăbit e omul, îl trece în tabelul tău și îi scrie pe loc, cu numele și cu serviciul cerut.</p>
+      </div>
+      <div class="versus">
+        <div><span>Fără automatizare</span><strong>3–4 ore</strong><span>până apuci să răspunzi</span></div>
+        <i>→</i>
+        <div class="now"><span>Cu automatizare</span><strong>sub 10 s</strong><span>zi și noapte</span></div>
+      </div>
+    </header>
+
+    <div class="lab">
+      <section class="card">
+        <div class="card__bar"><h2>1 · Clientul completează formularul<small>Scrie orice mesaj sau alege un exemplu</small></h2></div>
+        <div class="pad">
+          <div class="presets" id="presets">
+            <button type="button" data-p="hot">Client grăbit</button>
+            <button type="button" data-p="warm">Cere ofertă</button>
+            <button type="button" data-p="cold">Doar întreabă</button>
+            <button type="button" data-p="spam">Spam</button>
+          </div>
+          <form class="stage-form" id="form" style="margin-top:14px">
+            <label>Nume<input id="f-name" required autocomplete="off"></label>
+            <label>Serviciu<select id="f-serv"><option>Renovare baie</option><option>Renovare bucătărie</option><option>Zugrăvit apartament</option><option>Altceva</option></select></label>
+            <label>Mesaj<textarea id="f-msg" required></textarea></label>
+            <button class="btn-run" type="submit" data-lock>▶ Trimite formularul</button>
+          </form>
+
+          <p class="sub-h">2 · Ce primește clientul pe WhatsApp</p>
+          <div class="phone">
+            <div class="phone__head"><i>R</i><div><b>RenoCasa</b><small>cont de firmă</small></div></div>
+            <div class="chat" id="chat"></div>
+          </div>
+          <p class="sub-h">3 · Ce primești tu pe telefon</p>
+          <div class="notif" id="notif"><i>🔔</i><div>Aici apare alerta, doar pentru clienții care merită sunați imediat.</div></div>
+        </div>
+      </section>
+
+      <div style="display:grid;gap:16px;min-width:0">
+        <section class="card">
+          <div class="card__bar">
+            <h2>Fluxul de lucru<small>Se execută singur, la fiecare formular trimis</small></h2>
+            <span class="status" id="status"><i></i><span>În așteptare</span></span>
+          </div>
+          <div class="canvas-wrap"><div class="canvas" id="canvas"></div></div>
+          <div class="flow__bottom">
+            <div class="pane"><h3 id="data-title">Date</h3><dl class="data" id="data" style="margin:0"></dl></div>
+            <div class="pane"><h3>Jurnal</h3><ol class="log" id="log"></ol></div>
+          </div>
+          <div class="summary" id="summary" hidden></div>
+        </section>
+
+        <section class="card">
+          <div class="card__bar"><h2>Tabelul tău de clienți<small>Google Sheets · se completează singur, nimic nu se pierde</small></h2></div>
+          <div class="tbl-wrap">
+            <table class="tbl" id="crm">
+              <thead><tr><th>Ora</th><th>Nume</th><th>Serviciu</th><th>Tip</th><th>Buget</th><th>Rezumat făcut de AI</th><th>Stare</th></tr></thead>
+              <tbody>
+                <tr><td>09:12</td><td>Mihai Stan</td><td>Renovare baie</td><td><span class="pill pill--hot">Fierbinte</span></td><td>18.000 lei</td><td>Vrea să înceapă luna aceasta, baie 5 mp</td><td>Sunat</td></tr>
+                <tr><td>08:40</td><td>Elena Vasile</td><td>Zugrăvit apartament</td><td><span class="pill pill--warm">De urmărit</span></td><td>—</td><td>Cere preț pentru 3 camere</td><td>Ofertă trimisă</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="gains">
+      <div class="card gain"><strong>24/7</strong><h3>Nu mai pierzi cereri</h3><p>Seara, în weekend sau când ești pe șantier, clientul tot primește răspuns.</p></div>
+      <div class="card gain"><strong>0 minute</strong><h3>Fără copiat în Excel</h3><p>Fiecare cerere ajunge singură în tabel, cu rezumat și prioritate.</p></div>
+      <div class="card gain"><strong>Doar ce contează</strong><h3>Suni clienții serioși</h3><p>Telefonul sună doar pentru cererile urgente. Spamul dispare.</p></div>
+    </div>
+
+    <section class="cta">
+      <h2>Vrei asta pe site-ul tău?</h2>
+      <p>Se leagă la formularul, WhatsApp-ul și tabelul pe care le folosești deja. De obicei e gata în câteva zile.</p>
+      <a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20demo-ul%20cu%20automatizarea%20de%20r%C4%83spuns%20la%20cereri%20%C8%99i%20a%C8%99%20vrea%20ceva%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener">Scrie-mi pe WhatsApp</a>
+      <div class="others"><a href="asistent-programari.html">Demo 02 · Asistent de programări →</a><a href="facturi.html">Demo 03 · Facturi citite de AI →</a></div>
+    </section>
+    <p class="foot">Demonstrație simulată în browser: nu se trimit mesaje reale. Fluxul real rulează în n8n, cu un model AI și conturile tale.</p>
+  </div>
+
+  <script src="auto.js"></script>
+  <script>
+  (() => {
+    const $ = (id) => document.getElementById(id);
+    const PRESETS = {
+      hot: ["Andrei Popescu", "Renovare baie", "Bună ziua, am o baie de 6 mp care trebuie refăcută complet. Aș vrea să începem cât mai repede, în maximum două săptămâni. Am un buget de 25.000 lei. Puteți veni mâine la măsurători?"],
+      warm: ["Ioana Marin", "Renovare bucătărie", "Bună, aș dori o ofertă de preț pentru renovarea unei bucătării de 10 mp, cu gresie și faianță. Nu ne grăbim, ne gândim la primăvară."],
+      cold: ["Dan Tudor", "Altceva", "Lucrați și în afara orașului?"],
+      spam: ["SEO Expert", "Altceva", "Promovăm site-ul tău pe prima pagină Google! Backlink-uri ieftine, click aici: http://seo-ieftin.example"],
+    };
+    function fill(k) {
+      const [n, s, m] = PRESETS[k];
+      $("f-name").value = n; $("f-serv").value = s; $("f-msg").value = m;
+      $("presets").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.p === k)));
+    }
+    $("presets").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b && !Auto.busy) fill(b.dataset.p); });
+    fill("hot");
+
+    Auto.init({
+      nodes: [
+        { id: "form", col: 0, row: 1, icon: "form", kind: "trigger", title: "Formular site", sub: "cerere nouă" },
+        { id: "ai", col: 1, row: 1, icon: "ai", kind: "ai", title: "AI citește cererea", sub: "urgență, buget, rezumat" },
+        { id: "sw", col: 2, row: 1, icon: "split", kind: "logic", title: "Ce fel de client e?", sub: "3 ramuri" },
+        { id: "wa", col: 3, row: 0, icon: "chat", kind: "wa", title: "WhatsApp client", sub: "răspuns + ore libere" },
+        { id: "alert", col: 4, row: 0, icon: "bell", title: "Alertă pentru tine", sub: "sună-l acum" },
+        { id: "email", col: 3, row: 1, icon: "mail", title: "Ofertă pe WhatsApp", sub: "prețuri orientative" },
+        { id: "follow", col: 4, row: 1, icon: "clock", title: "Revenire automată", sub: "peste 2 zile" },
+        { id: "trash", col: 3, row: 2, icon: "trash", title: "Arhivează", sub: "fără răspuns" },
+        { id: "crm", col: 5, row: 0.5, icon: "sheet", title: "Tabel clienți", sub: "Google Sheets" },
+      ],
+      edges: [["form", "ai"], ["ai", "sw"], ["sw", "wa", "fierbinte"], ["wa", "alert"], ["sw", "email", "de urmărit"], ["email", "follow"], ["sw", "trash", "spam"], ["alert", "crm"], ["follow", "crm"]],
+    });
+
+    // „AI” simulat: reguli simple care imită ce ar extrage un model real
+    function analyze(msg) {
+      const t = msg.toLowerCase();
+      if (/(seo|backlink|crypto|click aici|https?:\/\/|câștig garantat|promovăm)/.test(t)) return { type: "spam", score: 0 };
+      let score = 0;
+      const urgent = /(urgent|cât mai repede|azi|mâine|săptămâna asta|două săptămâni|imediat|rapid)/.test(t);
+      const budget = t.match(/(\d{1,3}(?:[.\s]\d{3})+|\d{4,})\s*(lei|ron|euro|eur)/);
+      if (urgent) score += 2; if (budget) score += 2;
+      if (/(\d+\s*(mp|m2|metri)|apartament|camere|baie|bucătări)/.test(t)) score += 1;
+      if (/(ofert|preț|cât costă|deviz)/.test(t)) score += 1;
+      if (msg.length > 80) score += 1;
+      return { type: score >= 4 ? "hot" : score >= 2 ? "warm" : "cold", score, urgent, budget: budget ? budget[0] : null };
+    }
+    const first = (n) => n.trim().split(/\s+/)[0];
+    const clock = () => new Date().toLocaleTimeString("ro-RO", { hour: "2-digit", minute: "2-digit" });
+    const chat = Auto.chat($("chat"));
+    chat.add("sys", "Conversația apare aici după ce trimiți formularul");
+
+    $("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (Auto.busy) return;
+      const name = $("f-name").value.trim(), serv = $("f-serv").value, msg = $("f-msg").value.trim();
+      if (!name || !msg) return;
+      const a = analyze(msg), sum = msg.length > 62 ? msg.slice(0, 60).trim() + "…" : msg;
+      Auto.begin(); chat.clear(); chat.add("sys", "Azi");
+      const notif = $("notif"); notif.classList.remove("is-on"); notif.lastElementChild.textContent = "Se analizează cererea…";
+
+      await Auto.step("form", { sec: 0.2, out: { nume: name, serviciu: serv, mesaj: msg, sursa: "formular site" }, log: "cerere primită de pe site" });
+      await Auto.step("ai", { ms: 1300, sec: 2.1, out: { tip: { hot: "fierbinte", warm: "de urmărit", cold: "informativ", spam: "spam" }[a.type], scor: a.score + " / 7", urgent: a.urgent ? "da" : "nu", buget: a.budget || "nespecificat", rezumat: sum }, log: a.type === "spam" ? "mesaj publicitar, nu e client" : `scor ${a.score}/7${a.urgent ? ", client grăbit" : ""}${a.budget ? ", buget " + a.budget : ""}` });
+      await Auto.step("sw", { ms: 500, sec: 0.1, out: { ramura: a.type === "hot" ? "fierbinte" : a.type === "spam" ? "spam" : "de urmărit" }, log: "alege ramura potrivită" });
+
+      if (a.type === "spam") {
+        Auto.skip(["wa", "alert", "email", "follow", "crm"]);
+        await Auto.step("trash", { sec: 0.1, out: { actiune: "arhivat", notificare: "niciuna" }, log: "arhivat, nu te deranjează nimeni" });
+        chat.add("sys", "Niciun mesaj trimis: era spam");
+        notif.lastElementChild.textContent = "Nicio alertă. Spamul nu ajunge la tine.";
+        return Auto.end(`<strong>Spam filtrat în {t} secunde.</strong> Nu ai pierdut niciun minut citindu-l și nu ți-a murdărit tabelul de clienți.`);
+      }
+
+      const row = (type, state) => {
+        const tr = document.createElement("tr"); tr.className = "new";
+        tr.innerHTML = `<td>${clock()}</td><td>${Auto.esc(name)}</td><td>${Auto.esc(serv)}</td><td><span class="pill pill--${type === "hot" ? "hot" : type === "warm" ? "warm" : "cold"}">${type === "hot" ? "Fierbinte" : type === "warm" ? "De urmărit" : "Informativ"}</span></td><td>${a.budget || "—"}</td><td>${Auto.esc(sum)}</td><td>${state}</td>`;
+        document.querySelector("#crm tbody").prepend(tr);
+      };
+
+      if (a.type === "hot") {
+        Auto.skip(["email", "follow", "trash"]);
+        const text = `Bună ziua, ${first(name)}! Am primit cererea pentru ${serv.toLowerCase()}. Putem veni la măsurători mâine la 10:00 sau la 17:30. Care oră vă convine?`;
+        await chat.typing(700);
+        await Auto.step("wa", { ms: 600, sec: 1.4, out: { catre: name, canal: "WhatsApp", mesaj: text }, log: "răspuns personalizat trimis clientului" });
+        chat.add("in", text, "RenoCasa");
+        await Auto.step("alert", { sec: 0.3, out: { catre: "telefonul tău", prioritate: "ridicată", text: `${name} · ${serv} · ${a.budget || "buget nespecificat"}` }, log: "ai primit notificare pe telefon" });
+        notif.classList.add("is-on"); notif.lastElementChild.innerHTML = `<b>Client fierbinte: ${Auto.esc(name)}</b>${Auto.esc(serv)} · ${a.budget ? "buget " + a.budget : "buget nespecificat"} · sună-l în următoarele 10 minute.`;
+        await Auto.step("crm", { sec: 0.4, out: { rand_nou: "da", tip: "fierbinte", stare: "Răspuns trimis" }, log: "rând nou în tabelul de clienți" });
+        row("hot", "Răspuns trimis");
+        return Auto.end(`<strong>Clientul a primit răspuns în {t} secunde</strong> și tu ai fost anunțat. Cât timp concurența încă nu și-a deschis emailul, tu ai deja o măsurătoare programată.`);
+      }
+
+      Auto.skip(["wa", "alert", "trash"]);
+      const text = a.type === "warm"
+        ? `Bună ziua, ${first(name)}! Mulțumim pentru cerere. Pentru ${serv.toLowerCase()}, prețurile pornesc de la 450 lei/mp, cu materiale incluse. Vă trimit mai jos câteva lucrări recente. Când doriți, vă fac o ofertă exactă.`
+        : `Bună ziua, ${first(name)}! Mulțumim pentru mesaj. Da, lucrăm în oraș și pe o rază de 40 km. Dacă îmi spuneți ce lucrare aveți în plan, vă trimit un preț orientativ.`;
+      await chat.typing(700);
+      await Auto.step("email", { ms: 600, sec: 1.5, out: { catre: name, canal: "WhatsApp", mesaj: text }, log: "ofertă orientativă trimisă" });
+      chat.add("in", text, "RenoCasa");
+      await Auto.step("follow", { sec: 0.2, out: { programat: "peste 2 zile, ora 10:00", mesaj: "„Ați apucat să vă uitați peste ofertă?”" }, log: "revenire programată automat peste 2 zile" });
+      chat.add("sys", "Peste 2 zile: revenire automată dacă nu răspunde");
+      notif.lastElementChild.textContent = "Nicio alertă. Nu e urgent, sistemul se ocupă singur și te anunță doar dacă clientul răspunde.";
+      await Auto.step("crm", { sec: 0.4, out: { rand_nou: "da", tip: a.type === "warm" ? "de urmărit" : "informativ", stare: "Ofertă trimisă" }, log: "rând nou în tabelul de clienți" });
+      row(a.type, "Ofertă trimisă");
+      Auto.end(`<strong>Răspuns trimis în {t} secunde</strong>, fără să te întrerupă din lucru. Dacă omul nu răspunde, primește singur un mesaj de revenire peste două zile.`);
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -3,593 +3,364 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ana Marinescu · Psiholog</title>
-  <meta name="description" content="Psihoterapie pentru adulți și cupluri, la cabinet sau online. Prima discuție de 15 minute este gratuită.">
+  <link rel="icon" href="data:,">
+  <title>Ana Munteanu · Psiholog și psihoterapeut în București și online</title>
+  <meta name="description" content="Psihoterapie pentru anxietate, epuizare, relații și perioade grele. Ședințe la cabinet în București sau online. Programare discretă, răspuns în aceeași zi.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../demo.css">
   <style>
     :root {
-      --bg: #f7f4ee;
-      --sand: #efe8dc;
-      --sage: #8aa18c;
-      --sage-l: #dfe7dc;
-      --sage-d: #4f6a55;
-      --forest: #2f4337;
-      --ink: #26302a;
-      --ink-2: #5b665e;
-      --clay: #c98b6b;
-      --white: #fffdf9;
-      --wa: #25d366;
-      --radius: 24px;
-      --serif: "Fraunces", Georgia, serif;
-      --sans: "DM Sans", system-ui, sans-serif;
-      --shadow: 0 30px 60px -36px rgba(47, 67, 55, .45);
+      --cream: #f6f1e8; --paper: #fffdf9; --sand: #ebe3d5; --line: #ddd3c2;
+      --ink: #24382d; --ink-2: #4d5f54; --mute: #7a877e;
+      --sage: #5d7a66; --sage-l: #dfe8dd; --terra: #b9623f; --terra-l: #f3ddd0;
+      --serif: "Fraunces", Georgia, serif; --sans: "DM Sans", system-ui, sans-serif;
+      --r: 22px;
     }
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body { margin: 0; background: var(--cream); color: var(--ink); font: 400 17px/1.7 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
     h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; line-height: 1.12; letter-spacing: -0.015em; }
-    p { margin: 0; }
-    ul { margin: 0; padding: 0; list-style: none; }
+    h1 em, h2 em { font-style: italic; color: var(--terra); }
+    p { margin: 0; } ul, ol { margin: 0; padding: 0; list-style: none; }
     button, input, select, textarea { font: inherit; color: inherit; }
-    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
-    em { font-style: italic; color: var(--sage-d); }
-    section { scroll-margin-top: 80px; }
-
-    .demo-bar { background: var(--forest); color: #dfe7dc; font-size: .8rem; text-align: center; padding: 8px 16px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-    .demo-bar a { color: #f2c9b3; font-weight: 500; }
-
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 15px 26px; border-radius: 999px; font-weight: 500; font-size: 1rem; border: 1px solid transparent; cursor: pointer; transition: transform .25s, background .25s, color .25s, border-color .25s; }
+    .c { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .eyebrow { display: inline-block; font-size: .8rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--sage); margin-bottom: 16px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 15px 28px; border-radius: 999px; font-weight: 600; font-size: .98rem; border: 1.5px solid transparent; cursor: pointer; transition: background .25s, transform .25s, border-color .25s; }
     .btn:hover { transform: translateY(-2px); }
-    .btn svg { width: 20px; height: 20px; }
-    .btn--main { background: var(--forest); color: #fff; }
-    .btn--main:hover { background: var(--sage-d); }
-    .btn--ghost { border-color: rgba(47,67,55,.25); color: var(--forest); }
-    .btn--ghost:hover { border-color: var(--forest); }
-    .btn--wa { background: var(--wa); color: #fff; }
-    .btn--wa:hover { background: #1da851; }
+    .btn--ink { background: var(--ink); color: var(--cream); }
+    .btn--ink:hover { background: #1a2a21; }
+    .btn--soft { border-color: var(--line); background: var(--paper); }
+    .btn--soft:hover { border-color: var(--sage); }
+    .btn--block { width: 100%; }
 
-    /* Nav */
-    .nav { position: sticky; top: 0; z-index: 40; background: rgba(247,244,238,.85); backdrop-filter: blur(12px); }
-    .nav__in { display: flex; align-items: center; justify-content: space-between; height: 78px; gap: 20px; }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand svg { width: 38px; height: 38px; }
-    .brand b { font-family: var(--serif); font-weight: 500; font-size: 1.3rem; display: block; line-height: 1.1; }
-    .brand small { color: var(--ink-2); font-size: .78rem; letter-spacing: .04em; }
-    .nav__links { display: flex; gap: 30px; font-size: .95rem; color: var(--ink-2); }
-    .nav__links a:hover { color: var(--forest); }
-    .nav .btn { padding: 11px 20px; font-size: .92rem; }
-    .burger { display: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(47,67,55,.25); background: transparent; cursor: pointer; }
-    .burger span { display: block; width: 18px; height: 1.5px; background: var(--forest); margin: 4px auto; transition: transform .3s; }
+    .nav { position: sticky; top: 0; z-index: 50; background: rgba(246,241,232,.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .nav .c { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 72px; }
+    .logo { font-family: var(--serif); font-size: 1.3rem; }
+    .logo small { display: block; font-family: var(--sans); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); }
+    .nav__links { display: flex; gap: 28px; font-size: .94rem; color: var(--ink-2); font-weight: 500; }
+    .nav__links a:hover { color: var(--terra); }
+    .nav .btn { padding: 11px 20px; font-size: .88rem; }
+    .burger { display: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); cursor: pointer; }
+    .burger::before { content: ""; display: block; width: 16px; height: 1.5px; margin: 0 auto; background: var(--ink); box-shadow: 0 5px 0 var(--ink), 0 -5px 0 var(--ink); }
 
-    /* Hero */
-    .hero { padding: 60px 0 100px; }
-    .hero__grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 70px; align-items: center; }
-    .pill { display: inline-flex; align-items: center; gap: 8px; background: var(--sage-l); color: var(--sage-d); padding: 7px 14px; border-radius: 999px; font-size: .85rem; font-weight: 500; }
-    .pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--sage-d); }
-    .hero h1 { font-size: clamp(2.7rem, 5.6vw, 4.6rem); margin: 24px 0 24px; }
-    .hero__lead { font-size: 1.15rem; color: var(--ink-2); max-width: 540px; }
-    .hero__cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 34px; }
-    .hero__meta { display: flex; gap: 26px; flex-wrap: wrap; margin-top: 40px; color: var(--ink-2); font-size: .92rem; }
-    .hero__meta span { display: inline-flex; align-items: center; gap: 8px; }
-    .hero__meta svg { width: 20px; height: 20px; color: var(--sage-d); }
+    .hero { padding: 72px 0 80px; }
+    .hero .c { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+    .hero h1 { font-size: clamp(2.5rem, 5.6vw, 4.3rem); }
+    .hero__lead { font-size: 1.15rem; color: var(--ink-2); max-width: 520px; margin: 24px 0 32px; }
+    .hero__cta { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero__facts { display: flex; gap: 10px 22px; flex-wrap: wrap; margin-top: 30px; font-size: .9rem; color: var(--ink-2); }
+    .hero__facts li::before { content: "●"; color: var(--sage); font-size: .6rem; margin-right: 8px; vertical-align: middle; }
+    .portrait { position: relative; aspect-ratio: 4 / 4.6; max-width: 420px; margin-left: auto; width: 100%; }
+    .portrait__shape { position: absolute; inset: 0; border-radius: 48% 52% 44% 56% / 55% 46% 54% 45%; background: linear-gradient(165deg, #c9d6c6, #7f9a86 55%, #4c6a57); display: grid; place-items: center; overflow: hidden; animation: morph 14s ease-in-out infinite alternate; }
+    @keyframes morph { to { border-radius: 54% 46% 56% 44% / 46% 54% 46% 54%; } }
+    .portrait__shape svg { width: 62%; opacity: .92; }
+    .note { position: absolute; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 12px 16px; font-size: .86rem; box-shadow: 0 18px 40px -22px rgba(36,56,45,.5); line-height: 1.35; }
+    .note b { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.05rem; }
+    .note--a { left: -18px; top: 12%; }
+    .note--b { right: -8px; bottom: 10%; }
 
-    .portrait { position: relative; justify-self: center; width: min(430px, 100%); }
-    .blob { aspect-ratio: 1 / 1.12; border-radius: 46% 54% 42% 58% / 52% 44% 56% 48%; overflow: hidden; background: linear-gradient(165deg, #dfe7dc, #b9c9b8); box-shadow: var(--shadow); animation: morph 14s ease-in-out infinite; }
-    .blob svg { width: 100%; height: 100%; }
-    @keyframes morph { 50% { border-radius: 54% 46% 56% 44% / 44% 56% 44% 56%; } }
-    .quote-card { position: absolute; left: -40px; bottom: 30px; max-width: 250px; background: var(--white); border-radius: 18px; padding: 18px 20px; box-shadow: var(--shadow); font-family: var(--serif); font-style: italic; font-size: 1.02rem; line-height: 1.45; }
-    .quote-card small { display: block; font-family: var(--sans); font-style: normal; color: var(--ink-2); font-size: .78rem; margin-top: 8px; }
-    .leaf { position: absolute; right: -10px; top: -10px; width: 90px; color: var(--sage); opacity: .7; }
+    section { padding: 88px 0; }
+    .tint { background: var(--paper); border-block: 1px solid var(--line); }
+    .sh { max-width: 640px; margin-bottom: 44px; }
+    .sh--mid { margin-inline: auto; text-align: center; }
+    .sh h2 { font-size: clamp(2rem, 4.2vw, 3rem); }
+    .sh p { color: var(--ink-2); margin-top: 14px; }
 
-    /* Secțiuni */
-    .section { padding: 110px 0; }
-    .section--sand { background: var(--sand); }
-    .section--forest { background: var(--forest); color: #eef2ec; }
-    .head { max-width: 640px; margin-bottom: 56px; }
-    .head--c { text-align: center; margin-left: auto; margin-right: auto; }
-    .kicker { font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; color: var(--clay); font-weight: 600; }
-    .head h2 { font-size: clamp(2.2rem, 4.2vw, 3.3rem); margin-top: 14px; }
-    .head p { color: var(--ink-2); margin-top: 16px; font-size: 1.07rem; }
-    .section--forest .head p { color: #c7d3c7; }
-    .section--forest em { color: #f2c9b3; }
+    .feel { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 860px; margin: 0 auto; }
+    .feel li { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 11px 20px; font-size: .97rem; color: var(--ink-2); }
+    .feel li:nth-child(3n+1) { background: var(--sage-l); border-color: transparent; }
+    .feel li:nth-child(4n) { background: var(--terra-l); border-color: transparent; }
+    .feel-end { text-align: center; margin-top: 34px; font-family: var(--serif); font-size: 1.4rem; font-style: italic; }
 
-    /* Te recunoști? */
-    .feelings { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; max-width: 900px; margin: 0 auto; }
-    .feel { background: var(--white); border: 1px solid rgba(47,67,55,.12); border-radius: 999px; padding: 12px 22px; font-size: 1rem; color: var(--ink); transition: .25s; }
-    .feel:hover { background: var(--sage-l); border-color: var(--sage); }
-    .feelings-note { text-align: center; margin-top: 34px; font-family: var(--serif); font-size: 1.4rem; font-style: italic; color: var(--sage-d); }
+    .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .area { background: var(--cream); border: 1px solid var(--line); border-radius: var(--r); padding: 28px; transition: transform .3s, border-color .3s; }
+    .area:hover { transform: translateY(-4px); border-color: var(--sage); }
+    .area svg { width: 34px; height: 34px; stroke: var(--sage); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 18px; }
+    .area h3 { font-size: 1.35rem; margin-bottom: 8px; }
+    .area p { color: var(--ink-2); font-size: .95rem; }
 
-    /* Domenii */
-    .areas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-    .area { background: var(--white); border-radius: var(--radius); padding: 32px 28px; border: 1px solid rgba(47,67,55,.08); transition: transform .3s, box-shadow .3s; }
-    .area:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
-    .area__ic { width: 54px; height: 54px; border-radius: 16px; background: var(--sage-l); color: var(--sage-d); display: grid; place-items: center; margin-bottom: 22px; }
-    .area__ic svg { width: 26px; height: 26px; }
-    .area h3 { font-size: 1.45rem; margin-bottom: 10px; }
-    .area p { color: var(--ink-2); font-size: .97rem; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; counter-reset: s; }
+    .steps li { counter-increment: s; }
+    .steps li::before { content: counter(s); width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-family: var(--serif); font-size: 1.3rem; background: var(--sage-l); color: var(--ink); margin-bottom: 18px; }
+    .steps h3 { font-size: 1.35rem; margin-bottom: 8px; }
+    .steps p { color: var(--ink-2); font-size: .96rem; }
 
-    /* Despre */
-    .about { display: grid; grid-template-columns: .9fr 1.1fr; gap: 70px; align-items: center; }
-    .about__photo { aspect-ratio: 4 / 5; border-radius: 200px 200px 24px 24px; overflow: hidden; background: linear-gradient(170deg, #efe8dc, #d9c6ad); position: relative; }
-    .about__photo svg { width: 100%; height: 100%; }
-    .about__photo span { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); background: rgba(255,253,249,.9); border-radius: 999px; padding: 6px 14px; font-size: .78rem; color: var(--ink-2); white-space: nowrap; }
+    /* Configurator */
+    .pick { display: grid; grid-template-columns: 1.1fr .9fr; background: var(--cream); border: 1px solid var(--line); border-radius: 28px; overflow: hidden; }
+    .pick__left { padding: 34px; display: grid; gap: 24px; align-content: start; }
+    .pick__right { padding: 34px; background: var(--ink); color: var(--cream); display: flex; flex-direction: column; gap: 14px; }
+    .lbl { font-size: .82rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); margin-bottom: 10px; display: block; }
+    .opts { display: flex; gap: 8px; flex-wrap: wrap; }
+    .opts button { padding: 12px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--paper); cursor: pointer; font-weight: 500; font-size: .95rem; min-height: 46px; }
+    .opts button:hover { border-color: var(--sage); }
+    .opts button[aria-pressed="true"] { background: var(--sage); border-color: var(--sage); color: #fff; }
+    .opts button:disabled { opacity: .4; cursor: not-allowed; text-decoration: line-through; }
+    .slots button { border-radius: 14px; padding: 10px 14px; text-align: center; line-height: 1.25; font-size: .88rem; }
+    .slots button b { display: block; font-size: 1rem; }
+    .pick__right .eyebrow { color: #a9c2b0; margin: 0; }
+    .price { font-family: var(--serif); font-size: 3.6rem; line-height: 1; }
+    .price small { font-family: var(--sans); font-size: 1rem; opacity: .75; margin-left: 6px; }
+    .sum { display: grid; gap: 10px; font-size: .95rem; margin: 6px 0 auto; }
+    .sum li { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.14); }
+    .sum span { opacity: .7; } .sum b { font-weight: 500; text-align: right; }
+    .pick__right .btn { background: var(--cream); color: var(--ink); margin-top: 10px; }
+    .pick__right small { opacity: .65; font-size: .82rem; text-align: center; }
+
+    .about { display: grid; grid-template-columns: .8fr 1.2fr; gap: 56px; align-items: center; }
+    .about__card { background: var(--sage-l); border-radius: 28px; padding: 34px; }
+    .about__card h3 { font-size: 1.5rem; margin-bottom: 18px; }
+    .about__card li { padding: 12px 0; border-bottom: 1px solid rgba(36,56,45,.14); font-size: .95rem; display: flex; gap: 12px; }
+    .about__card li:last-child { border: 0; }
+    .about__card li::before { content: "✓"; color: var(--sage); font-weight: 700; }
+    .about h2 { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 20px; }
     .about p + p { margin-top: 16px; }
-    .about__text > p { color: var(--ink-2); }
-    .creds { margin-top: 30px; display: grid; gap: 12px; }
-    .cred { display: flex; gap: 14px; align-items: flex-start; }
-    .cred svg { width: 22px; height: 22px; color: var(--sage-d); flex: none; margin-top: 3px; }
-    .cred b { font-weight: 500; }
-    .cred span { display: block; color: var(--ink-2); font-size: .9rem; }
-    .signature { font-family: var(--serif); font-style: italic; font-size: 2rem; color: var(--sage-d); margin-top: 28px; }
+    .about p { color: var(--ink-2); }
+    .sign { font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--ink); margin-top: 24px; }
 
-    /* Cum lucrăm */
-    .journey { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: s; position: relative; }
-    .journey::before { content: ""; position: absolute; left: 6%; right: 6%; top: 27px; height: 1px; background: rgba(238,242,236,.25); }
-    .stage { position: relative; }
-    .stage__n { width: 56px; height: 56px; border-radius: 50%; background: var(--forest); border: 1px solid rgba(238,242,236,.35); display: grid; place-items: center; font-family: var(--serif); font-size: 1.3rem; color: #f2c9b3; margin-bottom: 22px; position: relative; }
-    .stage h3 { font-size: 1.35rem; margin-bottom: 8px; color: #fff; }
-    .stage p { color: #c7d3c7; font-size: .95rem; }
+    .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .quotes blockquote { margin: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 28px; font-family: var(--serif); font-size: 1.12rem; line-height: 1.5; }
+    .quotes footer { font-family: var(--sans); font-size: .84rem; color: var(--mute); margin-top: 16px; }
 
-    /* Tarife */
-    .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
-    .plan { background: var(--white); border-radius: var(--radius); padding: 34px 30px; border: 1px solid rgba(47,67,55,.1); display: flex; flex-direction: column; }
-    .plan--hl { background: var(--forest); color: #eef2ec; border-color: var(--forest); position: relative; }
-    .plan--hl .plan__desc, .plan--hl li { color: #c7d3c7; }
-    .plan__tag { position: absolute; top: -12px; left: 30px; background: var(--clay); color: #fff; font-size: .74rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; letter-spacing: .04em; }
-    .plan h3 { font-size: 1.5rem; }
-    .plan__desc { color: var(--ink-2); font-size: .93rem; margin-top: 6px; }
-    .plan__price { font-family: var(--serif); font-size: 2.6rem; margin: 22px 0 4px; }
-    .plan__price small { font-family: var(--sans); font-size: .9rem; color: var(--ink-2); }
-    .plan--hl .plan__price small { color: #c7d3c7; }
-    .plan ul { margin: 20px 0 28px; display: grid; gap: 10px; font-size: .95rem; color: var(--ink-2); }
-    .plan li { padding-left: 26px; position: relative; }
-    .plan li::before { content: ""; position: absolute; left: 0; top: .55em; width: 14px; height: 8px; border-left: 2px solid var(--sage); border-bottom: 2px solid var(--sage); transform: rotate(-45deg); }
-    .plan .btn { margin-top: auto; }
-    .plan--hl .btn--main { background: #f2c9b3; color: var(--forest); }
-    .plan--hl .btn--main:hover { background: #fff; }
-    .plans-note { text-align: center; margin-top: 26px; color: var(--ink-2); font-size: .92rem; }
+    .faq { max-width: 760px; margin: 0 auto; }
+    details { border-bottom: 1px solid var(--line); }
+    summary { cursor: pointer; padding: 22px 0; font-family: var(--serif); font-size: 1.25rem; list-style: none; display: flex; justify-content: space-between; gap: 18px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; font-family: var(--sans); color: var(--terra); font-size: 1.5rem; line-height: 1; }
+    details[open] summary::after { content: "−"; }
+    details p { color: var(--ink-2); padding: 0 0 22px; max-width: 640px; }
 
-    /* Programare */
-    .book { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
-    .book__info h2 { font-size: clamp(2.2rem, 4.2vw, 3.3rem); margin: 14px 0 18px; }
-    .book__info > p { color: var(--ink-2); }
-    .contact-list { margin-top: 30px; display: grid; gap: 14px; }
-    .contact-list a, .contact-list div { display: flex; gap: 14px; align-items: center; }
-    .contact-list svg { width: 22px; height: 22px; color: var(--sage-d); flex: none; }
-    .safety { margin-top: 30px; padding: 18px 20px; border-radius: 16px; background: #fbeee6; border: 1px solid #efd3c2; font-size: .92rem; color: #6e4532; }
-    .safety b { color: #5a3424; }
+    .book { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .book h2 { font-size: clamp(2.1rem, 4.4vw, 3.2rem); }
+    .book__info { margin-top: 26px; display: grid; gap: 16px; color: var(--ink-2); }
+    .book__info b { display: block; color: var(--ink); font-weight: 600; }
+    form.card { background: var(--paper); border: 1px solid var(--line); border-radius: 28px; padding: 32px; display: grid; gap: 16px; }
+    label { display: grid; gap: 6px; font-size: .88rem; font-weight: 500; color: var(--ink-2); }
+    input, select, textarea { background: var(--cream); border: 1px solid var(--line); border-radius: 14px; padding: 13px 16px; font-size: 1rem; width: 100%; min-height: 50px; }
+    textarea { min-height: 96px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { outline: 2px solid var(--sage); outline-offset: 1px; }
+    .chosen { background: var(--sage-l); border-radius: 14px; padding: 12px 16px; font-size: .92rem; }
+    .chosen b { font-weight: 600; }
+    form small { color: var(--mute); font-size: .82rem; text-align: center; }
+    .urgent { margin-top: 44px; background: var(--terra-l); border-radius: 18px; padding: 18px 22px; font-size: .92rem; color: #5a2f1c; }
 
-    .form { background: var(--white); border-radius: 28px; padding: 38px; box-shadow: var(--shadow); }
-    .form h3 { font-size: 1.7rem; margin-bottom: 6px; }
-    .form > p { color: var(--ink-2); font-size: .93rem; margin-bottom: 24px; }
-    .field { margin-bottom: 18px; }
-    .field > label, .field > .label { display: block; font-size: .85rem; font-weight: 500; margin-bottom: 8px; }
-    .input { width: 100%; padding: 13px 16px; border-radius: 14px; border: 1px solid rgba(47,67,55,.18); background: var(--bg); font-size: 1rem; transition: border-color .2s, box-shadow .2s; }
-    .input:focus { outline: none; border-color: var(--sage-d); box-shadow: 0 0 0 4px rgba(138,161,140,.25); }
-    select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f6a55' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 18px; padding-right: 42px; }
-    .choice { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .choice label { display: block; cursor: pointer; }
-    .choice input { position: absolute; opacity: 0; pointer-events: none; }
-    .choice span { display: block; text-align: center; padding: 11px 6px; border-radius: 12px; border: 1px solid rgba(47,67,55,.18); background: var(--bg); font-size: .9rem; transition: .2s; }
-    .choice input:checked + span { background: var(--forest); color: #fff; border-color: var(--forest); }
-    .choice input:focus-visible + span { box-shadow: 0 0 0 4px rgba(138,161,140,.35); }
-    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .privacy { display: flex; gap: 10px; align-items: flex-start; font-size: .84rem; color: var(--ink-2); margin: 6px 0 20px; }
-    .privacy svg { width: 18px; height: 18px; color: var(--sage-d); flex: none; margin-top: 2px; }
-    .form .btn { width: 100%; padding: 16px; }
-    .form__err { color: #a3361e; font-size: .88rem; text-align: center; margin-top: 10px; min-height: 1.2em; }
+    footer.site { border-top: 1px solid var(--line); padding: 30px 0; font-size: .88rem; color: var(--mute); }
+    footer.site .c { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 
-    /* FAQ */
-    .faq { max-width: 820px; margin: 0 auto; }
-    .faq details { border-bottom: 1px solid rgba(47,67,55,.15); padding: 6px 0; }
-    .faq summary { list-style: none; cursor: pointer; padding: 18px 44px 18px 0; position: relative; font-family: var(--serif); font-size: 1.3rem; }
-    .faq summary::-webkit-details-marker { display: none; }
-    .faq summary::after { content: ""; position: absolute; right: 8px; top: 50%; width: 12px; height: 12px; border-right: 1.5px solid var(--sage-d); border-bottom: 1.5px solid var(--sage-d); transform: translateY(-70%) rotate(45deg); transition: transform .3s; }
-    .faq details[open] summary::after { transform: translateY(-30%) rotate(-135deg); }
-    .faq details p { color: var(--ink-2); padding: 0 40px 20px 0; }
-
-    /* Footer */
-    .footer { background: #24342b; color: #c7d3c7; padding: 60px 0 28px; font-size: .93rem; }
-    .footer__grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
-    .footer .brand b { color: #fff; }
-    .footer .brand small { color: #a9b8aa; }
-    .footer h4 { margin: 0 0 14px; font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: #f2c9b3; font-weight: 600; }
-    .footer li { line-height: 2; }
-    .footer a:hover { color: #fff; }
-    .footer__bottom { border-top: 1px solid rgba(199,211,199,.18); margin-top: 44px; padding-top: 22px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: .82rem; color: #93a394; }
-
-    .wa-float { position: fixed; right: 22px; bottom: 22px; z-index: 50; width: 58px; height: 58px; border-radius: 50%; background: var(--wa); color: #fff; display: grid; place-items: center; box-shadow: 0 14px 34px -12px rgba(37,211,102,.8); transition: transform .25s; }
-    .wa-float:hover { transform: scale(1.08); }
-    .wa-float svg { width: 30px; height: 30px; }
-
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1); }
-    .reveal.is-in { opacity: 1; transform: none; }
-    .rise { animation: rise 1s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d, 0s); }
-    @keyframes rise { from { opacity: 0; transform: translateY(20px); } }
-
-    @media (max-width: 1024px) {
-      .hero__grid, .about, .book { grid-template-columns: 1fr; gap: 50px; }
-      .areas, .plans { grid-template-columns: 1fr 1fr; }
-      .journey { grid-template-columns: 1fr 1fr; row-gap: 40px; }
-      .journey::before { display: none; }
-      .about__photo { max-width: 420px; }
+    @media (max-width: 940px) {
+      .hero .c, .pick, .about, .book { grid-template-columns: 1fr; }
+      .portrait { margin: 0 auto; max-width: 320px; } .note--a { left: -6px; } .note--b { right: -6px; }
+      .g3, .quotes, .steps { grid-template-columns: 1fr; }
+      .nav__links { position: absolute; left: 0; right: 0; top: 72px; background: var(--paper); border-bottom: 1px solid var(--line); flex-direction: column; gap: 0; padding: 8px 24px 18px; display: none; }
+      .nav__links.is-open { display: flex; } .nav__links a { padding: 12px 0; }
+      .burger { display: block; } .nav .btn { display: none; }
+      section { padding: 62px 0; } .hero { padding: 44px 0 60px; }
+      .pick__left, .pick__right, form.card { padding: 24px; }
     }
-    @media (max-width: 860px) {
-      .nav__links, .nav .btn { display: none; }
-      .burger { display: block; }
-      .nav.is-open .nav__links { display: flex; flex-direction: column; gap: 0; position: absolute; top: 78px; left: 0; right: 0; background: var(--bg); padding: 6px 16px 18px; border-bottom: 1px solid rgba(47,67,55,.12); }
-      .nav.is-open .nav__links a { padding: 14px 4px; border-bottom: 1px solid rgba(47,67,55,.08); color: var(--ink); }
-      .nav.is-open .burger span:first-child { transform: translateY(3px) rotate(45deg); }
-      .nav.is-open .burger span:last-child { transform: translateY(-3px) rotate(-45deg); }
-    }
-    @media (max-width: 640px) {
-      .container { padding: 0 16px; }
-      .section { padding: 76px 0; }
-      .hero { padding: 36px 0 70px; }
-      .areas, .plans, .journey { grid-template-columns: 1fr; }
-      .quote-card { left: 0; bottom: -20px; max-width: 220px; font-size: .95rem; }
-      .form { padding: 26px 20px; }
-      .row2 { grid-template-columns: 1fr; gap: 0; }
-      .footer__grid { grid-template-columns: 1fr; gap: 28px; }
-      .wa-float { right: 14px; bottom: 14px; }
-      .feel { padding: 10px 16px; font-size: .93rem; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-      .reveal { opacity: 1; transform: none; }
-    }
+    @media (prefers-reduced-motion: reduce) { .portrait__shape { animation: none; } html { scroll-behavior: auto; } }
   </style>
 </head>
 <body>
+  <div class="demo-bar"><span>Site demonstrativ realizat de Adelin Solutions · persoane și mărturii fictive</span><a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20site-ul%20demo%20pentru%20cabinet%20de%20psihologie%20%C8%99i%20a%C8%99%20vrea%20un%20site%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener" data-own>Vreau un site ca acesta</a><a href="../../index.html#proiecte">← Înapoi la portofoliu</a></div>
 
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2zm5.8 14.08c-.24.68-1.42 1.32-1.96 1.37-.5.05-1.13.07-1.830-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3 0-1.43.75-2.13 1.02-2.42.26-.29.58-.36.77-.36h.55c.18 0 .42-.07.65.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.5-.14.14-.29.3-.13.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.42.29.14.46.12.62-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.1 1.68.79 1.97.94.29.14.48.21.55.33.07.12.07.69-.17 1.37z"/></symbol>
-      <symbol id="i-leaf" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19 13 11"/></g></symbol>
-      <symbol id="i-cloud" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-8 6 6 0 0 1 11.5 1.5A3.5 3.5 0 0 1 17.5 18z"/><path d="M9 21l1-2M13 21l1-2"/></g></symbol>
-      <symbol id="i-heart2" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M9 18s-6-3.8-6-8.5A3.5 3.5 0 0 1 9 7.2a3.5 3.5 0 0 1 6 2.3C15 14.2 9 18 9 18z"/><path d="M15 21s6-3.8 6-8.5a3.5 3.5 0 0 0-4-3.5"/></g></symbol>
-      <symbol id="i-flame" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a6 6 0 0 0 6-6c0-4-3-6-4-10-2 2-3 4-3 6-1-1-1.5-2-1.5-3C7 10 6 12 6 15a6 6 0 0 0 6 6z"/></g></symbol>
-      <symbol id="i-seed" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11c0-4 3-7 8-7 0 5-3 7-8 7zM12 14c0-3-2.5-5-7-5 0 4 2.5 5 7 5z"/></g></symbol>
-      <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
-      <symbol id="i-check" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></g></symbol>
-      <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
-      <symbol id="i-video" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="m16 10 5-3v10l-5-3"/></g></symbol>
-      <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g></symbol>
-      <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
-      <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></g></symbol>
-      <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></symbol>
-    </defs>
-  </svg>
-
-  <div class="demo-bar">
-    <span>Demo de site realizat de <strong>Adelin Solutions</strong> · persoană și cabinet fictive</span>
-    <a href="../../index.html#proiecte">← Înapoi la portofoliu</a>
-  </div>
-
-  <header class="nav" id="nav">
-    <div class="container nav__in">
-      <a href="#acasa" class="brand">
-        <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#dfe7dc"/><path d="M12 27c0-8 4-14 16-15-1 11-6 15-14 15" fill="none" stroke="#4f6a55" stroke-width="1.8" stroke-linecap="round"/><path d="M12 27l8-8" stroke="#4f6a55" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <span><b>Ana Marinescu</b><small>Psiholog clinician · Psihoterapeut</small></span>
-      </a>
-      <nav class="nav__links" aria-label="Meniu">
-        <a href="#cu-ce-te-ajut">Cu ce te ajut</a>
-        <a href="#despre">Despre mine</a>
-        <a href="#tarife">Tarife</a>
-        <a href="#intrebari">Întrebări</a>
-      </nav>
-      <a href="#programare" class="btn btn--main">Programează o discuție</a>
-      <button class="burger" aria-label="Deschide meniul" aria-expanded="false"><span></span><span></span></button>
+  <header class="nav">
+    <div class="c">
+      <a href="#top" class="logo">Ana Munteanu<small>Psiholog · Psihoterapeut</small></a>
+      <nav class="nav__links" data-menu><a href="#domenii">Cu ce te pot ajuta</a><a href="#sedinte">Ședințe și tarife</a><a href="#despre">Despre mine</a><a href="#intrebari">Întrebări</a></nav>
+      <a href="#programare" class="btn btn--ink">Programează-te</a>
+      <button class="burger" data-menu-toggle aria-label="Meniu" aria-expanded="false"></button>
     </div>
   </header>
 
-  <main>
-    <section class="hero" id="acasa">
-      <div class="container hero__grid">
+  <main id="top">
+    <section class="hero">
+      <div class="c">
         <div>
-          <span class="pill rise"><i></i>Locuri disponibile săptămâna aceasta</span>
-          <h1 class="rise" style="--d:.08s">Un spațiu sigur în care să fii <em>ascultat</em>, nu judecat.</h1>
-          <p class="hero__lead rise" style="--d:.16s">Te însoțesc în momentele grele: anxietate, stres, pierderi sau relații care dor. Lucrăm împreună, în ritmul tău, ca să te simți din nou bine în pielea ta.</p>
-          <div class="hero__cta rise" style="--d:.24s">
-            <a href="#programare" class="btn btn--main">Primă discuție gratuită (15 min)</a>
-            <a href="#cu-ce-te-ajut" class="btn btn--ghost">Cu ce te pot ajuta</a>
+          <span class="eyebrow">Psihoterapie · București și online</span>
+          <h1>Un loc liniștit în care poți spune <em>tot ce ții în tine</em>.</h1>
+          <p class="hero__lead">Lucrez cu adulți și adolescenți care trec prin anxietate, epuizare sau momente grele în relații. Mergem în ritmul tău, fără judecată.</p>
+          <div class="hero__cta">
+            <a href="#programare" class="btn btn--ink">Programează prima ședință</a>
+            <a href="#sedinte" class="btn btn--soft">Vezi tarifele</a>
           </div>
-          <div class="hero__meta rise" style="--d:.32s">
-            <span><svg><use href="#i-pin"/></svg>Cabinet în centru</span>
-            <span><svg><use href="#i-video"/></svg>Ședințe online</span>
-            <span><svg><use href="#i-lock"/></svg>Confidențialitate totală</span>
-          </div>
+          <ul class="hero__facts"><li>Psiholog atestat</li><li>12 ani de practică</li><li>Confidențialitate deplină</li></ul>
         </div>
-
-        <div class="portrait rise" style="--d:.2s">
-          <div class="blob" role="img" aria-label="Ilustrație: portretul psihologului">
-            <svg viewBox="0 0 400 450" preserveAspectRatio="xMidYMid slice">
-              <circle cx="320" cy="90" r="80" fill="#fff" opacity=".25"/>
-              <!-- plantă -->
-              <g stroke="#4f6a55" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55">
-                <path d="M60 450V300"/><path d="M60 360c-30-10-40-35-38-60 25 5 38 25 38 60zM60 330c25-15 50-15 62-5-15 20-40 20-62 5z" fill="#8aa18c" fill-opacity=".5"/>
-              </g>
-              <!-- persoană stilizată -->
-              <path d="M95 450c8-90 52-140 105-140s97 50 105 140z" fill="#4f6a55"/>
-              <path d="M175 290h50v40c-10 12-40 12-50 0z" fill="#e8c4a8"/>
-              <ellipse cx="200" cy="225" rx="58" ry="68" fill="#efcfb5"/>
-              <path d="M140 230c-6-62 30-100 70-96 46 4 64 44 56 96-10-30-28-48-56-52-26 10-50 30-70 52z" fill="#5a3d2e"/>
-              <path d="M140 230c-10 40-6 80 8 100 4-30 2-60-8-100zM262 230c12 40 8 80-8 100-4-30-2-60 8-100z" fill="#5a3d2e"/>
-              <path d="M180 250q20 14 40 0" stroke="#a9765c" stroke-width="3" fill="none" stroke-linecap="round"/>
-              <circle cx="178" cy="222" r="4" fill="#3a2a22"/><circle cx="222" cy="222" r="4" fill="#3a2a22"/>
-              <path d="M150 370c30 10 70 10 100 0" stroke="#dfe7dc" stroke-width="3" fill="none" opacity=".5"/>
-            </svg>
+        <div class="portrait">
+          <div class="portrait__shape" role="img" aria-label="Ilustrație: portretul terapeutei">
+            <svg viewBox="0 0 120 150" fill="none"><circle cx="60" cy="48" r="26" fill="#f6f1e8"/><path d="M12 150c0-30 21-50 48-50s48 20 48 50z" fill="#f6f1e8"/><path d="M34 46c0-18 12-28 27-28 16 0 26 11 26 27-10 0-22-5-28-14-5 8-14 14-25 15z" fill="#24382d" opacity=".85"/></svg>
           </div>
-          <svg class="leaf" viewBox="0 0 24 24"><use href="#i-leaf"/></svg>
-          <div class="quote-card">„Nu trebuie să treci singur prin asta.”<small>Ana Marinescu</small></div>
+          <div class="note note--a"><b>Prima ședință</b>50 de minute, fără obligații</div>
+          <div class="note note--b"><b>Răspuns în aceeași zi</b>Luni–Vineri, 9–20</div>
         </div>
       </div>
     </section>
 
-    <!-- Te recunoști? -->
-    <section class="section section--sand">
-      <div class="container">
-        <div class="head head--c reveal">
-          <p class="kicker">Te recunoști?</p>
-          <h2>Uneori, totul pare <em>prea mult</em></h2>
-        </div>
-        <div class="feelings reveal">
-          <span class="feel">Mă gândesc la aceleași lucruri non-stop</span>
-          <span class="feel">Nu mai dorm bine</span>
-          <span class="feel">Mă simt epuizat la job</span>
-          <span class="feel">Am atacuri de panică</span>
-          <span class="feel">Ne certăm des în cuplu</span>
-          <span class="feel">Nu mai am chef de nimic</span>
-          <span class="feel">Am pierdut pe cineva drag</span>
-          <span class="feel">Nu știu ce vreau de la viață</span>
-          <span class="feel">Mă critic prea mult</span>
-        </div>
-        <p class="feelings-note reveal">Toate acestea au soluții. Primul pas e să vorbim.</p>
+    <section class="tint">
+      <div class="c">
+        <div class="sh sh--mid"><span class="eyebrow">Poate te regăsești</span><h2>Nu trebuie să fie „grav” ca să ceri ajutor</h2></div>
+        <ul class="feel" data-reveal>
+          <li>Mă trezesc obosit, oricât aș dormi</li><li>Îmi fac griji pentru orice</li><li>Am atacuri de panică</li><li>Ne certăm din lucruri mărunte</li><li>Nu mai am chef de nimic</li><li>Am trecut printr-o despărțire</li><li>Simt că nu sunt destul de bun</li><li>Am pierdut pe cineva drag</li><li>Copilul meu s-a închis în el</li>
+        </ul>
+        <p class="feel-end">Dacă ai dat din cap măcar o dată, putem vorbi despre asta.</p>
       </div>
     </section>
 
-    <!-- Domenii -->
-    <section class="section" id="cu-ce-te-ajut">
-      <div class="container">
-        <div class="head reveal">
-          <p class="kicker">Cu ce te pot ajuta</p>
-          <h2>Domenii în care <em>lucrez</em></h2>
-          <p>Folosesc metode validate științific, adaptate fiecărei persoane: terapie cognitiv-comportamentală, tehnici de mindfulness și terapie de cuplu.</p>
-        </div>
-        <div class="areas">
-          <article class="area reveal"><div class="area__ic"><svg><use href="#i-cloud"/></svg></div><h3>Anxietate și atacuri de panică</h3><p>Înveți să înțelegi și să liniștești gândurile care te copleșesc.</p></article>
-          <article class="area reveal"><div class="area__ic"><svg><use href="#i-moon"/></svg></div><h3>Depresie și lipsă de energie</h3><p>Pas cu pas, recâștigi bucuria lucrurilor mici și motivația.</p></article>
-          <article class="area reveal"><div class="area__ic"><svg><use href="#i-flame"/></svg></div><h3>Stres și burnout</h3><p>Pui limite sănătoase și găsești echilibrul între muncă și viață.</p></article>
-          <article class="area reveal"><div class="area__ic"><svg><use href="#i-heart2"/></svg></div><h3>Terapie de cuplu</h3><p>Comunicare mai bună, mai puține conflicte, mai multă apropiere.</p></article>
-          <article class="area reveal"><div class="area__ic"><svg><use href="#i-leaf"/></svg></div><h3>Doliu și pierderi</h3><p>Un loc în care durerea are voie să existe și să se vindece.</p></article>
-          <article class="area reveal"><div class="area__ic"><svg><use href="#i-seed"/></svg></div><h3>Încredere în sine</h3><p>Îți construiești o relație mai blândă cu tine însuți.</p></article>
+    <section id="domenii">
+      <div class="c">
+        <div class="sh"><span class="eyebrow">Cu ce te pot ajuta</span><h2>Domeniile în care lucrez <em>cel mai des</em></h2></div>
+        <div class="g3">
+          <article class="area" data-reveal><svg viewBox="0 0 24 24"><path d="M3 12c3-6 6-6 9 0s6 6 9 0"/><path d="M3 18c3-4 6-4 9 0s6 4 9 0" opacity=".5"/></svg><h3>Anxietate și panică</h3><p>Înveți ce se întâmplă în corpul tău și cum să oprești cercul grijilor.</p></article>
+          <article class="area" data-reveal><svg viewBox="0 0 24 24"><rect x="3" y="8" width="16" height="9" rx="2"/><path d="M21 11v3M7 11v3"/></svg><h3>Epuizare și burnout</h3><p>Punem limite sănătoase și refacem energia pe care munca ți-a consumat-o.</p></article>
+          <article class="area" data-reveal><svg viewBox="0 0 24 24"><circle cx="9" cy="10" r="4"/><circle cx="16" cy="13" r="4"/></svg><h3>Relații și cuplu</h3><p>Comunicare, încredere și conflicte care se tot repetă, lucrate împreună.</p></article>
+          <article class="area" data-reveal><svg viewBox="0 0 24 24"><path d="M12 20c-5-3-8-6.5-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 3.500-3 7-8 10z"/></svg><h3>Pierdere și doliu</h3><p>Un spațiu în care durerea are loc și nu trebuie grăbită.</p></article>
+          <article class="area" data-reveal><svg viewBox="0 0 24 24"><path d="M12 3v18M5 8l7-5 7 5M6 21h12"/></svg><h3>Încredere în sine</h3><p>Lucrăm cu vocea critică din interior și cu teama de a nu fi suficient.</p></article>
+          <article class="area" data-reveal><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.500"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/></svg><h3>Adolescenți</h3><p>Sprijin pentru emoții puternice, școală și relația cu părinții.</p></article>
         </div>
       </div>
     </section>
 
-    <!-- Despre -->
-    <section class="section section--sand" id="despre">
-      <div class="container about">
-        <div class="about__photo reveal">
-          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <rect width="400" height="500" fill="none"/>
-            <circle cx="200" cy="170" r="150" fill="#fff" opacity=".35"/>
-            <path d="M70 500c10-110 60-170 130-170s120 60 130 170z" fill="#8aa18c"/>
-            <path d="M170 300h60v45c-12 14-48 14-60 0z" fill="#e8c4a8"/>
-            <ellipse cx="200" cy="225" rx="66" ry="78" fill="#efcfb5"/>
-            <path d="M132 232c-8-72 34-114 80-110 52 6 72 50 62 110-12-34-32-54-62-60-30 12-56 34-80 60z" fill="#5a3d2e"/>
-            <path d="M132 232c-12 46-8 92 10 116 4-34 2-70-10-116zM274 232c14 46 10 92-10 116-4-34-2-70 10-116z" fill="#5a3d2e"/>
-            <path d="M178 258q22 16 44 0" stroke="#a9765c" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <circle cx="176" cy="226" r="4.5" fill="#3a2a22"/><circle cx="224" cy="226" r="4.5" fill="#3a2a22"/>
-          </svg>
-          <span>Aici va fi fotografia ta</span>
-        </div>
-        <div class="about__text reveal">
-          <p class="kicker">Despre mine</p>
-          <h2 style="font-size:clamp(2.2rem,4.2vw,3.3rem);margin:14px 0 22px">Bună, sunt <em>Ana</em>.</h2>
-          <p>De peste 10 ani ajut adulți și cupluri să treacă prin perioade dificile și să își regăsească echilibrul. Cred că fiecare om are resursele de care are nevoie, iar rolul meu este să te ajut să le descoperi.</p>
-          <p>În cabinet nu există răspunsuri „greșite” sau subiecte „prea mici”. Există doar tu, povestea ta și un spațiu în care poți vorbi deschis.</p>
-          <div class="creds">
-            <div class="cred"><svg><use href="#i-check"/></svg><div><b>Psiholog clinician, drept de liberă practică</b><span>Licență și master în psihologie clinică</span></div></div>
-            <div class="cred"><svg><use href="#i-check"/></svg><div><b>Psihoterapeut cognitiv-comportamental</b><span>Formare de 4 ani, supervizare continuă</span></div></div>
-            <div class="cred"><svg><use href="#i-check"/></svg><div><b>Peste 2.000 de ședințe</b><span>Individuale, de cuplu și online</span></div></div>
+    <section class="tint">
+      <div class="c">
+        <div class="sh"><span class="eyebrow">Cum decurge</span><h2>Știi la ce să te aștepți, <em>de la primul mesaj</em></h2></div>
+        <ol class="steps">
+          <li data-reveal><h3>Îmi scrii</h3><p>Completezi formularul sau îmi trimiți un mesaj. Îți răspund în aceeași zi și alegem o oră.</p></li>
+          <li data-reveal><h3>Prima întâlnire</h3><p>Ne cunoaștem, îmi povestești ce te-a adus și stabilim împreună cu ce vrei să pleci.</p></li>
+          <li data-reveal><h3>Lucrăm în ritmul tău</h3><p>De obicei o ședință pe săptămână. Poți opri oricând, fără explicații.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="sedinte">
+      <div class="c">
+        <div class="sh"><span class="eyebrow">Ședințe și tarife</span><h2>Alege ce ți se potrivește</h2><p>Vezi pe loc prețul, durata și primele ore libere.</p></div>
+        <div class="pick" data-reveal>
+          <div class="pick__left">
+            <div><span class="lbl">Tipul ședinței</span><div class="opts" id="p-type"><button type="button" data-v="ind" aria-pressed="true">Individuală</button><button type="button" data-v="cup" aria-pressed="false">De cuplu</button><button type="button" data-v="ado" aria-pressed="false">Adolescenți</button></div></div>
+            <div><span class="lbl">Unde</span><div class="opts" id="p-where"><button type="button" data-v="cab" aria-pressed="true">La cabinet</button><button type="button" data-v="onl" aria-pressed="false">Online (video)</button></div></div>
+            <div><span class="lbl">Primele ore libere</span><div class="opts slots" id="p-slots"></div></div>
           </div>
-          <p class="signature">Ana</p>
+          <div class="pick__right" aria-live="polite">
+            <span class="eyebrow">Alegerea ta</span>
+            <p class="price"><span id="p-price"></span><small>lei / ședință</small></p>
+            <ul class="sum"><li><span>Ședință</span><b id="s-type"></b></li><li><span>Durată</span><b id="s-dur"></b></li><li><span>Loc</span><b id="s-where"></b></li><li><span>Data</span><b id="s-slot"></b></li></ul>
+            <a href="#programare" class="btn btn--block">Continuă cu programarea</a>
+            <small>Plata se face după ședință, cu cardul sau numerar.</small>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Cum lucrăm -->
-    <section class="section section--forest">
-      <div class="container">
-        <div class="head reveal">
-          <p class="kicker">Cum lucrăm</p>
-          <h2>Un drum simplu, <em>fără presiune</em></h2>
-          <p>Tu decizi ritmul. Poți opri oricând, fără explicații.</p>
+    <section class="tint" id="despre">
+      <div class="c about">
+        <div class="about__card" data-reveal>
+          <h3>Formare și atestări</h3>
+          <ul><li>Psiholog clinician atestat de Colegiul Psihologilor din România</li><li>Psihoterapeut în terapie cognitiv-comportamentală</li><li>Master în psihologie clinică, Universitatea din București</li><li>Supervizare și formare continuă în fiecare an</li></ul>
         </div>
-        <div class="journey">
-          <div class="stage reveal"><span class="stage__n">1</span><h3>Discuție gratuită</h3><p>15 minute la telefon sau online ca să vedem dacă ne potrivim.</p></div>
-          <div class="stage reveal"><span class="stage__n">2</span><h3>Prima ședință</h3><p>Îmi povestești ce te aduce aici și stabilim împreună obiectivele.</p></div>
-          <div class="stage reveal"><span class="stage__n">3</span><h3>Ședințe regulate</h3><p>De obicei săptămânal, 50 de minute, la cabinet sau online.</p></div>
-          <div class="stage reveal"><span class="stage__n">4</span><h3>Autonomie</h3><p>Pleci cu instrumente concrete pe care le poți folosi singur.</p></div>
+        <div>
+          <span class="eyebrow">Despre mine</span>
+          <h2>Bună, sunt Ana.</h2>
+          <p>De 12 ani stau de vorbă cu oameni care simt că nu mai pot duce singuri ce au de dus. Am învățat că nimeni nu vine la terapie pentru că e „slab”, ci pentru că a fost puternic prea mult timp.</p>
+          <p>Lucrez structurat, cu metode validate științific, dar mai ales cu răbdare. Nu îți spun ce să faci cu viața ta; te ajut să vezi limpede și să alegi tu.</p>
+          <p class="sign">Ana Munteanu</p>
         </div>
       </div>
     </section>
 
-    <!-- Tarife -->
-    <section class="section" id="tarife">
-      <div class="container">
-        <div class="head head--c reveal">
-          <p class="kicker">Tarife</p>
-          <h2>Clar și <em>transparent</em></h2>
+    <section>
+      <div class="c">
+        <div class="sh"><span class="eyebrow">Mărturii</span><h2>Cuvinte de la oameni care au trecut pe aici</h2><p>Publicate cu acordul lor, fără nume, pentru a le păstra intimitatea.</p></div>
+        <div class="quotes">
+          <blockquote data-reveal>„Am venit pentru atacurile de panică. După trei luni conduc din nou singură pe autostradă.”<footer>Femeie, 31 de ani</footer></blockquote>
+          <blockquote data-reveal>„Credeam că terapia e doar vorbărie. Am primit instrumente concrete pe care le folosesc zilnic.”<footer>Bărbat, 44 de ani</footer></blockquote>
+          <blockquote data-reveal>„Fiica mea a început să vorbească din nou cu noi. Atât am vrut.”<footer>Părinte</footer></blockquote>
         </div>
-        <div class="plans">
-          <div class="plan reveal">
-            <h3>Ședință individuală</h3>
-            <p class="plan__desc">Pentru adulți, la cabinet sau online</p>
-            <p class="plan__price">200 lei <small>/ 50 min</small></p>
-            <ul><li>Cabinet sau video</li><li>Plan personalizat</li><li>Exerciții între ședințe</li></ul>
-            <a href="#programare" class="btn btn--ghost" data-type="Ședință individuală">Programează</a>
-          </div>
-          <div class="plan plan--hl reveal">
-            <span class="plan__tag">Cel mai ales</span>
-            <h3>Pachet 4 ședințe</h3>
-            <p class="plan__desc">O lună de lucru constant</p>
-            <p class="plan__price">720 lei <small>/ lună</small></p>
-            <ul><li>4 ședințe a câte 50 min</li><li>Economisești 80 lei</li><li>Mesaje de sprijin între ședințe</li></ul>
-            <a href="#programare" class="btn btn--main" data-type="Pachet 4 ședințe">Programează</a>
-          </div>
-          <div class="plan reveal">
-            <h3>Terapie de cuplu</h3>
-            <p class="plan__desc">Pentru parteneri, împreună</p>
-            <p class="plan__price">300 lei <small>/ 75 min</small></p>
-            <ul><li>Cabinet sau video</li><li>Comunicare și conflicte</li><li>Exerciții pentru acasă</li></ul>
-            <a href="#programare" class="btn btn--ghost" data-type="Terapie de cuplu">Programează</a>
-          </div>
-        </div>
-        <p class="plans-note reveal">Prima discuție de 15 minute este gratuită. Anularea este gratuită cu minimum 24 de ore înainte.</p>
       </div>
     </section>
 
-    <!-- Programare -->
-    <section class="section section--sand" id="programare">
-      <div class="container book">
-        <div class="book__info reveal">
-          <p class="kicker">Programare</p>
-          <h2>Fă <em>primul pas</em>. E cel mai greu, dar și cel mai important.</h2>
-          <p>Completează formularul și se va deschide WhatsApp cu un mesaj pregătit. Îți răspund personal, de obicei în aceeași zi.</p>
-          <div class="contact-list">
-            <a href="tel:+40700000000"><svg><use href="#i-phone"/></svg>0700 000 000</a>
-            <a href="mailto:contact@exemplu.ro"><svg><use href="#i-mail"/></svg>contact@exemplu.ro</a>
-            <div><svg><use href="#i-pin"/></svg>Str. Exemplului nr. 5, Oraș</div>
-            <div><svg><use href="#i-clock"/></svg>Luni – Vineri, 10:00 – 20:00</div>
-          </div>
-          <p class="safety"><b>Ești în pericol sau te gândești să-ți faci rău?</b> Nu aștepta o programare: sună acum la <b>112</b>.</p>
+    <section class="tint" id="intrebari">
+      <div class="c">
+        <div class="sh sh--mid"><span class="eyebrow">Întrebări frecvente</span><h2>Ce vor oamenii să știe înainte</h2></div>
+        <div class="faq">
+          <details open><summary>Ce spun rămâne între noi?</summary><p>Da. Confidențialitatea este obligație profesională și legală. Singurele excepții sunt situațiile în care viața ta sau a altcuiva este în pericol.</p></details>
+          <details><summary>De câte ședințe am nevoie?</summary><p>Depinde de ce te aduce. Pentru o problemă punctuală sunt de obicei 8–16 ședințe. Stabilim împreună un obiectiv și verificăm periodic unde suntem.</p></details>
+          <details><summary>Terapia online funcționează la fel de bine?</summary><p>Pentru majoritatea situațiilor, da. Ai nevoie doar de un loc în care să poți vorbi liber și de o conexiune bună la internet.</p></details>
+          <details><summary>Pot anula sau reprograma?</summary><p>Sigur, gratuit, dacă mă anunți cu cel puțin 24 de ore înainte.</p></details>
+          <details><summary>Prescrii medicamente?</summary><p>Nu. Psihoterapeuții nu prescriu medicație. Dacă este cazul, îți recomand un medic psihiatru cu care colaborez.</p></details>
         </div>
+      </div>
+    </section>
 
-        <form class="form reveal" id="form" novalidate>
-          <h3>Cere o programare</h3>
-          <p>Nu e nevoie să explici nimic acum. Câteva detalii sunt suficiente.</p>
-          <div class="field">
-            <label for="f-type">Ce tip de ședință te interesează?</label>
-            <select class="input" id="f-type">
-              <option>Discuție gratuită de 15 minute</option>
-              <option>Ședință individuală</option>
-              <option>Pachet 4 ședințe</option>
-              <option>Terapie de cuplu</option>
-            </select>
-          </div>
-          <div class="field">
-            <span class="label">Unde preferi?</span>
-            <div class="choice" role="radiogroup">
-              <label><input type="radio" name="where" value="la cabinet" checked><span>Cabinet</span></label>
-              <label><input type="radio" name="where" value="online" ><span>Online</span></label>
-              <label><input type="radio" name="where" value="oricum" ><span>Oricum</span></label>
+    <section id="programare">
+      <div class="c">
+        <div class="book">
+          <div>
+            <span class="eyebrow">Programare</span>
+            <h2>Primul pas e <em>cel mai greu</em>. Restul îl facem împreună.</h2>
+            <div class="book__info">
+              <p><b>Cabinet</b>Str. Liniștii nr. 14, sector 1, București</p>
+              <p><b>Program</b>Luni–Vineri, 9:00–20:00</p>
+              <p><b>Răspund</b>în aceeași zi, pe canalul pe care îl alegi tu</p>
             </div>
           </div>
-          <div class="row2">
-            <div class="field">
-              <label for="f-name">Prenume</label>
-              <input class="input" id="f-name" autocomplete="given-name" placeholder="Ex.: Maria">
-            </div>
-            <div class="field">
-              <label for="f-when">Când îți convine?</label>
-              <select class="input" id="f-when">
-                <option>Dimineața (10–13)</option>
-                <option>După-amiaza (13–17)</option>
-                <option selected>Seara (17–20)</option>
-                <option>Oricând</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label for="f-msg">Vrei să-mi spui ceva? (opțional)</label>
-            <textarea class="input" id="f-msg" rows="3" placeholder="Poți lăsa gol. Vorbim pe larg la prima discuție."></textarea>
-          </div>
-          <p class="privacy"><svg><use href="#i-lock"/></svg>Mesajul ajunge doar la mine. Datele tale sunt confidențiale și nu sunt salvate pe site.</p>
-          <button class="btn btn--wa" type="submit"><svg><use href="#i-wa"/></svg>Trimite pe WhatsApp</button>
-          <p class="form__err" id="err" role="alert"></p>
-        </form>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="section" id="intrebari">
-      <div class="container">
-        <div class="head head--c reveal">
-          <p class="kicker">Întrebări frecvente</p>
-          <h2>Ce te-ar putea <em>frământa</em></h2>
+          <form class="card" id="book" novalidate>
+            <div class="chosen" id="chosen"></div>
+            <label>Prenumele tău<input name="nume" required autocomplete="given-name" placeholder="Cum vrei să îți spun"></label>
+            <label>Telefon<input name="telefon" required type="tel" autocomplete="tel" inputmode="tel" placeholder="07xx xxx xxx"></label>
+            <label>Cum preferi să te contactez<select name="contact"><option>Mesaj pe WhatsApp</option><option>Apel telefonic</option><option>SMS</option></select></label>
+            <label>Vrei să îmi spui ceva dinainte? (opțional)<textarea name="mesaj" placeholder="Doar dacă simți nevoia. Putem vorbi și la prima ședință."></textarea></label>
+            <button class="btn btn--ink btn--block" type="submit">Trimite cererea pe WhatsApp</button>
+            <small>Datele tale nu sunt stocate pe site și nu ajung la nimeni altcineva.</small>
+          </form>
         </div>
-        <div class="faq reveal">
-          <details open><summary>Cum știu dacă am nevoie de terapie?</summary><p>Dacă o problemă îți afectează somnul, relațiile sau munca de mai mult de câteva săptămâni, merită să vorbești cu un specialist. Nu trebuie să fie „grav” ca să ceri ajutor.</p></details>
-          <details><summary>Câte ședințe sunt necesare?</summary><p>Depinde de fiecare persoană. Pentru obiective concrete, multe persoane observă schimbări după 8–12 ședințe. Discutăm deschis despre progres pe parcurs.</p></details>
-          <details><summary>Ședințele online sunt la fel de eficiente?</summary><p>Da. Studiile arată rezultate similare. Ai nevoie doar de o conexiune stabilă și de un loc liniștit în care să poți vorbi.</p></details>
-          <details><summary>Ce se întâmplă cu ce povestesc?</summary><p>Tot ce discutăm rămâne între noi, conform codului deontologic. Singurele excepții sunt situațiile prevăzute de lege, când viața cuiva este în pericol.</p></details>
-          <details><summary>Pot anula sau reprograma o ședință?</summary><p>Sigur. Anunță-mă cu cel puțin 24 de ore înainte și nu se percepe nicio taxă.</p></details>
-        </div>
+        <p class="urgent"><b>Ai nevoie de ajutor acum?</b> Acest site nu este un serviciu de urgență. Dacă ești în pericol, sună la <b>112</b> sau la TelVerde Antisuicid <b>0800 801 200</b>.</p>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__grid">
-        <div>
-          <a href="#acasa" class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#3a5244"/><path d="M12 27c0-8 4-14 16-15-1 11-6 15-14 15" fill="none" stroke="#dfe7dc" stroke-width="1.8" stroke-linecap="round"/></svg><span><b>Ana Marinescu</b><small>Psiholog clinician · Psihoterapeut</small></span></a>
-          <p style="margin-top:16px;max-width:320px">Psihoterapie pentru adulți și cupluri, la cabinet sau online.</p>
-        </div>
-        <div><h4>Contact</h4><ul><li><a href="tel:+40700000000">0700 000 000</a></li><li><a href="mailto:contact@exemplu.ro">contact@exemplu.ro</a></li><li>Str. Exemplului nr. 5, Oraș</li></ul></div>
-        <div><h4>Program</h4><ul><li>Luni – Vineri: 10:00 – 20:00</li><li>Sâmbătă: doar online</li><li>Duminică: închis</li></ul></div>
-      </div>
-      <div class="footer__bottom"><span>© <span id="year"></span> · Persoană și cabinet fictive, create ca exemplu</span><span>Site realizat de <a href="../../index.html" style="color:#f2c9b3">Adelin Solutions</a></span></div>
-    </div>
-  </footer>
+  <footer class="site"><div class="c"><span>© <span data-year></span> Cabinet individual de psihologie Ana Munteanu</span><span>Politica de confidențialitate · GDPR</span></div></footer>
 
-  <a class="wa-float" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="Scrie-mi pe WhatsApp"><svg><use href="#i-wa"/></svg></a>
-
+  <script src="../demo.js"></script>
   <script>
   (() => {
-    const WA_NUMBER = "40700000000";  // număr real în format internațional, fără +
+    const BIZ = "Ana Munteanu · Psiholog";
+    const TYPES = { ind: ["Individuală", 50, 220], cup: ["De cuplu", 75, 320], ado: ["Adolescenți", 50, 200] };
+    const WHERE = { cab: ["La cabinet", 0], onl: ["Online (video)", -20] };
+    const st = { type: "ind", where: "cab", slot: null };
     const $ = (id) => document.getElementById(id);
 
-    $("wa-float").href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Bună ziua! Aș dori câteva informații despre ședințele de psihoterapie.")}`;
+    // primele ore libere: următoarele 5 zile lucrătoare, cu ore fixe; două sunt deja ocupate
+    const hours = ["10:00", "17:30", "12:00", "18:30", "09:00"];
+    const slots = Demo.nextDays(5, [0, 6]).map((d, i) => ({ label: `${d.long}, ora ${hours[i]}`, short: d.short, day: d.day, hour: hours[i], taken: i === 1 }));
+    $("p-slots").innerHTML = slots.map((s, i) => `<button type="button" data-v="${i}" aria-pressed="false" ${s.taken ? 'disabled title="Ocupat"' : ""}><b>${s.short} ${s.day}</b>${s.hour}</button>`).join("");
+    st.slot = 0; $("p-slots").children[0].setAttribute("aria-pressed", "true");
 
-    // Butoanele din tarife preselectează tipul ședinței
-    document.querySelectorAll("[data-type]").forEach((a) => a.addEventListener("click", () => { $("f-type").value = a.dataset.type; }));
+    function bind(id, key) {
+      $(id).addEventListener("click", (e) => {
+        const b = e.target.closest("button"); if (!b || b.disabled) return;
+        $(id).querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+        st[key] = key === "slot" ? +b.dataset.v : b.dataset.v; render();
+      });
+    }
+    bind("p-type", "type"); bind("p-where", "where"); bind("p-slots", "slot");
 
-    $("form").addEventListener("submit", (e) => {
+    const price = () => TYPES[st.type][2] + WHERE[st.where][1];
+    function render() {
+      const [name, dur] = TYPES[st.type];
+      $("p-price").textContent = price();
+      $("s-type").textContent = name; $("s-dur").textContent = dur + " de minute";
+      $("s-where").textContent = WHERE[st.where][0]; $("s-slot").textContent = slots[st.slot].label;
+      $("chosen").innerHTML = `Ai ales: <b>${name}</b>, ${WHERE[st.where][0].toLowerCase()} · <b>${slots[st.slot].label}</b> · ${price()} lei`;
+    }
+    render();
+
+    $("book").addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = $("f-name").value.trim();
-      if (!name) { $("err").textContent = "Te rog să-mi spui prenumele tău."; $("f-name").focus(); return; }
-      $("err").textContent = "";
-      const where = document.querySelector('input[name="where"]:checked').value;
-      const lines = [
-        `Bună ziua, sunt ${name}.`,
-        `Aș dori o programare: ${$("f-type").value}, ${where}.`,
-        `Îmi convine: ${$("f-when").value.toLowerCase()}.`,
-      ];
-      if ($("f-msg").value.trim()) lines.push("", $("f-msg").value.trim());
-      lines.push("", "Mulțumesc!");
-      window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`, "_blank", "noopener");
+      const f = e.target; if (!Demo.validate(f)) return;
+      const [name, dur] = TYPES[st.type];
+      Demo.openWa(BIZ, `Bună ziua! Aș dori o programare.\n\n• Ședință: ${name} (${dur} min), ${WHERE[st.where][0].toLowerCase()}\n• Data dorită: ${slots[st.slot].label}\n• Prenume: ${f.nume.value.trim()}\n• Telefon: ${f.telefon.value.trim()}\n• Prefer: ${f.contact.value}${f.mesaj.value.trim() ? "\n\n" + f.mesaj.value.trim() : ""}\n\nMulțumesc!`);
     });
-    $("f-name").addEventListener("input", () => $("err").textContent = "");
-
-    // Meniu mobil
-    const nav = $("nav"), burger = nav.querySelector(".burger");
-    burger.addEventListener("click", () => { const o = !nav.classList.contains("is-open"); nav.classList.toggle("is-open", o); burger.setAttribute("aria-expanded", String(o)); });
-    nav.querySelectorAll(".nav__links a").forEach((a) => a.addEventListener("click", () => { nav.classList.remove("is-open"); burger.setAttribute("aria-expanded", "false"); }));
-
-    // FAQ: unul deschis odată
-    document.querySelectorAll(".faq details").forEach((d) => d.addEventListener("toggle", () => {
-      if (d.open) document.querySelectorAll(".faq details").forEach((o) => { if (o !== d) o.open = false; });
-    }));
-
-    const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); } }), { threshold: .12 });
-    document.querySelectorAll(".reveal").forEach((el, i) => { el.style.transitionDelay = (i % 3) * 90 + "ms"; io.observe(el); });
-    $("year").textContent = new Date().getFullYear();
   })();
   </script>
 </body>

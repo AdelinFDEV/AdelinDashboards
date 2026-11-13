@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <title>Asistent AI pentru programări pe WhatsApp · Demo automatizare · Adelin Solutions</title>
+  <meta name="description" content="Demo interactiv: un asistent AI răspunde clienților pe WhatsApp, verifică agenda, face programarea și trimite reminder cu o zi înainte.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auto.css">
+  <style>
+    .agenda { display: grid; gap: 8px; }
+    .ev { display: grid; grid-template-columns: 58px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 12px; background: var(--surface-2); border-left: 3px solid var(--app); font-size: .88rem; }
+    .ev time { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .ev small { display: block; color: var(--muted); }
+    .ev em { font-style: normal; font-size: .74rem; color: var(--muted); }
+    .ev.new { border-left-color: var(--accent); animation: flash 1.8s; }
+    .ev.new em { color: var(--accent); }
+    .ev.free { background: transparent; border: 1px dashed var(--line); border-left: 3px dashed var(--line); color: var(--muted); }
+    .ev.gone { opacity: .45; text-decoration: line-through; }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">
+    <a href="../index.html#automatizari" class="demo-bar__back">← Portofoliu</a>
+    <span class="demo-bar__note"><strong>Demo interactiv</strong> · scrie-i asistentului ca și cum ai fi o clientă</span>
+    <a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20demo-ul%20cu%20asistentul%20AI%20de%20program%C4%83ri%20%C8%99i%20a%C8%99%20vrea%20ceva%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener" class="demo-bar__cta">Vreau această automatizare</a>
+  </div>
+
+  <div class="wrap">
+    <header class="a-head">
+      <div>
+        <span class="eyebrow">Automatizare 02 · Programări</span>
+        <h1>Un asistent care răspunde pe WhatsApp și îți umple agenda cât tu lucrezi</h1>
+        <p>Clienta scrie la orice oră. AI-ul înțelege ce vrea, răspunde la întrebări, găsește o oră liberă în calendarul tău, face programarea și îi amintește cu o zi înainte.</p>
+      </div>
+      <div class="versus">
+        <div><span>Fără automatizare</span><strong>40% pierdute</strong><span>mesaje la care răspunzi prea târziu</span></div>
+        <i>→</i>
+        <div class="now"><span>Cu automatizare</span><strong>5 secunde</strong><span>răspuns și programare făcută</span></div>
+      </div>
+    </header>
+
+    <div class="lab">
+      <section class="card">
+        <div class="card__bar"><h2>Scrie ca o clientă<small>Folosește sugestiile sau tastează orice întrebare</small></h2><button type="button" class="btn-ghost" id="restart">Ia-o de la capăt</button></div>
+        <div class="pad">
+          <div class="phone">
+            <div class="phone__head"><i>L</i><div><b>Lila Nails</b><small>asistent virtual · răspunde imediat</small></div></div>
+            <div class="chat" id="chat"></div>
+            <div class="quick" id="quick"></div>
+            <form class="compose" id="compose"><input id="inp" placeholder="Scrie un mesaj…" autocomplete="off" aria-label="Mesajul tău"><button type="submit" aria-label="Trimite" data-lock>➤</button></form>
+          </div>
+        </div>
+      </section>
+
+      <div style="display:grid;gap:16px;min-width:0">
+        <section class="card">
+          <div class="card__bar">
+            <h2>Fluxul de lucru<small>Pornește la fiecare mesaj primit</small></h2>
+            <span class="status" id="status"><i></i><span>În așteptare</span></span>
+          </div>
+          <div class="canvas-wrap"><div class="canvas" id="canvas"></div></div>
+          <div class="flow__bottom">
+            <div class="pane"><h3 id="data-title">Date</h3><dl class="data" id="data" style="margin:0"></dl></div>
+            <div class="pane"><h3>Jurnal</h3><ol class="log" id="log"></ol></div>
+          </div>
+          <div class="summary" id="summary" hidden></div>
+        </section>
+
+        <section class="card">
+          <div class="card__bar"><h2>Agenda ta<small id="agenda-day">Google Calendar · se actualizează singură</small></h2></div>
+          <div class="pad"><div class="agenda" id="agenda"></div></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="gains">
+      <div class="card gain"><strong>24/7</strong><h3>Răspunde și la miezul nopții</h3><p>Cele mai multe programări se cer seara, când salonul e închis.</p></div>
+      <div class="card gain"><strong>−50%</strong><h3>Mai puține neprezentări</h3><p>Reminder automat cu o zi înainte, cu buton de confirmare sau reprogramare.</p></div>
+      <div class="card gain"><strong>2 ore pe zi</strong><h3>Fără stat pe telefon</h3><p>Nu mai întrerupi lucrarea ca să răspunzi la „cât costă?” și „aveți liber?”.</p></div>
+    </div>
+
+    <section class="cta">
+      <h2>Vrei un asistent ca acesta pentru afacerea ta?</h2>
+      <p>Îl învăț prețurile, programul și regulile tale, apoi îl leg la numărul de WhatsApp și la calendarul pe care le folosești deja.</p>
+      <a href="https://wa.me/40750210645?text=Salut%2C%20Adelin%21%20Am%20v%C4%83zut%20demo-ul%20cu%20asistentul%20AI%20de%20program%C4%83ri%20%C8%99i%20a%C8%99%20vrea%20ceva%20asem%C4%83n%C4%83tor%20pentru%20afacerea%20mea." target="_blank" rel="noopener">Scrie-mi pe WhatsApp</a>
+      <div class="others"><a href="lead-uri.html">← Demo 01 · Răspuns la cereri</a><a href="facturi.html">Demo 03 · Facturi citite de AI →</a></div>
+    </section>
+    <p class="foot">Demonstrație simulată în browser, cu răspunsuri pregătite. Asistentul real folosește un model AI și înțelege formulări mult mai variate.</p>
+  </div>
+
+  <script src="auto.js"></script>
+  <script>
+  (() => {
+    const $ = (id) => document.getElementById(id);
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    if (tomorrow.getDay() === 0) tomorrow.setDate(tomorrow.getDate() + 1); // duminica e închis
+    const DAY = tomorrow.toLocaleDateString("ro-RO", { weekday: "long", day: "numeric", month: "long" });
+    $("agenda-day").textContent = `Google Calendar · ${DAY}`;
+
+    const SERVICES = {
+      semi: { name: "Manichiură semipermanentă", price: 110, min: 60, re: /(semi|manichiur|unghii)/ },
+      pedi: { name: "Pedichiură semipermanentă", price: 140, min: 70, re: /(pedichiur|picioare)/ },
+      gel: { name: "Construcție cu gel", price: 220, min: 120, re: /(gel|construc|alungire)/ },
+    };
+    const FREE = ["10:00", "13:30", "17:00"];
+    let agenda, st;
+
+    function resetState() {
+      agenda = [{ t: "09:00", n: "Andreea M.", s: "Manichiură semipermanentă" }, { t: "10:00", free: true }, { t: "11:30", n: "Bianca T.", s: "Construcție cu gel" }, { t: "13:30", free: true }, { t: "15:00", n: "Ioana R.", s: "Pedichiură semipermanentă" }, { t: "17:00", free: true }];
+      st = { step: "idle", service: null, booked: null };
+    }
+    function renderAgenda(newT) {
+      $("agenda").innerHTML = agenda.map((e) => e.free
+        ? `<div class="ev free"><time>${e.t}</time><span>liber</span><em></em></div>`
+        : `<div class="ev ${e.t === newT ? "new" : ""}"><time>${e.t}</time><span>${e.n}<small>${e.s}</small></span><em>${e.auto ? "făcută de asistent" : ""}</em></div>`).join("");
+    }
+
+    Auto.init({
+      nodes: [
+        { id: "msg", col: 0, row: 1, icon: "chat", kind: "trigger", title: "Mesaj WhatsApp", sub: "de la client" },
+        { id: "ai", col: 1, row: 1, icon: "ai", kind: "ai", title: "AI înțelege mesajul", sub: "ce vrea clientul" },
+        { id: "sw", col: 2, row: 1, icon: "split", kind: "logic", title: "Întrebare sau programare?", sub: "" },
+        { id: "kb", col: 3, row: 0, icon: "book", title: "Informațiile tale", sub: "prețuri, program, adresă" },
+        { id: "cal", col: 3, row: 2, icon: "cal", title: "Google Calendar", sub: "caută ore libere" },
+        { id: "create", col: 4, row: 2, icon: "check", title: "Creează programarea", sub: "blochează ora" },
+        { id: "reply", col: 5, row: 1, icon: "ai", kind: "ai", title: "AI scrie răspunsul", sub: "trimis pe WhatsApp" },
+        { id: "remind", col: 5, row: 2, icon: "clock", title: "Reminder", sub: "cu 24 h înainte" },
+      ],
+      edges: [["msg", "ai"], ["ai", "sw"], ["sw", "kb", "întrebare"], ["sw", "cal", "programare"], ["kb", "reply"], ["cal", "reply"], ["cal", "create"], ["create", "reply"], ["create", "remind"]],
+    });
+
+    const chat = Auto.chat($("chat"));
+    const QUICK = {
+      idle: ["Cât costă manichiura semi?", "Vreau o programare", "Până la cât aveți deschis?", "Unde vă găsesc?"],
+      service: ["Manichiură semipermanentă", "Pedichiură", "Construcție cu gel"],
+      slot: FREE,
+      booked: ["Mulțumesc!", "Cât costă pedichiura?", "Vreau să anulez"],
+    };
+    function renderQuick() {
+      const list = st.step === "slot" ? agenda.filter((e) => e.free).map((e) => e.t) : QUICK[st.booked && st.step === "idle" ? "booked" : st.step];
+      $("quick").innerHTML = list.map((q) => `<button type="button">${q}</button>`).join("");
+    }
+    $("quick").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) send(b.textContent); });
+    $("compose").addEventListener("submit", (e) => { e.preventDefault(); const v = $("inp").value.trim(); if (v) { $("inp").value = ""; send(v); } });
+    $("restart").addEventListener("click", () => { if (!Auto.busy) start(); });
+
+    function start() {
+      resetState(); chat.clear(); Auto.reset(); renderAgenda(); renderQuick();
+      chat.add("sys", "Azi");
+      chat.add("in", "Bună! Sunt asistentul virtual Lila Nails. Te pot ajuta cu prețuri, program sau o programare. Cu ce începem?", "Lila Nails");
+    }
+
+    const findService = (t) => Object.values(SERVICES).find((s) => s.re.test(t));
+    const freeSlots = () => agenda.filter((e) => e.free).map((e) => e.t);
+
+    // „AI” simulat: recunoaște intenția după cuvinte-cheie
+    function understand(text) {
+      const t = text.toLowerCase(), svc = findService(t);
+      const time = t.match(/\b(\d{1,2})[:.](\d{2})\b/) || t.match(/\bla (\d{1,2})\b/);
+      if (st.step === "slot" && time) { const hh = time[1].padStart(2, "0") + ":" + (time[2] || "00"); return { intent: "alege ora", slot: hh }; }
+      if (/(anul|nu mai pot|renunț)/.test(t)) return { intent: "anulare" };
+      if (/(programare|programez|rezerv|vreau să vin|liber|un loc)/.test(t)) return { intent: "programare", svc };
+      if (st.step === "service" && svc) return { intent: "programare", svc };
+      if (/(preț|pret|cost|cât e|cat e|tarif|cât face)/.test(t)) return { intent: "preț", svc };
+      if (/(program|orar|deschis|închide|până la)/.test(t)) return { intent: "program" };
+      if (/(adres|unde|locați|parcare|ajung)/.test(t)) return { intent: "adresă" };
+      if (/(mulțum|mersi|super|perfect|ok)/.test(t)) return { intent: "mulțumire" };
+      if (/^(bun|salut|hei|alo)/.test(t)) return { intent: "salut" };
+      return { intent: "neclar" };
+    }
+
+    async function send(text) {
+      if (Auto.busy) return;
+      chat.add("out", text);
+      const u = understand(text);
+      Auto.begin(); $("quick").innerHTML = "";
+      await Auto.step("msg", { ms: 450, sec: 0.1, out: { de_la: "+40 7xx xxx 214", text }, log: "mesaj nou pe WhatsApp" });
+      await Auto.step("ai", { ms: 1000, sec: 1.3, out: { intentie: u.intent, serviciu: u.svc ? u.svc.name : st.service ? st.service.name : "—", ora: u.slot || "—", incredere: u.intent === "neclar" ? "41%" : "96%" }, log: `a înțeles: ${u.intent}` });
+      const booking = ["programare", "alege ora", "anulare"].includes(u.intent);
+      await Auto.step("sw", { ms: 400, sec: 0.1, out: { ramura: booking ? "programare" : "întrebare" }, log: booking ? "merge spre calendar" : "caută răspunsul în informațiile tale" });
+
+      let answer, summary;
+      if (!booking) {
+        Auto.skip(["cal", "create", "remind"]);
+        const info = {
+          "preț": u.svc ? `${u.svc.name} costă ${u.svc.price} lei și durează ${u.svc.min} de minute. Vrei să îți caut o oră liberă?` : "Manichiura semipermanentă e 110 lei, pedichiura 140 lei, iar construcția cu gel 220 lei. Vrei să îți fac o programare?",
+          "program": "Suntem deschise de luni până vineri între 9:00 și 20:00, iar sâmbăta între 10:00 și 18:00. Duminica e închis.",
+          "adresă": "Ne găsești pe Calea Dorobanți 112, la 4 minute de metroul Piața Victoriei. Ai parcare chiar în față.",
+          "mulțumire": "Cu drag! Dacă mai ai nevoie de ceva, sunt aici. 💅",
+          "salut": "Bună! Cu ce te pot ajuta: prețuri, program sau o programare?",
+          "neclar": "Nu sunt sigură că am înțeles. Te pot ajuta cu prețuri, program, adresă sau o programare. Dacă preferi, îi las un mesaj colegei mele și te sună ea.",
+        }[u.intent];
+        await Auto.step("kb", { sec: 0.3, out: { cautat: u.intent, sursa: u.intent === "neclar" ? "nimic potrivit" : "fișa salonului", gasit: u.intent === "neclar" ? "nu" : "da" }, log: u.intent === "neclar" ? "nu a găsit un răspuns sigur, nu inventează" : "a găsit informația în fișa salonului" });
+        answer = info; summary = u.intent === "neclar" ? `<strong>Asistentul nu inventează răspunsuri.</strong> Când nu e sigur, spune asta și îți poate trimite ție conversația.` : `<strong>Întrebare rezolvată în {t} secunde</strong>, fără să lași clienta din scaun ca să răspunzi la telefon.`;
+        await chat.typing(600);
+        await Auto.step("reply", { sec: 1.1, from: "kb", out: { canal: "WhatsApp", mesaj: answer }, log: "răspuns trimis" });
+      } else if (u.intent === "anulare") {
+        Auto.skip(["kb", "create", "remind"]);
+        if (st.booked) {
+          const i = agenda.findIndex((e) => e.t === st.booked);
+          await Auto.step("cal", { sec: 0.6, out: { actiune: "șterge programarea", ora: st.booked, rezultat: "ora este din nou liberă" }, log: `a eliberat ora ${st.booked}` });
+          agenda[i] = { t: st.booked, free: true }; answer = `Am anulat programarea de la ${st.booked}. Vrei să alegem altă oră?`; st.booked = null; st.step = "slot";
+        } else {
+          await Auto.step("cal", { sec: 0.5, out: { cautat: "programări pe numărul tău", gasit: "niciuna" }, log: "nu a găsit nicio programare" });
+          answer = "Nu găsesc nicio programare pe numărul tău. Vrei să facem una?";
+        }
+        renderAgenda(); summary = `<strong>Anulare procesată în {t} secunde.</strong> Ora s-a eliberat singură și poate fi oferită imediat altei cliente.`;
+        await chat.typing(600);
+        await Auto.step("reply", { sec: 1, from: "cal", out: { canal: "WhatsApp", mesaj: answer }, log: "răspuns trimis" });
+      } else if (u.intent === "alege ora" && st.service && freeSlots().includes(u.slot)) {
+        Auto.skip(["kb"]);
+        await Auto.step("cal", { sec: 0.5, out: { verifica: `${DAY}, ${u.slot}`, liber: "da" }, log: `ora ${u.slot} este încă liberă` });
+        await Auto.step("create", { sec: 0.7, out: { eveniment: st.service.name, cand: `${DAY}, ${u.slot}`, durata: st.service.min + " min", client: "+40 7xx xxx 214" }, log: "programare salvată în calendar" });
+        const i = agenda.findIndex((e) => e.t === u.slot);
+        agenda[i] = { t: u.slot, n: "Clientă nouă (WhatsApp)", s: st.service.name, auto: true }; renderAgenda(u.slot);
+        answer = `Gata, te-am programat ${DAY} la ${u.slot} pentru ${st.service.name.toLowerCase()} (${st.service.price} lei). Îți trimit un mesaj de reamintire cu o zi înainte. Te așteptăm!`;
+        st.booked = u.slot; st.step = "idle";
+        await chat.typing(600);
+        await Auto.step("reply", { sec: 1, from: "create", out: { canal: "WhatsApp", mesaj: answer }, log: "confirmare trimisă clientei" });
+        chat.add("in", answer, "Lila Nails"); answer = null;
+        await Auto.step("remind", { sec: 0.2, out: { programat: "cu 24 h înainte", mesaj: `„Te așteptăm mâine la ${u.slot}. Confirmi?”`, butoane: "Confirm · Reprogramez" }, log: "reminder programat automat" });
+        chat.add("sys", "Cu 24 h înainte: reminder automat cu buton de confirmare");
+        summary = `<strong>Programare făcută în {t} secunde</strong>, fără ca tu să atingi telefonul. A apărut deja în agendă, iar reminderul e programat.`;
+      } else {
+        Auto.skip(["kb", "create", "remind"]);
+        if (u.svc) st.service = u.svc;
+        const free = freeSlots();
+        await Auto.step("cal", { sec: 0.8, out: { zi: DAY, ore_libere: free.join(", ") || "niciuna", durata_necesara: st.service ? st.service.min + " min" : "—" }, log: `${free.length} ore libere găsite` });
+        if (!st.service) { st.step = "service"; answer = "Sigur! Pentru ce serviciu dorești programarea?"; }
+        else if (u.intent === "alege ora") { st.step = "slot"; answer = `Ora aceea nu mai e liberă. Pentru ${st.service.name.toLowerCase()} am ${DAY} la ${free.join(", ")}. Care ți se potrivește?`; }
+        else { st.step = "slot"; answer = `Pentru ${st.service.name.toLowerCase()} (${st.service.price} lei, ${st.service.min} min) am liber ${DAY} la ${free.join(", ")}. Ce oră alegi?`; }
+        summary = `<strong>Calendar verificat în {t} secunde.</strong> Asistentul oferă doar orele cu adevărat libere, deci nu apar suprapuneri.`;
+        await chat.typing(600);
+        await Auto.step("reply", { sec: 1, from: "cal", out: { canal: "WhatsApp", mesaj: answer }, log: "răspuns trimis" });
+      }
+      if (answer) chat.add("in", answer, "Lila Nails");
+      Auto.end(summary); renderQuick(); $("inp").focus({ preventScroll: true });
+    }
+
+    start();
+  })();
+  </script>
+</body>
+</html>
